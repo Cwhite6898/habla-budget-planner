@@ -223,6 +223,73 @@ footer {
   background:#fff; font-size:16px; cursor:pointer; display:flex;
   align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 760px) {
+  body { padding: 1rem .75rem; }
+
+  header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  header h1 { font-size: 17px; }
+  .reset-btn { align-self: flex-start; }
+
+  .layout { grid-template-columns: 1fr; gap: 1rem; }
+  .right-panel { position: static; order: -1; }
+
+  /* Status banner bigger on mobile */
+  .status-banner .status-amount { font-size: 36px; }
+  .status-banner .status-msg { font-size: 13px; }
+
+  /* Bigger tap targets for fundraiser cards */
+  .fr-card { padding: 12px 14px; margin-bottom: 8px; }
+  .fr-name { font-size: 14px; }
+  .fr-num span { font-size: 13px; }
+
+  /* Bigger toggle items */
+  .tog-item { padding: 11px 14px; margin-bottom: 7px; }
+  .tog-item .tn { font-size: 14px; }
+  .tog-item .ta { font-size: 14px; }
+
+  /* Bigger slider items */
+  .sl-item { padding: 10px 14px; margin-bottom: 7px; }
+  .sl-name { font-size: 14px; }
+  .sl-cur  { font-size: 14px; }
+  input[type=range] { height: 6px; }
+  input[type=range]::-webkit-slider-thumb { width: 22px; height: 22px; }
+  input[type=range]::-moz-range-thumb     { width: 22px; height: 22px; }
+
+  /* Accordion sections */
+  .accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; padding: 12px 0; border-bottom: 0.5px solid #d3d1c7;
+    user-select: none;
+  }
+  .accordion-header .acc-title { font-size: 14px; font-weight: 500; color: #1a1a18; }
+  .accordion-header .acc-arrow { font-size: 12px; color: #888780; transition: transform .2s; }
+  .accordion-header.open .acc-arrow { transform: rotate(180deg); }
+  .accordion-body { display: none; padding-top: 10px; }
+  .accordion-body.open { display: block; }
+
+  /* Card padding tighter on mobile */
+  .card { padding: .9rem 1rem; }
+
+  /* Metrics 2x2 stays fine, chart a bit shorter */
+  #myChart { max-height: 180px; }
+
+  /* Mute button bigger */
+  #mute-btn { width: 44px; height: 44px; font-size: 20px; bottom: 16px; right: 16px; }
+
+  /* Score grid full width */
+  .score-grid { grid-template-columns: 1fr 1fr; }
+  .sc-val { font-size: 18px; }
+
+  /* Toast bigger text */
+  .toast { font-size: 15px; padding: 12px 22px; max-width: 90vw; white-space: normal; text-align: center; }
+}
+
+@media (max-width: 400px) {
+  .fr-nums { grid-template-columns: 1fr 1fr 1fr; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
@@ -838,6 +905,56 @@ function updateGame(net) {
 renderFrList();
 renderSliders();
 update();
+
+// ── MOBILE ACCORDIONS ────────────────────────────────────────────────────────
+function initAccordions() {
+  if (window.innerWidth > 760) return;
+
+  const cards = document.querySelectorAll('.left-panel .card');
+  const titles = ['Fundraisers', 'Fixed expenses', 'Variable expenses'];
+
+  cards.forEach((card, i) => {
+    if (card.dataset.accordionInit) return;
+    card.dataset.accordionInit = '1';
+
+    // Wrap existing content in accordion-body
+    const secLabel = card.querySelector('.sec-label');
+    const labelText = secLabel ? secLabel.textContent : (titles[i] || 'Section');
+
+    // Create header
+    const header = document.createElement('div');
+    header.className = 'accordion-header open';
+    header.innerHTML = `<span class="acc-title">${labelText}</span><span class="acc-arrow">▼</span>`;
+
+    // Wrap everything after sec-label in body
+    const body = document.createElement('div');
+    body.className = 'accordion-body open';
+    const children = Array.from(card.children);
+    children.forEach(child => {
+      if (child !== secLabel) body.appendChild(child);
+    });
+
+    // Hide original sec-label, insert accordion
+    if (secLabel) secLabel.style.display = 'none';
+    card.insertBefore(header, card.firstChild);
+    card.appendChild(body);
+
+    header.addEventListener('click', () => {
+      const isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      header.classList.toggle('open', !isOpen);
+    });
+  });
+}
+
+window.addEventListener('load', initAccordions);
+window.addEventListener('resize', () => {
+  // Re-show all bodies on desktop
+  if (window.innerWidth > 760) {
+    document.querySelectorAll('.accordion-body').forEach(b => b.style.display = '');
+  }
+});
+
 
 function sendToTreasurer() {
   const name  = document.getElementById('sender-name').value.trim() || 'Anonymous';
