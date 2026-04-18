@@ -230,11 +230,19 @@ footer {
 <header>
   <div>
     <h1>HABLA at River Glen — Budget Scenario Planner</h1>
-    <p>FY2026 (Jul 2025 – Jun 2026) &nbsp;·&nbsp; Cash basis &nbsp;·&nbsp; For internal planning use</p>
+    <p>FY2027 (Jul 2026 – Jun 2027) &nbsp;·&nbsp; Cash basis &nbsp;·&nbsp; For internal planning use</p>
   </div>
   <button class="reset-btn" onclick="resetAll()">Reset to budget</button>
 </header>
 
+<div style="max-width:1160px;margin:0 auto 1.25rem;border-radius:10px;overflow:hidden;border:0.5px solid #fac775;">
+  <div style="background:#faeeda;padding:11px 16px;font-size:13px;color:#633806;line-height:1.6;">
+    <strong style="font-weight:500;">&#9888;&#xFE0E; Note on revenue assumptions:</strong> This planner uses more conservative revenue targets than the budget approved in August 2025. Gala ($51,400 vs. $61,400 approved), Donation Drive ($7,000 vs. $20,000), Buy-a-spot ($5,000 vs. $12,000), and Merchandise ($1,000 vs. $4,000) are all set lower — about $31,000 less in total. That's why the starting position shows a deficit. Use the fundraiser sliders to explore what happens if we hit the August-approved targets.
+  </div>
+  <div style="background:#fff8ee;padding:11px 16px;font-size:13px;color:#633806;line-height:1.6;border-top:0.5px solid #fac775;">
+    <strong style="font-weight:500;">&#9432;&#xFE0E; One-time FY2026 expenses not included:</strong> ADTLE teacher conference, Theater program subsidy, and Field trips have been removed as they were one-time investments not expected to recur. Middle school learning opportunities has been reduced from $9,624 to $4,716 for the same reason.
+  </div>
+</div>
 <div class="layout">
 
   <div class="left-panel">
@@ -314,6 +322,7 @@ footer {
       <p style="margin-bottom:6px;"><strong style="font-weight:500;">Yearbook</strong> — treated as break-even. Income ($7,000) and expense ($7,001) net to ~$0 and are excluded from both sides.</p>
       <p style="margin-bottom:6px;"><strong style="font-weight:500;">Baile de los Muertos</strong> — community event, break-even by design. Income ($4,000) and cost ($4,000) excluded from both sides.</p>
       <p><strong style="font-weight:500;">RG Food Drive</strong> — there is a fund for collecting donations that can only be used for the food drive.</p>
+
     </div>
     <div class="divider"></div>
     <ul class="note">
@@ -337,7 +346,7 @@ footer {
 
 <div id="toast-container"></div>
 <button id="mute-btn" title="Toggle sound" onclick="toggleMute()">🔊</button>
-<footer>HABLA at River Glen &nbsp;·&nbsp; FY2026 Budget Scenario Planner</footer>
+<footer>HABLA at River Glen &nbsp;·&nbsp; FY2027 Budget Scenario Planner</footer>
 
 <script>
 const FUNDRAISERS = [
@@ -352,15 +361,12 @@ const FUNDRAISERS = [
 
 const SLIDER_GROUPS = [
   { label: 'Teacher support', items: [
-    { key:'adtle',      name:'ADTLE conference',                 max:7000  },
     { key:'tchperperson', name:'Teacher grants', max:600, multiplier:20, unit:'/teacher' },
     { key:'tchstaff',     name:'Support staff grants',           max:1650  },
   ]},
   { label: 'Academic enrichment', items: [
-    { key:'ms',         name:'Middle school opportunities',      max:9624  },
-    { key:'theater',    name:'Theater program',                  max:5000  },
+    { key:'ms',         name:'Middle school opportunities',      max:4716  },
     { key:'enrichsch',  name:'Enrichment scholarships',          max:3300  },
-    { key:'fieldtrips', name:'Field trips',                      max:4500  },
     { key:'mathfest',   name:'Math festival',                    max:1800  },
   ]},
   { label: 'Community events', items: [
@@ -914,7 +920,7 @@ function sendToTreasurer() {
 </script>
 
 <div id="print-view">
-  <div class="pv-title">HABLA at River Glen — FY2026 Budget Scenario</div>
+  <div class="pv-title">HABLA at River Glen — FY2027 Budget Scenario</div>
   <div class="pv-sub" id="pv-meta"></div>
   <div class="pv-grid">
     <div class="pv-metric"><label>Revenue</label><div class="v" id="pv-rev"></div></div>
@@ -935,7 +941,7 @@ function sendToTreasurer() {
   </div>
   <div class="pv-h2">Notes &amp; recommendations</div>
   <div class="pv-notes" id="pv-notes"></div>
-  <div class="pv-footer">HABLA at River Glen &nbsp;·&nbsp; FY2026 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</div>
+  <div class="pv-footer">HABLA at River Glen &nbsp;·&nbsp; FY2027 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</div>
 </div>
 </body>
 </html>
