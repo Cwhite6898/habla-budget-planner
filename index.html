@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABLA — Budget Scenario Planner FY2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f4f0;
+  color: #1a1a18;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+header {
+  max-width: 1160px;
+  margin: 0 auto 1.75rem;
+  border-bottom: 1px solid #d3d1c7;
+  padding-bottom: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+header h1 { font-size: 21px; font-weight: 500; }
+header p  { font-size: 12px; color: #888780; margin-top: 2px; }
+.reset-btn {
+  font-size: 12px; padding: 6px 14px; border-radius: 8px;
+  border: 0.5px solid #d3d1c7; background: #fff; color: #5f5e5a;
+  cursor: pointer; white-space: nowrap;
+}
+.reset-btn:hover { background: #f5f4f0; }
+
+.layout { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start; }
+
+.left-panel { display: flex; flex-direction: column; gap: 0; }
+
+.right-panel {
+  background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px;
+  padding: 1.25rem; position: sticky; top: 1.5rem;
+}
+
+.card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.1rem 1.25rem; margin-bottom: 1rem; }
+
+.sec-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .07em;
+  color: #888780; margin-bottom: 8px; display: block;
+}
+.sub-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+  color: #b4b2a9; margin: .9rem 0 6px; display: block;
+}
+.sub-label:first-child { margin-top: 0; }
+
+.fr-card {
+  border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 9px 11px;
+  margin-bottom: 6px; cursor: pointer; user-select: none; transition: background .1s;
+}
+.fr-card:hover { background: #f5f4f0; }
+.fr-card.dropped { opacity: .35; background: #f5f4f0; }
+.fr-name { font-size: 13px; font-weight: 500; color: #1a1a18; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.fr-card.dropped .fr-name { text-decoration: line-through; color: #888780; }
+.fr-nums { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.fr-num { font-size: 11px; color: #888780; }
+.fr-num span { display: block; font-size: 12px; font-weight: 500; color: #2c2c2a; }
+.pos { color: #0f6e56 !important; }
+.neg { color: #993c1d !important; }
+.drop-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: #faece7; color: #993c1d; margin-left: auto; }
+.keep-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: #e1f5ee; color: #0f6e56; margin-left: auto; }
+
+.tog-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 11px; border-radius: 8px; border: 0.5px solid #d3d1c7;
+  margin-bottom: 5px; cursor: pointer; user-select: none; transition: background .1s;
+}
+.tog-item:hover { background: #f5f4f0; }
+.tog-item.selected { background: #fef3f1; border-color: #f0997b; }
+.tog-item .tn { font-size: 13px; color: #1a1a18; display: flex; align-items: center; gap: 8px; }
+.tog-item.selected .tn { color: #993c1d; text-decoration: line-through; }
+.tog-item .ta { font-size: 13px; font-weight: 500; color: #888780; }
+.tog-item.selected .ta { color: #993c1d; }
+.chk {
+  width: 14px; height: 14px; border-radius: 3px; border: 0.5px solid #b4b2a9;
+  display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: #fff;
+}
+.tog-item.selected .chk { background: #993c1d; border-color: #993c1d; }
+
+.sl-item { border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 8px 11px; margin-bottom: 5px; }
+.sl-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.sl-name { font-size: 13px; color: #1a1a18; }
+.sl-vals { display: flex; gap: 8px; align-items: baseline; }
+.sl-cur  { font-size: 13px; font-weight: 500; color: #1a1a18; min-width: 52px; text-align: right; }
+.sl-save { font-size: 11px; min-width: 64px; text-align: right; color: #b4b2a9; }
+.sl-save.saving { color: #0f6e56; }
+
+input[type=range] {
+  width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
+  background: #d3d1c7; border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%; background: #185fa5; cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%; background: #185fa5; border: none; cursor: pointer;
+}
+
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 1.1rem; }
+.metric { background: #f5f4f0; border-radius: 8px; padding: .7rem .9rem; }
+.metric label { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #888780; display: block; margin-bottom: 2px; }
+.metric .val { font-size: 18px; font-weight: 500; color: #1a1a18; }
+
+.progress-wrap { margin-top: 1.1rem; }
+.progress-header { display: flex; justify-content: space-between; font-size: 12px; color: #888780; margin-bottom: 4px; }
+.progress-track { height: 9px; border-radius: 5px; background: #f5f4f0; border: 0.5px solid #d3d1c7; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 5px; transition: width .3s, background .3s; }
+.progress-sub { font-size: 11px; color: #888780; margin-top: 3px; }
+
+.chart-legend { display: flex; gap: 12px; margin-top: 8px; font-size: 11px; color: #888780; flex-wrap: wrap; }
+.ld { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+.divider { border: none; border-top: 0.5px solid #d3d1c7; margin: 1rem 0; }
+.note { font-size: 11px; color: #b4b2a9; line-height: 1.65; }
+.note li { margin-left: 1rem; margin-bottom: 2px; }
+
+footer {
+  max-width: 1160px; margin: 1.5rem auto 0;
+  font-size: 11px; color: #b4b2a9; text-align: center;
+  border-top: 0.5px solid #d3d1c7; padding-top: 1rem;
+}
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; }
+  .right-panel { position: static; }
+}
+
+@media print {
+  body { background: #fff; padding: 0; font-size: 12px; }
+  .layout, header, footer, .reset-btn { display: none !important; }
+  #print-view { display: block !important; }
+  .pv-section { margin-bottom: 1rem; }
+  .pv-title { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .pv-sub { font-size: 11px; color: #888; margin-bottom: 1rem; }
+  .pv-h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #888; border-bottom: 0.5px solid #ccc; padding-bottom: 3px; margin: 1rem 0 6px; }
+  .pv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .pv-metric { border: 0.5px solid #ccc; border-radius: 6px; padding: 8px 10px; }
+  .pv-metric label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #888; display: block; margin-bottom: 2px; }
+  .pv-metric .v { font-size: 16px; font-weight: 600; }
+  .pv-metric .v.pos { color: #0f6e56; }
+  .pv-metric .v.neg { color: #993c1d; }
+  .pv-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .pv-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 0.5px solid #f0f0f0; font-size: 12px; }
+  .pv-row .label { color: #333; }
+  .pv-row .amount { font-weight: 500; text-align: right; }
+  .pv-row .amount.saving { color: #0f6e56; }
+  .pv-row.dropped { opacity: .45; text-decoration: line-through; }
+  .pv-row.cut { opacity: .45; text-decoration: line-through; }
+  .pv-notes { border: 0.5px solid #ccc; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #333; white-space: pre-wrap; margin-top: 6px; min-height: 60px; }
+  .pv-footer { margin-top: 1.5rem; font-size: 10px; color: #aaa; text-align: center; border-top: 0.5px solid #eee; padding-top: 8px; }
+}
+@media screen {
+  #print-view { display: none; }
+}
+
+/* ── GAME LAYER ── */
+.status-banner {
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;
+  text-align: center; transition: background .4s, border-color .4s;
+  border: 1.5px solid #d3d1c7;
+}
+.status-banner .status-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+  color: #888780; margin-bottom: 4px;
+}
+.status-banner .status-amount {
+  font-size: 28px; font-weight: 600; letter-spacing: -.5px; transition: color .3s;
+}
+.status-banner .status-msg {
+  font-size: 12px; margin-top: 3px; color: #888780; min-height: 16px;
+}
+.status-banner.danger  { background:#fef3f1; border-color:#f0997b; }
+.status-banner.warning { background:#faeeda; border-color:#fac775; }
+.status-banner.success { background:#e1f5ee; border-color:#5dcaa5; }
+
+.score-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.score-card { border:0.5px solid #d3d1c7; border-radius:10px; padding:10px 12px; }
+.score-card .sc-label { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#888780; margin-bottom:5px; }
+.score-card .sc-val   { font-size:20px; font-weight:600; color:#1a1a18; }
+.score-card .sc-bar-track { height:6px; border-radius:3px; background:#f0efe9; margin-top:5px; overflow:hidden; }
+.score-card .sc-bar-fill  { height:100%; border-radius:3px; transition:width .4s, background .4s; }
+.score-card .sc-sub { font-size:10px; color:#b4b2a9; margin-top:3px; }
+
+@keyframes popIn {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.pop { animation: popIn .3s ease; }
+
+@keyframes confettiBurst {
+  0%   { opacity:1; transform: translateY(0) scale(1); }
+  100% { opacity:0; transform: translateY(-60px) scale(.4); }
+}
+.confetti-piece {
+  position:absolute; width:8px; height:8px; border-radius:2px;
+  animation: confettiBurst .8s ease forwards;
+  pointer-events:none;
+}
+
+/* ── TOAST & SOUND ── */
+#toast-container { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; }
+.toast {
+  background:#1a1a18; color:#fff; border-radius:24px; padding:10px 20px;
+  font-size:14px; white-space:nowrap; opacity:0; pointer-events:none;
+  animation: toastIn .3s ease forwards, toastOut .4s ease 2.8s forwards;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+@keyframes toastIn  { from { opacity:0; transform:translateY(12px) scale(.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateY(-8px); } }
+#mute-btn {
+  position:fixed; bottom:24px; right:24px; z-index:9998;
+  width:36px; height:36px; border-radius:50%; border:0.5px solid #d3d1c7;
+  background:#fff; font-size:16px; cursor:pointer; display:flex;
+  align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>HABLA at River Glen — Budget Scenario Planner</h1>
+    <p>FY2026 (Jul 2025 – Jun 2026) &nbsp;·&nbsp; Cash basis &nbsp;·&nbsp; For internal planning use</p>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">Reset to budget</button>
+</header>
+
+<div class="layout">
+
+  <div class="left-panel">
+
+    <div class="card">
+      <span class="sec-label">Fundraisers — click to drop</span>
+      <div id="fr-list"></div>
+    </div>
+
+    <div class="card">
+      <span class="sec-label">Fixed expenses — click to cut entirely</span>
+      <span class="sub-label">Essential programs</span>
+      <div class="tog-item" data-key="art"     data-amt="15900" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Art program</span><span class="ta">$15,900</span></div>
+      <div class="tog-item" data-key="recess"  data-amt="14950" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Recess support</span><span class="ta">$14,950</span></div>
+      <div class="tog-item" data-key="science" data-amt="21000" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Science workshops</span><span class="ta">$21,000</span></div>
+      <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Music program</span><span class="ta">$1,800</span></div>
+      <span class="sub-label">Overhead</span>
+      <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>G&amp;A expenses</span><span class="ta">$6,259</span></div>
+    </div>
+
+    <div class="card">
+      <span class="sec-label">Variable expenses — slide to adjust</span>
+      <div id="slider-list"></div>
+    </div>
+
+  </div>
+
+  <div class="right-panel">
+    <div class="status-banner danger" id="status-banner">
+      <div class="status-label">Budget status</div>
+      <div class="status-amount" id="status-amount">—</div>
+      <div class="status-msg"   id="status-msg"></div>
+    </div>
+
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="sc-label">Community impact</div>
+        <div class="sc-val" id="sc-impact">—</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" id="sc-impact-bar" style="width:0%;background:#1d9e75;"></div></div>
+        <div class="sc-sub" id="sc-impact-sub"></div>
+      </div>
+      <div class="score-card">
+        <div class="sc-label">Volunteer load</div>
+        <div class="sc-val" id="sc-effort">—</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" id="sc-effort-bar" style="width:0%;background:#ba7517;"></div></div>
+        <div class="sc-sub" id="sc-effort-sub"></div>
+      </div>
+    </div>
+
+    <span class="sec-label" style="margin-top:0;">Numbers</span>
+    <div class="metrics-grid">
+      <div class="metric"><label>Revenue</label><div class="val" id="m-rev">—</div></div>
+      <div class="metric"><label>Expenses</label><div class="val" id="m-exp">—</div></div>
+      <div class="metric"><label>Net</label><div class="val" id="m-net">—</div></div>
+      <div class="metric"><label>Fundraisers kept</label><div class="val" id="m-count">—</div></div>
+    </div>
+
+    <div style="position:relative;width:100%;height:210px;">
+      <canvas id="myChart" role="img" aria-label="Stacked bar chart comparing budgeted revenue and expenses">Revenue vs expenses.</canvas>
+    </div>
+    <div class="chart-legend" id="chart-legend"></div>
+
+    <div class="progress-wrap">
+      <div class="progress-header">
+        <span>Break-even progress</span>
+        <span id="pct-label">—</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-bar"></div>
+      </div>
+      <div class="progress-sub" id="prog-sub"></div>
+    </div>
+
+    <div class="divider"></div>
+    <p style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:7px;">Not included in this model</p>
+    <div style="border:0.5px solid #d3d1c7;border-radius:8px;padding:10px 12px;font-size:12px;color:#5f5e5a;line-height:1.7;">
+      <p style="margin-bottom:6px;"><strong style="font-weight:500;">Yearbook</strong> — treated as break-even. Income ($7,000) and expense ($7,001) net to ~$0 and are excluded from both sides.</p>
+      <p style="margin-bottom:6px;"><strong style="font-weight:500;">Baile de los Muertos</strong> — community event, break-even by design. Income ($4,000) and cost ($4,000) excluded from both sides.</p>
+      <p><strong style="font-weight:500;">RG Food Drive</strong> — there is a fund for collecting donations that can only be used for the food drive.</p>
+    </div>
+    <div class="divider"></div>
+    <ul class="note">
+      <li>Dropping a fundraiser removes its revenue <em>and</em> its cost.</li>
+    </ul>
+
+    <div class="divider"></div>
+    <label style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;display:block;margin-bottom:7px;">Submit your scenario</label>
+    <input type="text" id="sender-name" placeholder="Your name"
+      style="width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;margin-bottom:7px;box-sizing:border-box;">
+    <textarea id="sender-notes" placeholder="What do you think the budget should look like? Any priorities or tradeoffs worth discussing..."
+      style="width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:80px;font-family:inherit;line-height:1.5;margin-bottom:7px;box-sizing:border-box;"></textarea>
+    <button onclick="sendToTreasurer()"
+      style="width:100%;padding:9px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;">
+      Save scenario as PDF &#x2913;
+    </button>
+    <div id="send-msg" style="font-size:11px;color:#888780;margin-top:6px;min-height:16px;text-align:center;"></div>
+  </div>
+
+</div>
+
+<div id="toast-container"></div>
+<button id="mute-btn" title="Toggle sound" onclick="toggleMute()">🔊</button>
+<footer>HABLA at River Glen &nbsp;·&nbsp; FY2026 Budget Scenario Planner</footer>
+
+<script>
+const FUNDRAISERS = [
+  { key:'gala',      name:'Gala Night',        rev:51400, cost:20000 },
+  { key:'caminata',  name:'Caminata',           rev:42400, cost:11411 },
+  { key:'donation',  name:'Donation Drive',     rev:7000,  cost:0     },
+  { key:'buyaspot',  name:'Buy-a-spot',          rev:5000,  cost:1200  },
+  { key:'corporate', name:'Corporate Matching', rev:7000,  cost:0     },
+  { key:'merch',     name:'Merchandise',        rev:1000,  cost:200   },
+  { key:'gendon',    name:'General Donations',  rev:250,   cost:0     },
+];
+
+const SLIDER_GROUPS = [
+  { label: 'Teacher support', items: [
+    { key:'adtle',      name:'ADTLE conference',                 max:7000  },
+    { key:'tchperperson', name:'Teacher grants', max:600, multiplier:20, unit:'/teacher' },
+    { key:'tchstaff',     name:'Support staff grants',           max:1650  },
+  ]},
+  { label: 'Academic enrichment', items: [
+    { key:'ms',         name:'Middle school opportunities',      max:9624  },
+    { key:'theater',    name:'Theater program',                  max:5000  },
+    { key:'enrichsch',  name:'Enrichment scholarships',          max:3300  },
+    { key:'fieldtrips', name:'Field trips',                      max:4500  },
+    { key:'mathfest',   name:'Math festival',                    max:1800  },
+  ]},
+  { label: 'Community events', items: [
+    { key:'playdate',    name:'All school playdate',             max:300   },
+    { key:'sportsnight', name:'Family sports night',             max:350   },
+  ]},
+  { label: 'School & community support', items: [
+    { key:'staffapp',    name:'Teacher & staff appreciation',    max:2000  },
+    { key:'fooddrive',   name:'RG Food Drive expense',           max:250   },
+    { key:'visa',        name:'VISA',                            max:800   },
+    { key:'studact',     name:'Student activities & celebrations',max:700  },
+    { key:'hospitality', name:'Hospitality',                     max:550   },
+    { key:'5thgrade',    name:'5th grade science camp',          max:500   },
+    { key:'8thgrade',    name:'8th grade camp/promotion',        max:500   },
+    { key:'beautif',     name:'School beautification',           max:250   },
+    { key:'childrenday', name:"Children's appreciation day",     max:200   },
+    { key:'goldrush',    name:'4th grade Gold Rush',             max:200   },
+    { key:'childcare',   name:'Child care – meetings & events',  max:150   },
+  ]},
+  { label: 'Fundraising overhead', items: [
+    { key:'parentdon', name:'Parent donation campaign',          max:200   },
+  ]},
+];
+
+let donationRev = 7000;
+let buyaspotRev = 5000;
+let merchRev = 1000;
+const FIXED_DEFAULTS = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
+const BASE_NON_FR_REV = 0;
+
+const dropped = new Set();
+const toggleCuts = {};
+const sliderVals = {};
+SLIDER_GROUPS.forEach(g => g.items.forEach(i => { sliderVals[i.key] = i.max; }));
+
+function fmt(n) {
+  return (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString();
+}
+
+function renderFrList() {
+  const list = document.getElementById('fr-list');
+  list.innerHTML = '';
+  FUNDRAISERS.forEach(f => {
+    const revMap = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+    const rev = revMap[f.key] !== undefined ? revMap[f.key] : f.rev;
+    const net = rev - f.cost, isDrop = dropped.has(f.key);
+    const el = document.createElement('div');
+    el.className = 'fr-card' + (isDrop ? ' dropped' : '');
+
+    const sliderCfg = {
+      donation: { label:'Revenue target', varName:'donationRev', id:'don-rev-val', slid:'sl-donrev', min:7000,  max:27000, step:500,  cur:donationRev },
+      buyaspot: { label:'Revenue target', varName:'buyaspotRev', id:'bas-rev-val', slid:'sl-basrev', min:1000,  max:12000, step:500,  cur:buyaspotRev },
+      merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:0,     max:4000,  step:100,  cur:merchRev    },
+    };
+    let extra = '';
+    if (sliderCfg[f.key]) {
+      const c = sliderCfg[f.key];
+      extra = `
+        <div style="margin-top:8px;" onclick="event.stopPropagation()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#888780;margin-bottom:3px;">
+            <span>${c.label}</span>
+            <span id="${c.id}">$${c.cur.toLocaleString()}</span>
+          </div>
+          <input type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.cur}" id="${c.slid}"
+            style="width:100%;" onclick="event.stopPropagation()"
+            oninput="event.stopPropagation(); ${c.varName}=parseInt(this.value);
+              document.getElementById('${c.id}').textContent='$'+${c.varName}.toLocaleString();
+              if(donationRev===27000) roast('donation_max');
+              renderFrList(); update();">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#b4b2a9;margin-top:2px;">
+            <span>$${c.min.toLocaleString()}</span><span>$${c.max.toLocaleString()}</span>
+          </div>
+        </div>`;
+    }
+
+    el.innerHTML = `
+      <div class="fr-name">${f.name}
+        <span class="${isDrop?'drop-badge':'keep-badge'}">${isDrop?'dropped':'active'}</span>
+      </div>
+      <div class="fr-nums">
+        <div class="fr-num">Revenue<span>${fmt(rev)}</span></div>
+        <div class="fr-num">Cost<span>${f.cost>0?fmt(f.cost):'—'}</span></div>
+        <div class="fr-num">Net<span class="${net>=0?'pos':'neg'}">${fmt(net)}</span></div>
+      </div>${extra}`;
+
+    el.onclick = (e) => {
+      if (['donation','buyaspot','merch'].includes(f.key) && e.target.closest('input')) return;
+      const wasDropped = dropped.has(f.key);
+      wasDropped ? dropped.delete(f.key) : dropped.add(f.key);
+      if (!wasDropped) { soundSadTrombone(); roast('drop_' + f.key); }
+      else             { soundPop();         roast('restore_' + f.key); }
+      renderFrList(); update();
+    };
+    list.appendChild(el);
+  });
+}
+
+function renderSliders() {
+  const container = document.getElementById('slider-list');
+  container.innerHTML = '';
+  SLIDER_GROUPS.forEach(group => {
+    const lbl = document.createElement('span');
+    lbl.className = 'sub-label'; lbl.textContent = group.label;
+    container.appendChild(lbl);
+    group.items.forEach(item => {
+      const mult = item.multiplier || 1;
+      const step = item.multiplier ? 25 : (item.max >= 2000 ? 50 : item.max >= 500 ? 25 : 10);
+      const initDisplay = item.multiplier
+        ? `$${item.max.toLocaleString()}${item.unit} — $${(item.max*mult).toLocaleString()} total`
+        : `$${item.max.toLocaleString()}`;
+      const div = document.createElement('div');
+      div.className = 'sl-item';
+      div.innerHTML = `
+        <div class="sl-top">
+          <span class="sl-name">${item.name}</span>
+          <span class="sl-vals">
+            <span class="sl-cur" id="cur-${item.key}">${initDisplay}</span>
+            <span class="sl-save" id="sav-${item.key}">saving $0</span>
+          </span>
+        </div>
+        <input type="range" min="0" max="${item.max}" step="${step}" value="${item.max}"
+               id="sl-${item.key}" oninput="onSlide('${item.key}',${item.max},this.value,${mult},'${item.unit||''}')">`;
+      container.appendChild(div);
+    });
+  });
+}
+
+function onSlide(key, max, rawVal, mult, unit) {
+  if (parseInt(rawVal) > (sliderVals[key]||0)) soundCoin();
+  mult = mult || 1; unit = unit || '';
+  const val = parseInt(rawVal);
+  sliderVals[key] = val;
+  const total = val * mult, maxTotal = max * mult, saving = maxTotal - total;
+  const ce = document.getElementById('cur-'+key);
+  ce.textContent = mult > 1
+    ? `$${val.toLocaleString()}${unit} — $${total.toLocaleString()} total`
+    : '$'+val.toLocaleString();
+  const se = document.getElementById('sav-'+key);
+  se.textContent = saving > 0 ? 'saving $'+saving.toLocaleString() : 'saving $0';
+  se.className = 'sl-save' + (saving > 0 ? ' saving' : '');
+  update();
+}
+
+function toggleCut(el) {
+  const key = el.dataset.key, amt = parseInt(el.dataset.amt);
+  if (toggleCuts[key]) {
+    delete toggleCuts[key]; el.classList.remove('selected'); el.querySelector('.chk').textContent = '';
+    soundPop();
+  } else {
+    toggleCuts[key] = amt; el.classList.add('selected'); el.querySelector('.chk').textContent = '✓';
+    soundBloop(); roast('cut_' + key);
+  }
+  update();
+}
+
+function resetAll() {
+  dropped.clear();
+  donationRev = 7000;
+  buyaspotRev = 5000;
+  merchRev = 1000;
+  for (const k in toggleCuts) delete toggleCuts[k];
+  document.querySelectorAll('.tog-item.selected').forEach(el => {
+    el.classList.remove('selected'); el.querySelector('.chk').textContent = '';
+  });
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
+    sliderVals[i.key] = i.max;
+    const sl = document.getElementById('sl-'+i.key);
+    if (sl) sl.value = i.max;
+    const ce = document.getElementById('cur-'+i.key);
+    const mult = i.multiplier || 1, unit = i.unit || '';
+    if (ce) ce.textContent = mult > 1
+      ? `$${i.max.toLocaleString()}${unit} — $${(i.max*mult).toLocaleString()} total`
+      : '$'+i.max.toLocaleString();
+    const se = document.getElementById('sav-'+i.key);
+    if (se) { se.textContent = 'saving $0'; se.className = 'sl-save'; }
+  }));
+  renderFrList();
+  update();
+}
+
+let chart = null;
+function update() {
+  const active  = FUNDRAISERS.filter(f => !dropped.has(f.key));
+  const revOverride  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+  const frRev   = active.reduce((a,f) => a + (revOverride[f.key]!==undefined ? revOverride[f.key] : f.rev), 0);
+  const frCost  = active.reduce((a,f) => a+f.cost, 0);
+  const togCut  = Object.values(toggleCuts).reduce((a,b) => a+b, 0);
+  const fixedExp = Object.values(FIXED_DEFAULTS).reduce((a,b)=>a+b,0) - togCut;
+  let varExp = 0;
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
+    varExp += (sliderVals[i.key] || 0) * (i.multiplier || 1);
+  }));
+
+  const totalRev = BASE_NON_FR_REV + frRev;
+  const totalExp = fixedExp + varExp + frCost;
+  const net = totalRev - totalExp;
+  const pct = Math.min(130, Math.round((totalRev / totalExp) * 100));
+
+  updateGame(net);
+  checkRoasts(net, calcImpact());
+  document.getElementById('m-rev').textContent = fmt(totalRev);
+  document.getElementById('m-exp').textContent = fmt(totalExp);
+  const nm = document.getElementById('m-net');
+  nm.textContent = fmt(net);
+  nm.className = 'val ' + (net >= 0 ? 'pos' : 'neg');
+  document.getElementById('m-count').textContent = active.length + ' of ' + FUNDRAISERS.length;
+
+  const pb = document.getElementById('prog-bar');
+  pb.style.width = Math.min(100, pct) + '%';
+  pb.style.background = pct >= 100 ? '#1d9e75' : pct >= 75 ? '#ba7517' : '#d85a30';
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('prog-sub').textContent = net >= 0
+    ? 'Budget is balanced'
+    : fmt(Math.abs(net)) + ' short of break-even';
+
+  if (chart) chart.destroy();
+  const ctx = document.getElementById('myChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Revenue', 'Expenses'],
+      datasets: [
+        { label: 'Programs & overhead', data: [BASE_NON_FR_REV, fixedExp + varExp], backgroundColor: '#d85a30', borderRadius: 0 },
+        { label: 'Fundraising',  data: [frRev, frCost],                      backgroundColor: ['#1d9e75','#888780'], borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + fmt(c.raw) } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 12 } } },
+        y: { stacked: true, ticks: { callback: v => '$'+(v/1000).toFixed(0)+'k' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+      }
+    }
+  });
+
+  document.getElementById('chart-legend').innerHTML = [
+    ['#d85a30','Programs & overhead'],
+    ['#1d9e75','Fundraising revenue'],
+    ['#888780','Fundraising costs']
+  ].map(([c,l]) =>
+    `<span style="display:flex;align-items:center;gap:4px;"><span class="ld" style="background:${c};"></span>${l}</span>`
+  ).join('');
+}
+
+
+
+// ── SOUND ENGINE ─────────────────────────────────────────────────────────────
+let muted = false;
+function toggleMute() {
+  muted = !muted;
+  document.getElementById('mute-btn').textContent = muted ? '🔇' : '🔊';
+}
+
+function getCtx() {
+  if (!window._ac) window._ac = new (window.AudioContext || window.webkitAudioContext)();
+  return window._ac;
+}
+
+function playTone(freq, type, duration, vol, delay=0, ramp=true) {
+  if (muted) return;
+  try {
+    const ctx = getCtx();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, ctx.currentTime + delay);
+    g.gain.linearRampToValueAtTime(vol, ctx.currentTime + delay + 0.01);
+    if (ramp) g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+    o.start(ctx.currentTime + delay);
+    o.stop(ctx.currentTime + delay + duration + 0.05);
+  } catch(e) {}
+}
+
+function soundChing() {
+  // cash register ching
+  [523, 659, 784, 1047].forEach((f,i) => playTone(f, 'sine', 0.3, 0.18, i*0.07));
+}
+function soundSadTrombone() {
+  // wah wah waaaah
+  const freqs = [466,440,415,392,370];
+  freqs.forEach((f,i) => playTone(f, 'sawtooth', 0.35, 0.12, i*0.14));
+}
+function soundCoin() {
+  playTone(1200, 'sine', 0.15, 0.12);
+  playTone(1600, 'sine', 0.1,  0.08, 0.04);
+}
+function soundFanfare() {
+  const melody = [{f:523,d:0.15},{f:659,d:0.15},{f:784,d:0.15},{f:1047,d:0.35}];
+  let t = 0;
+  melody.forEach(n => { playTone(n.f,'triangle',n.d,0.2,t); t+=n.d+0.02; });
+  // harmony
+  const harm =  [{f:330,d:0.15},{f:415,d:0.15},{f:523,d:0.15},{f:659,d:0.35}];
+  t=0; harm.forEach(n => { playTone(n.f,'triangle',n.d,0.1,t); t+=n.d+0.02; });
+}
+function soundBloop() {
+  playTone(300, 'sine', 0.2, 0.1);
+  playTone(200, 'sine', 0.2, 0.08, 0.1);
+}
+function soundPop() {
+  playTone(800, 'sine', 0.08, 0.15);
+}
+
+// ── TOAST SYSTEM ─────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3400);
+}
+
+// ── ROAST MESSAGES ───────────────────────────────────────────────────────────
+const ROASTS = {
+  drop_gala:      ["Bold move... Gala moms have been notified 😬", "No more silent auction! The dads are devastated 🥲", "Gala is gone. Who's going to wear the fancy shoes now? 👠"],
+  restore_gala:   ["Gala is back! Start pressing your cocktail attire 🥂", "The decorator breathes again 🎊"],
+  drop_caminata:  ["No more walking in circles! (Literally) 🚶‍♀️", "The walkers have been stood down 🥾", "¡Ay, no Caminata! The snack tables weep 🌮"],
+  restore_caminata:["The walkers return! Dust off those sneakers 👟", "Caminata is back — someone tell the DJ 🎵"],
+  drop_donation:  ["Giving up on giving? Bold. 🤨", "The donation link has left the chat 📤"],
+  drop_buyaspot:  ["Bye-bye buy-a-spot! Those classroom parents will never know 😅"],
+  drop_corporate: ["Corporate matching dropped. CEOs across the valley untouched 💼"],
+  drop_merch:     ["No more merch! The spirit wear closet cries 👕😢"],
+  cut_art:        ["The art teacher has entered the chat 🎨😤", "No art? The hallways will be so... beige 🎨"],
+  cut_music:      ["No more bilingual singing! The K-1 kiddos are sad 🎶😢", "Los niños won't be singing together this year 🎵"],
+  cut_recess:     ["One less playground monitor... hope everyone plays nice 🤞", "The yard just got a little more chaotic 🏃‍♂️💨"],
+  cut_science:    ["Future scientists: endangered 🔬", "Science cut! Bill Nye has been informed 😔"],
+  balanced:       ["BALANCED! Someone call the accountant! 🎉", "Budget goals achieved! Wine o'clock? 🍷", "Nailed it! The PTA treasurer sheds a single tear of joy 😭✨"],
+  surplus:        ["SURPLUS! Treat yourselves, you earned it 🙌", "Extra money! New idea: teacher spa day 💆‍♀️"],
+  deep_red:       ["Yikes... the budget is not vibing 😬", "We may need a bake sale. Or ten. 🧁"],
+  impact_low:     ["Community impact dropping... the kids are watching 👀"],
+  donation_max:   ["$27K on Donation Drive?! You know some very generous people 💰😂"],
+};
+
+function roast(key) {
+  const msgs = ROASTS[key];
+  if (msgs) showToast(msgs[Math.floor(Math.random()*msgs.length)]);
+}
+
+// ── TRACK STATE FOR ROASTS ───────────────────────────────────────────────────
+let prevNet = null, prevImpact = null, prevBalanced = false;
+function checkRoasts(net, impact) {
+  if (prevNet !== null) {
+    if (prevNet >= 0 && net < 0) { soundSadTrombone(); }
+    if (prevNet < -10000 && net >= -10000) { soundCoin(); showToast("Getting closer! 💪"); }
+    if (net < -30000 && prevNet >= -30000) { soundBloop(); roast('deep_red'); }
+  }
+  if (prevImpact !== null && impact < 30 && prevImpact >= 30) roast('impact_low');
+  prevNet = net; prevImpact = impact;
+}
+
+// ── GAME DATA ────────────────────────────────────────────────────────────────
+const IMPACT_WEIGHTS = {
+  // fixed programs (full value = weight)
+  art:7, recess:8, science:10, music:6,
+  // variable sliders (max value = 100% of weight)
+  tchperperson:9, tchstaff:5, ms:7, theater:7, enrichsch:8,
+  fieldtrips:6, mathfest:4, playdate:4, sportsnight:4,
+  staffapp:5, visa:3, studact:5, fooddrive:6,
+  hospitality:2, '5thgrade':6, '8thgrade':6,
+  beautif:2, childrenday:3, goldrush:4, childcare:3,
+  parentdon:0,
+};
+const IMPACT_FIXED_KEYS = ['art','recess','science','music'];
+const MAX_IMPACT = Object.values(IMPACT_WEIGHTS).reduce((a,b)=>a+b,0);
+
+// Effort hours per fundraiser
+const EFFORT_HOURS = {
+  gala:40, caminata:30, donation:5, buyaspot:8,
+  corporate:3, merch:6, gendon:2,
+};
+const MAX_EFFORT = Object.values(EFFORT_HOURS).reduce((a,b)=>a+b,0);
+
+const STATUS_LEVELS = [
+  { threshold: -40000, cls:'danger',  emoji:'🚨', msg:'Major shortfall — big decisions needed' },
+  { threshold: -20000, cls:'danger',  emoji:'😬', msg:'Significant gap to close' },
+  { threshold: -10000, cls:'danger',  emoji:'😟', msg:'Getting closer — keep trimming' },
+  { threshold:  -5000, cls:'warning', emoji:'🤔', msg:'Nearly there — a few more tweaks' },
+  { threshold:  -1000, cls:'warning', emoji:'😅', msg:'So close! Just a little more...' },
+  { threshold:      0, cls:'success', emoji:'🎉', msg:'Budget balanced — great work!' },
+  { threshold: Infinity, cls:'success', emoji:'✅', msg:'Surplus! Consider restoring programs' },
+];
+
+function calcImpact() {
+  let score = 0;
+  // fixed items
+  IMPACT_FIXED_KEYS.forEach(k => {
+    if (!toggleCuts[k]) score += (IMPACT_WEIGHTS[k] || 0);
+  });
+  // variable sliders
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
+    const w = IMPACT_WEIGHTS[i.key] || 0;
+    const mult = i.multiplier || 1;
+    const cur  = sliderVals[i.key] || 0;
+    const max  = i.max;
+    score += w * (max > 0 ? (cur / max) : 0);
+  }));
+  return Math.round((score / MAX_IMPACT) * 100);
+}
+
+function calcEffort() {
+  let hrs = 0;
+  FUNDRAISERS.forEach(f => {
+    if (!dropped.has(f.key)) hrs += (EFFORT_HOURS[f.key] || 0);
+  });
+  return hrs;
+}
+
+function spawnConfetti(el) {
+  const colors = ['#1d9e75','#5dcaa5','#185fa5','#fac775','#f0997b'];
+  const rect = el.getBoundingClientRect();
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = [
+      'left:' + (rect.left + rect.width/2 - 4 + (Math.random()-0.5)*60) + 'px',
+      'top:'  + (rect.top  + 10) + 'px',
+      'background:' + colors[Math.floor(Math.random()*colors.length)],
+      'position:fixed',
+      'animation-delay:' + (Math.random()*0.2) + 's',
+      'transform:rotate('+Math.round(Math.random()*360)+'deg)',
+      'z-index:9999',
+    ].join(';');
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1100);
+  }
+}
+
+let wasBalanced = false;
+function updateGame(net) {
+  // Status banner
+  const banner = document.getElementById('status-banner');
+  const amtEl  = document.getElementById('status-amount');
+  const msgEl  = document.getElementById('status-msg');
+  const level  = STATUS_LEVELS.find(l => net < l.threshold) || STATUS_LEVELS[STATUS_LEVELS.length-1];
+  banner.className = 'status-banner ' + level.cls;
+  amtEl.textContent = (net >= 0 ? '+' : '') + fmt(net);
+  amtEl.style.color  = net >= 0 ? '#0f6e56' : '#993c1d';
+  msgEl.textContent  = level.emoji + '  ' + level.msg;
+
+  const nowBalanced = net >= 0;
+  const nowSurplus  = net > 1000;
+  if (nowBalanced && !wasBalanced) {
+    spawnConfetti(banner); banner.classList.add('pop');
+    setTimeout(()=>banner.classList.remove('pop'),350);
+    soundFanfare();
+    roast(nowSurplus ? 'surplus' : 'balanced');
+  }
+  wasBalanced = nowBalanced;
+
+  // Impact score
+  const impact = calcImpact();
+  document.getElementById('sc-impact').textContent = impact;
+  document.getElementById('sc-impact-bar').style.width = impact + '%';
+  document.getElementById('sc-impact-bar').style.background = impact >= 70 ? '#1d9e75' : impact >= 45 ? '#ba7517' : '#d85a30';
+  document.getElementById('sc-impact-sub').textContent = impact >= 70 ? 'Strong programs' : impact >= 45 ? 'Moderate programs' : 'Many programs cut';
+
+  // Effort score
+  const hrs = calcEffort();
+  const effortPct = Math.round((hrs / MAX_EFFORT) * 100);
+  document.getElementById('sc-effort').textContent = hrs + ' hrs';
+  document.getElementById('sc-effort-bar').style.width = effortPct + '%';
+  document.getElementById('sc-effort-bar').style.background = hrs <= 20 ? '#1d9e75' : hrs <= 50 ? '#ba7517' : '#d85a30';
+  document.getElementById('sc-effort-sub').textContent = hrs <= 20 ? 'Light load' : hrs <= 50 ? 'Manageable' : 'Heavy lift';
+}
+
+renderFrList();
+renderSliders();
+update();
+
+function sendToTreasurer() {
+  const name  = document.getElementById('sender-name').value.trim() || 'Anonymous';
+  const notes = document.getElementById('sender-notes').value.trim();
+  const msgEl = document.getElementById('send-msg');
+
+  const active   = FUNDRAISERS.filter(f => !dropped.has(f.key));
+  const dropped_ = FUNDRAISERS.filter(f => dropped.has(f.key));
+  const togCut   = Object.values(toggleCuts).reduce((a,b)=>a+b,0);
+  const fixedExp = Object.values(FIXED_DEFAULTS).reduce((a,b)=>a+b,0) - togCut;
+  let varExp = 0;
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => { varExp += (sliderVals[i.key]||0)*(i.multiplier||1); }));
+  const revOvr  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+  const frRev  = active.reduce((a,f)=>a+(revOvr[f.key]!==undefined?revOvr[f.key]:f.rev),0);
+  const frCost = active.reduce((a,f)=>a+f.cost,0);
+  const totalRev = BASE_NON_FR_REV + frRev;
+  const totalExp = fixedExp + varExp + frCost;
+  const net = totalRev - totalExp;
+
+  // Populate print view
+  const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('pv-meta').textContent = 'Submitted by ' + name + '  ·  ' + now;
+  document.getElementById('pv-rev').textContent = fmt(totalRev);
+  document.getElementById('pv-exp').textContent = fmt(totalExp);
+  const pvNet = document.getElementById('pv-net');
+  pvNet.textContent = fmt(net); pvNet.className = 'v ' + (net>=0?'pos':'neg');
+
+  // Fundraisers
+  let frHtml = '';
+  FUNDRAISERS.forEach(f => {
+    const isDrop = dropped.has(f.key);
+    frHtml += '<div class="pv-row' + (isDrop?' dropped':'') + '">';
+    frHtml += '<span class="label">' + f.name + (isDrop?' (dropped)':'') + '</span>';
+    if (!isDrop) frHtml += '<span class="amount">' + fmt(f.rev) + ' / cost ' + (f.cost>0?fmt(f.cost):'—') + '</span>';
+    frHtml += '</div>';
+  });
+  document.getElementById('pv-fundraisers').innerHTML = frHtml;
+
+  // Fixed expenses
+  const fixedNames = { art:'Art program', recess:'Recess support', science:'Science workshops', music:'Music program', ga:'G&A expenses' };
+  const fixedAmts  = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
+  let fixHtml = '';
+  Object.keys(fixedNames).forEach(k => {
+    const isCut = !!toggleCuts[k];
+    fixHtml += '<div class="pv-row' + (isCut?' cut':'') + '">';
+    fixHtml += '<span class="label">' + fixedNames[k] + (isCut?' (cut)':'') + '</span>';
+    fixHtml += '<span class="amount">' + (isCut?'$0':fmt(fixedAmts[k])) + '</span>';
+    fixHtml += '</div>';
+  });
+  document.getElementById('pv-fixed').innerHTML = fixHtml;
+
+  // Variable expenses
+  let varHtml = '';
+  SLIDER_GROUPS.forEach(g => {
+    varHtml += '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#888;margin:8px 0 3px;">' + g.label + '</div>';
+    g.items.forEach(i => {
+      const mult = i.multiplier || 1;
+      const cur  = sliderVals[i.key] || 0;
+      const total = cur * mult, maxTotal = i.max * mult, saving = maxTotal - total;
+      varHtml += '<div class="pv-row">';
+      varHtml += '<span class="label">' + i.name + (mult>1 ? ' (' + fmt(cur) + (i.unit||'') + ')' : '') + '</span>';
+      varHtml += '<span class="amount">' + fmt(total);
+      if (saving > 0) varHtml += ' <span class="saving">-' + fmt(saving) + '</span>';
+      varHtml += '</span></div>';
+    });
+  });
+  document.getElementById('pv-variable').innerHTML = varHtml;
+
+  // Notes
+  document.getElementById('pv-notes').textContent = notes || '(no notes provided)';
+
+  // Print
+  msgEl.textContent = 'Opening print dialog — choose "Save as PDF"...';
+  msgEl.style.color = '#0f6e56';
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => { msgEl.textContent = ''; }, 3000);
+  }, 100);
+}
+</script>
+
+<div id="print-view">
+  <div class="pv-title">HABLA at River Glen — FY2026 Budget Scenario</div>
+  <div class="pv-sub" id="pv-meta"></div>
+  <div class="pv-grid">
+    <div class="pv-metric"><label>Revenue</label><div class="v" id="pv-rev"></div></div>
+    <div class="pv-metric"><label>Expenses</label><div class="v" id="pv-exp"></div></div>
+    <div class="pv-metric"><label>Net</label><div class="v" id="pv-net"></div></div>
+  </div>
+  <div class="pv-cols">
+    <div>
+      <div class="pv-h2">Fundraisers</div>
+      <div id="pv-fundraisers"></div>
+      <div class="pv-h2" style="margin-top:1rem;">Fixed expenses</div>
+      <div id="pv-fixed"></div>
+    </div>
+    <div>
+      <div class="pv-h2">Variable expenses</div>
+      <div id="pv-variable"></div>
+    </div>
+  </div>
+  <div class="pv-h2">Notes &amp; recommendations</div>
+  <div class="pv-notes" id="pv-notes"></div>
+  <div class="pv-footer">HABLA at River Glen &nbsp;·&nbsp; FY2026 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</div>
+</div>
+</body>
+</html>
