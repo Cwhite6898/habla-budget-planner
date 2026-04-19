@@ -240,6 +240,59 @@ footer {
 }
 .undare-btn:hover { background: #eceae4; }
 
+/* ── CUSTOM CARDS ── */
+.custom-form { display: grid; grid-template-columns: 1fr 90px 80px; gap: 6px; margin-bottom: 8px; align-items: center; }
+.custom-form input[type=text], .custom-form input[type=number] {
+  padding: 7px 9px; font-size: 12px; border: 0.5px solid #d3d1c7; border-radius: 7px;
+  outline: none; background: #fff; color: #1a1a18; width: 100%; box-sizing: border-box;
+}
+.custom-form input:focus { border-color: #185fa5; }
+.custom-type-row { display: flex; gap: 6px; margin-bottom: 8px; }
+.custom-type-btn {
+  flex: 1; padding: 6px; border-radius: 7px; border: 0.5px solid #d3d1c7;
+  background: #f5f4f0; font-size: 11px; color: #5f5e5a; text-align: center;
+  cursor: pointer; user-select: none; transition: background .1s;
+}
+.custom-type-btn.selected.revenue { background: #e1f5ee; border-color: #5dcaa5; color: #0f6e56; font-weight: 500; }
+.custom-type-btn.selected.expense { background: #fef3f1; border-color: #f0997b; color: #993c1d; font-weight: 500; }
+.custom-add-btn {
+  width: 100%; padding: 8px; border-radius: 7px; border: 0.5px solid #185fa5;
+  background: #e6f1fb; color: #185fa5; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: background .1s;
+}
+.custom-add-btn:hover { background: #d0e6f8; }
+.custom-item {
+  border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 8px 11px;
+  margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; user-select: none; transition: background .1s;
+}
+.custom-item:hover { background: #f5f4f0; }
+.custom-item.active.revenue { border-color: #5dcaa5; background: #e1f5ee; }
+.custom-item.active.expense { border-color: #f0997b; background: #fef3f1; }
+.custom-item-left { display: flex; flex-direction: column; gap: 2px; }
+.custom-item-name { font-size: 13px; font-weight: 500; color: #1a1a18; }
+.custom-item.active.revenue .custom-item-name { color: #0f6e56; }
+.custom-item.active.expense .custom-item-name { color: #993c1d; }
+.custom-item-type { font-size: 10px; color: #888780; }
+.custom-item-amt { font-size: 13px; font-weight: 600; color: #1a1a18; }
+.custom-item-remove { font-size: 14px; color: #b4b2a9; margin-left: 8px; cursor: pointer; padding: 2px 5px; border-radius: 4px; }
+.custom-item-remove:hover { background: #f0efe9; color: #993c1d; }
+
+/* ── BONUS ITEMS ── */
+.bonus-card {
+  border: 0.5px dashed #b4b2a9; border-radius: 8px; padding: 9px 11px;
+  margin-bottom: 6px; cursor: pointer; user-select: none; transition: background .1s, border-color .1s;
+  opacity: .55;
+}
+.bonus-card:hover { background: #f5f4f0; opacity: .75; }
+.bonus-card.active { border: 0.5px solid #5dcaa5; background: #e1f5ee; opacity: 1; }
+.bonus-name { font-size: 13px; font-weight: 500; color: #5f5e5a; display: flex; align-items: center; gap: 6px; }
+.bonus-card.active .bonus-name { color: #0f6e56; }
+.bonus-amt { font-size: 12px; color: #888780; margin-top: 3px; }
+.bonus-card.active .bonus-amt { color: #0f6e56; }
+.bonus-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: #f5f4f0; color: #888780; margin-left: auto; }
+.bonus-card.active .bonus-badge { background: #e1f5ee; color: #0f6e56; }
+
 /* ── GAME LAYER ── */
 .status-banner {
   border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;
@@ -379,7 +432,16 @@ footer {
   </div>
   <div style="display:flex;gap:8px;align-items:center;">
     <button class="reset-btn" onclick="shareScenario()" id="share-btn">🔗 Share</button>
-    <button class="reset-btn" onclick="resetAll()">Reset</button>
+    <div style="position:relative;display:inline-block;">
+      <button class="reset-btn" id="reset-btn" onclick="showResetConfirm()">Reset</button>
+      <div id="reset-confirm" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:0.5px solid #d3d1c7;border-radius:9px;padding:10px 12px;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.1);z-index:100;">
+        <div style="font-size:12px;color:#1a1a18;margin-bottom:8px;">Reset everything to defaults?</div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="confirmReset()" style="flex:1;padding:5px 10px;font-size:12px;font-weight:500;border-radius:6px;border:0.5px solid #993c1d;background:#fef3f1;color:#993c1d;cursor:pointer;">Yes, reset</button>
+          <button onclick="document.getElementById('reset-confirm').style.display='none'" style="flex:1;padding:5px 10px;font-size:12px;border-radius:6px;border:0.5px solid #d3d1c7;background:#f5f4f0;color:#5f5e5a;cursor:pointer;">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -409,6 +471,28 @@ footer {
       <div id="slider-list"></div>
     </div>
 
+    <div class="card">
+      <span class="sec-label">One-time investments — toggle to add if surplus allows</span>
+      <div class="bonus-card" data-key="adtle"   data-amt="7000"  onclick="toggleBonus(this)"><div class="bonus-name">ADTLE teacher conference <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$7,000</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">National bilingual immersion conference — professional development for teachers</div></div>
+      <div class="bonus-card" data-key="theater" data-amt="5000"  onclick="toggleBonus(this)"><div class="bonus-name">Theater program subsidy <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$5,000</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">River Glen's bilingual musical theater program — subsidizes RG LAB productions performed at the Hammer Theater at SJSU</div></div>
+      <div class="bonus-card" data-key="trips"   data-amt="4500"  onclick="toggleBonus(this)"><div class="bonus-name">Field trips <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$4,500</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">Reduces the out-of-pocket cost for families — covers the gap between school funding and actual trip cost</div></div>
+      <div class="bonus-card" data-key="msbump"  data-amt="4908"  onclick="toggleBonus(this)"><div class="bonus-name">Middle school opportunities bump <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$4,908 <span style="font-size:10px;color:#b4b2a9;">(from $4,716 → $9,624)</span></div></div>
+    </div>
+
+    <div class="card">
+      <span class="sec-label">Your proposal — add a custom item</span>
+      <div class="custom-type-row">
+        <div class="custom-type-btn revenue selected" id="ctype-rev" onclick="setCustomType('revenue')">📈 New fundraiser</div>
+        <div class="custom-type-btn expense" id="ctype-exp" onclick="setCustomType('expense')">💸 New expense</div>
+      </div>
+      <div class="custom-form">
+        <input type="text" id="custom-name" placeholder="Name (e.g. Spring carnival)">
+        <input type="number" id="custom-amt" placeholder="Amount" min="0" step="100">
+        <button class="custom-add-btn" onclick="addCustomItem()">+ Add</button>
+      </div>
+      <div id="custom-list"></div>
+    </div>
+
   </div>
 
   <div class="right-panel">
@@ -418,22 +502,9 @@ footer {
       <div class="status-msg"   id="status-msg"></div>
     </div>
 
-
-    <span class="sec-label" style="margin-top:4px;">Pick a persona</span>
-    <div class="persona-row">
-      <div class="persona-btn" onclick="loadPersona('claudia')" title="Conservative revenue, all programs kept"><span class="pb-emoji">🌿</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
-      <div class="persona-btn" onclick="loadPersona('sandra')" title="Hit approved revenue targets"><span class="pb-emoji">📈</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">approved targets</span></div>
-      <div class="persona-btn" onclick="loadPersona('gloria')" title="Max everything, cut nothing"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
-    </div>
-
-    <div class="horoscope-box">
-      <div class="horoscope-label">✨ Budget horoscope</div>
-      <div class="horoscope-text" id="horoscope-text">The stars are calculating your financial destiny...</div>
-    </div>
-
-    <div class="dare-row">
-      <div class="dare-btn" onclick="dareMe()">🎲 Dare me</div>
-      <div class="undare-btn" onclick="undare()" id="undare-btn" style="display:none;">Undo dare</div>
+    <div id="context-note" style="background:#fff8ee;border:0.5px solid #fac775;border-radius:8px;padding:9px 12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+      <div style="font-size:11px;color:#633806;line-height:1.6;">Starting position uses <strong style="font-weight:500;">conservative revenue estimates</strong> — about $31k below the August-approved budget. Adjust fundraiser targets above to explore scenarios.</div>
+      <span onclick="document.getElementById('context-note').style.display='none'" style="font-size:14px;color:#b4b2a9;cursor:pointer;flex-shrink:0;line-height:1;">✕</span>
     </div>
 
     <div class="score-grid">
@@ -484,6 +555,26 @@ footer {
         <div class="progress-fill" id="prog-bar"></div>
       </div>
       <div class="progress-sub" id="prog-sub"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <span class="sec-label">Start with a scenario</span>
+    <div class="persona-row">
+      <div class="persona-btn" onclick="loadPersona('claudia')" title="Conservative revenue, all programs kept"><span class="pb-emoji">🌿</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
+      <div class="persona-btn" onclick="loadPersona('sandra')" title="Stretch goals"><span class="pb-emoji">📈</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">stretch goals</span></div>
+      <div class="persona-btn" onclick="loadPersona('gloria')" title="Max everything, cut nothing"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
+    </div>
+
+    <div class="dare-row">
+      <div class="dare-btn" onclick="dareMe()">🎲 Dare me</div>
+      <div class="undare-btn" onclick="undare()" id="undare-btn" style="display:none;">Undo dare</div>
+    </div>
+    <div style="font-size:10px;color:#b4b2a9;margin-top:-6px;margin-bottom:10px;text-align:center;">randomly cut something — can you still balance it?</div>
+
+    <div class="horoscope-box">
+      <div class="horoscope-label">✨ Budget horoscope</div>
+      <div class="horoscope-text" id="horoscope-text">The stars are calculating your financial destiny...</div>
     </div>
 
     <div class="divider"></div>
@@ -582,6 +673,9 @@ const FIXED_DEFAULTS = { art:15900, recess:14950, science:21000, music:1800, ga:
 const BASE_NON_FR_REV = 0;
 
 const dropped = new Set();
+const bonusItems = {};
+const BONUS_DEFAULTS = { adtle: 7000, theater: 5000, trips: 4500, msbump: 4908 };
+const BONUS_IMPACT   = { adtle: 6, theater: 7, trips: 6, msbump: 5 };
 const toggleCuts = {};
 const sliderVals = {};
 SLIDER_GROUPS.forEach(g => g.items.forEach(i => { sliderVals[i.key] = i.max; }));
@@ -715,6 +809,21 @@ function onSlide(key, max, rawVal, mult, unit) {
   update();
 }
 
+function toggleBonus(el) {
+  const key = el.dataset.key, amt = parseInt(el.dataset.amt);
+  if (bonusItems[key]) {
+    delete bonusItems[key]; el.classList.remove('active');
+    el.querySelector('.bonus-badge').textContent = '+ expense';
+    soundBloop();
+  } else {
+    bonusItems[key] = amt; el.classList.add('active');
+    el.querySelector('.bonus-badge').textContent = 'added ✓';
+    soundCoin();
+    showToast('One-time investment added to scenario ✨');
+  }
+  update();
+}
+
 function toggleCut(el) {
   const key = el.dataset.key, amt = parseInt(el.dataset.amt);
   if (toggleCuts[key]) {
@@ -727,8 +836,32 @@ function toggleCut(el) {
   update();
 }
 
+function showResetConfirm() {
+  const el = document.getElementById('reset-confirm');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function confirmReset() {
+  document.getElementById('reset-confirm').style.display = 'none';
+  resetAll();
+}
+
+// Close confirm if clicking outside
+document.addEventListener('click', e => {
+  const confirm = document.getElementById('reset-confirm');
+  const btn = document.getElementById('reset-btn');
+  if (confirm && !confirm.contains(e.target) && e.target !== btn) {
+    confirm.style.display = 'none';
+  }
+});
+
 function resetAll() {
   dropped.clear();
+  for (const k in bonusItems) delete bonusItems[k];
+  document.querySelectorAll('.bonus-card.active').forEach(el => {
+    el.classList.remove('active');
+    el.querySelector('.bonus-badge').textContent = '+ expense';
+  });
   donationRev = 8000;
   buyaspotRev = 5000;
   merchRev = 1000;
@@ -749,6 +882,8 @@ function resetAll() {
     const se = document.getElementById('sav-'+i.key);
     if (se) { se.textContent = 'saving $0'; se.className = 'sl-save'; }
   }));
+  customItems.length = 0;
+  renderCustomList();
   renderFrList();
   update();
 }
@@ -766,8 +901,11 @@ function update() {
     varExp += (sliderVals[i.key] || 0) * (i.multiplier || 1);
   }));
 
-  const totalRev = BASE_NON_FR_REV + frRev;
-  const totalExp = fixedExp + varExp + frCost;
+  const bonusExp  = Object.values(bonusItems).reduce((a,b)=>a+b,0);
+  const customRev = customItems.filter(i=>i.active&&i.type==='revenue').reduce((a,i)=>a+i.amt,0);
+  const customExp = customItems.filter(i=>i.active&&i.type==='expense').reduce((a,i)=>a+i.amt,0);
+  const totalRev = BASE_NON_FR_REV + frRev + customRev;
+  const totalExp = fixedExp + varExp + frCost + bonusExp + customExp;
   const net = totalRev - totalExp;
   const pct = Math.min(130, Math.round((totalRev / totalExp) * 100));
 
@@ -917,7 +1055,7 @@ const ROASTS = {
   dare_drop:      ["Think you can balance it WITHOUT that? 😈 I dare you.", "One fundraiser down. Can you handle it? 🎲", "Bet you can't balance this now 😏"],
   dare_cut:       ["Oops, a program just got cut. Budget harder. 😈", "One program gone. Still think you can do it? 🎲"],
   persona_claudia:  ["Cautious Claudia has entered the building 🧘 Playing it safe!", "Claudia says: keep everything, expect little. Respect. 🙏"],
-  persona_sandra: ["Stretch Sandra is here to hit those approved targets 💪 Let's go!", "Sandra says: we CAN hit the August numbers. Believe! 📈"],
+  persona_sandra: ["Stretch Sandra is here! Ambitious but achievable 📈 Let's go!", "Sandra says: aim high, plan hard. This is doable. 💪"],
   persona_gloria: ["Go Big Gloria has taken over the budget 🚀 No cuts. Max revenue. Chaos.", "Gloria doesn't believe in limits. Respect the energy. ✨"],
 };
 
@@ -988,7 +1126,7 @@ const STATUS_LEVELS = [
   { threshold:  -5000, cls:'warning', emoji:'🤔', msg:'Nearly there — a few more tweaks' },
   { threshold:  -1000, cls:'warning', emoji:'😅', msg:'So close! Just a little more...' },
   { threshold:      0, cls:'success', emoji:'🎉', msg:'Budget balanced — great work!' },
-  { threshold: Infinity, cls:'success', emoji:'✅', msg:'Surplus! Consider restoring programs' },
+  { threshold: Infinity, cls:'success', emoji:'✅', msg:'Surplus! Consider adding one-time investments ↙' },
 ];
 
 function calcImpact() {
@@ -1005,7 +1143,10 @@ function calcImpact() {
     const max  = i.max;
     score += w * (max > 0 ? (cur / max) : 0);
   }));
-  return Math.round((score / MAX_IMPACT) * 100);
+  // bonus items
+  Object.keys(bonusItems).forEach(k => { score += (BONUS_IMPACT[k] || 0); });
+  const maxWithBonus = MAX_IMPACT + Object.values(BONUS_IMPACT).reduce((a,b)=>a+b,0);
+  return Math.round((score / maxWithBonus) * 100);
 }
 
 function calcEffort() {
@@ -1151,6 +1292,66 @@ function loadFromURL() {
 }
 
 
+
+// ── CUSTOM ITEMS ─────────────────────────────────────────────────────────────
+let customType = 'revenue';
+const customItems = []; // { id, name, amt, type, active }
+let customIdCounter = 0;
+
+function setCustomType(type) {
+  customType = type;
+  document.getElementById('ctype-rev').className = 'custom-type-btn revenue' + (type === 'revenue' ? ' selected' : '');
+  document.getElementById('ctype-exp').className = 'custom-type-btn expense' + (type === 'expense' ? ' selected' : '');
+}
+
+function addCustomItem() {
+  const name = document.getElementById('custom-name').value.trim();
+  const amt  = parseInt(document.getElementById('custom-amt').value);
+  if (!name) { showToast('Give your item a name first! ✏️'); return; }
+  if (!amt || amt <= 0) { showToast('Add a dollar amount! 💵'); return; }
+  customItems.push({ id: customIdCounter++, name, amt, type: customType, active: true });
+  document.getElementById('custom-name').value = '';
+  document.getElementById('custom-amt').value = '';
+  soundCoin();
+  showToast((customType === 'revenue' ? '📈 ' : '💸 ') + name + ' added to your scenario!');
+  renderCustomList();
+  update();
+}
+
+function toggleCustomItem(id) {
+  const item = customItems.find(i => i.id === id);
+  if (!item) return;
+  item.active = !item.active;
+  item.active ? soundCoin() : soundBloop();
+  renderCustomList();
+  update();
+}
+
+function removeCustomItem(id) {
+  const idx = customItems.findIndex(i => i.id === id);
+  if (idx >= 0) customItems.splice(idx, 1);
+  soundBloop();
+  renderCustomList();
+  update();
+}
+
+function renderCustomList() {
+  const list = document.getElementById('custom-list');
+  if (!list) return;
+  if (customItems.length === 0) { list.innerHTML = ''; return; }
+  list.innerHTML = customItems.map(item => `
+    <div class="custom-item ${item.active ? 'active ' + item.type : ''}" onclick="toggleCustomItem(${item.id})">
+      <div class="custom-item-left">
+        <div class="custom-item-name">${item.name}</div>
+        <div class="custom-item-type">${item.type === 'revenue' ? '📈 fundraiser' : '💸 expense'} · ${item.active ? 'included' : 'excluded'}</div>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <div class="custom-item-amt">${item.type === 'revenue' ? '+' : '-'}${fmt(item.amt)}</div>
+        <div class="custom-item-remove" onclick="event.stopPropagation();removeCustomItem(${item.id})">✕</div>
+      </div>
+    </div>`).join('');
+}
+
 // ── EFFORT BREAKDOWN ─────────────────────────────────────────────────────────
 
 function toggleAssumptions() {
@@ -1248,8 +1449,8 @@ function loadPersona(name) {
     donationRev = 8000; buyaspotRev = 1000; merchRev = 1000; corporateRev = 7000;
     roast('persona_claudia');
   } else if (name === 'sandra') {
-    // Stretch: approved August targets
-    donationRev = 20000; buyaspotRev = 8000; merchRev = 3000; corporateRev = 10000;
+    // Stretch: ambitious but achievable
+    donationRev = 15000; buyaspotRev = 8000; merchRev = 3000; corporateRev = 10000;
     roast('persona_sandra');
   } else if (name === 'gloria') {
     // Go big: max everything
@@ -1388,8 +1589,11 @@ function sendToTreasurer() {
   const revOvr  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
   const frRev  = active.reduce((a,f)=>a+(revOvr[f.key]!==undefined?revOvr[f.key]:f.rev),0);
   const frCost = active.reduce((a,f)=>a+f.cost,0);
-  const totalRev = BASE_NON_FR_REV + frRev;
-  const totalExp = fixedExp + varExp + frCost;
+  const bonusExp  = Object.values(bonusItems).reduce((a,b)=>a+b,0);
+  const customRev = customItems.filter(i=>i.active&&i.type==='revenue').reduce((a,i)=>a+i.amt,0);
+  const customExp = customItems.filter(i=>i.active&&i.type==='expense').reduce((a,i)=>a+i.amt,0);
+  const totalRev = BASE_NON_FR_REV + frRev + customRev;
+  const totalExp = fixedExp + varExp + frCost + bonusExp + customExp;
   const net = totalRev - totalExp;
 
   // Populate print view
@@ -1439,6 +1643,19 @@ function sendToTreasurer() {
   document.getElementById('pv-fixed').innerHTML = fixHtml;
   document.getElementById('pv-fix-total').innerHTML = '<span>Total fixed</span><span>' + fmt(fixTotal) + '</span>';
 
+  // Bonus items in PDF
+  const bonusNames = { adtle:'ADTLE teacher conference', theater:'Theater program subsidy', trips:'Field trips', msbump:'Middle school opportunities bump' };
+  let bonusHtml = '';
+  Object.keys(bonusNames).forEach(k => {
+    const isOn = !!bonusItems[k];
+    if (isOn) {
+      bonusHtml += '<div class="pv-row"><span class="label">' + bonusNames[k] + ' <span style="font-size:10px;color:#0a5e49;">(added)</span></span><span class="amount">' + fmt(BONUS_DEFAULTS[k]) + '</span></div>';
+    }
+  });
+  if (bonusHtml) {
+    document.getElementById('pv-fix-total').innerHTML += '<div style="margin-top:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:4px;">One-time investments added</div>' + bonusHtml;
+  }
+
   // Variable expenses
   let varHtml = '', varTotal = 0;
   SLIDER_GROUPS.forEach(g => {
@@ -1460,6 +1677,16 @@ function sendToTreasurer() {
   });
   document.getElementById('pv-variable').innerHTML = varHtml;
   document.getElementById('pv-var-total').innerHTML = '<span>Total variable</span><span>' + fmt(varTotal) + '</span>';
+
+  // Custom items in PDF
+  const activeCustom = customItems.filter(i => i.active);
+  if (activeCustom.length) {
+    let custHtml = '<div style="margin-top:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:4px;">Custom proposals</div>';
+    activeCustom.forEach(i => {
+      custHtml += '<div class="pv-row"><span class="label">' + i.name + ' <span style="font-size:10px;color:#888;">(' + i.type + ')</span></span><span class="amount">' + (i.type==='revenue'?'+':'-') + fmt(i.amt) + '</span></div>';
+    });
+    document.getElementById('pv-fix-total').innerHTML += custHtml;
+  }
 
   // Notes
   document.getElementById('pv-notes').textContent = notes || '(no notes provided)';
