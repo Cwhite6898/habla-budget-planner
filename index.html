@@ -137,6 +137,11 @@ input[type=range]::-moz-range-thumb {
 .note { font-size: 11px; color: #b4b2a9; line-height: 1.65; }
 .note li { margin-left: 1rem; margin-bottom: 2px; }
 
+#submit-row { grid-template-columns: 1fr !important; }
+@media (max-width: 760px) {
+  #submit-section { margin: 1rem auto 0 !important; }
+  #submit-section > div { grid-template-columns: 1fr !important; }
+}
 footer {
   max-width: 1160px; margin: 1.5rem auto 0;
   font-size: 11px; color: #b4b2a9; text-align: center;
@@ -148,32 +153,92 @@ footer {
 }
 
 @media print {
-  body { background: #fff; padding: 0; font-size: 12px; }
+  @page { margin: 1.8cm 1.8cm 1.5cm; }
+  body { background: #fff; padding: 0; font-size: 11px; color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .layout, header, footer, .reset-btn { display: none !important; }
   #print-view { display: block !important; }
-  .pv-section { margin-bottom: 1rem; }
-  .pv-title { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
-  .pv-sub { font-size: 11px; color: #888; margin-bottom: 1rem; }
-  .pv-h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #888; border-bottom: 0.5px solid #ccc; padding-bottom: 3px; margin: 1rem 0 6px; }
-  .pv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
-  .pv-metric { border: 0.5px solid #ccc; border-radius: 6px; padding: 8px 10px; }
-  .pv-metric label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #888; display: block; margin-bottom: 2px; }
-  .pv-metric .v { font-size: 16px; font-weight: 600; }
-  .pv-metric .v.pos { color: #0f6e56; }
-  .pv-metric .v.neg { color: #993c1d; }
-  .pv-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .pv-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 0.5px solid #f0f0f0; font-size: 12px; }
-  .pv-row .label { color: #333; }
-  .pv-row .amount { font-weight: 500; text-align: right; }
-  .pv-row .amount.saving { color: #0f6e56; }
-  .pv-row.dropped { opacity: .45; text-decoration: line-through; }
-  .pv-row.cut { opacity: .45; text-decoration: line-through; }
-  .pv-notes { border: 0.5px solid #ccc; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #333; white-space: pre-wrap; margin-top: 6px; min-height: 60px; }
-  .pv-footer { margin-top: 1.5rem; font-size: 10px; color: #aaa; text-align: center; border-top: 0.5px solid #eee; padding-top: 8px; }
+
+  /* Header band */
+  .pv-header-band { background: #1a1a18; color: #fff; padding: 14px 18px 12px; border-radius: 6px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .pv-title { font-size: 17px; font-weight: 700; letter-spacing: -.2px; color: #fff; margin: 0; }
+  .pv-sub { font-size: 10px; color: #aaa; margin-top: 3px; }
+  .pv-meta-right { text-align: right; font-size: 10px; color: #bbb; line-height: 1.6; }
+
+  /* Summary metrics row */
+  .pv-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .pv-metric { border: 1px solid #e0e0e0; border-radius: 6px; padding: 10px 12px; background: #fafafa; }
+  .pv-metric label { font-size: 9px; text-transform: uppercase; letter-spacing: .07em; color: #888; display: block; margin-bottom: 4px; }
+  .pv-metric .v { font-size: 20px; font-weight: 700; color: #111; }
+  .pv-metric .v.pos { color: #0a5e49; }
+  .pv-metric .v.neg { color: #8b2e10; }
+  .pv-metric .v-sub { font-size: 9px; color: #888; margin-top: 2px; }
+
+  /* Section headers */
+  .pv-h2 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #fff; background: #555; padding: 3px 8px; border-radius: 3px; margin: 14px 0 7px; display: inline-block; }
+
+  /* Three-column layout */
+  .pv-cols { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 20px; }
+
+  /* Rows */
+  .pv-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid #efefef; font-size: 11px; gap: 8px; }
+  .pv-row:last-child { border-bottom: none; }
+  .pv-row .label { color: #222; flex: 1; }
+  .pv-row .amount { font-weight: 600; text-align: right; white-space: nowrap; color: #111; }
+  .pv-row .amount .saving { color: #0a5e49; font-weight: 400; font-size: 10px; margin-left: 4px; }
+  .pv-row.dropped .label { color: #bbb; text-decoration: line-through; }
+  .pv-row.dropped .amount { color: #bbb; }
+  .pv-row.cut .label { color: #bbb; text-decoration: line-through; }
+  .pv-row.cut .amount { color: #bbb; }
+  .pv-row-total { display: flex; justify-content: space-between; padding: 5px 0 0; font-size: 12px; font-weight: 700; margin-top: 3px; border-top: 1.5px solid #222; }
+
+  /* Notes */
+  .pv-notes-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #fff; background: #555; padding: 3px 8px; border-radius: 3px; margin: 14px 0 7px; display: inline-block; }
+  .pv-notes { border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: 11px; color: #333; white-space: pre-wrap; line-height: 1.6; min-height: 64px; background: #fafafa; }
+
+  /* Footer */
+  .pv-footer { margin-top: 20px; font-size: 9px; color: #bbb; text-align: center; border-top: 0.5px solid #e0e0e0; padding-top: 8px; display: flex; justify-content: space-between; }
 }
 @media screen {
   #print-view { display: none; }
 }
+
+
+/* ── PERSONAS ── */
+.persona-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.persona-btn {
+  flex: 1; padding: 7px 4px; border-radius: 9px; border: 0.5px solid #d3d1c7;
+  background: #f5f4f0; font-size: 11px; color: #5f5e5a; text-align: center;
+  cursor: pointer; user-select: none; transition: background .15s, border-color .15s;
+  line-height: 1.4;
+}
+.persona-btn:hover { background: #eceae4; border-color: #b4b2a9; }
+.persona-btn .pb-emoji { font-size: 18px; display: block; margin-bottom: 2px; }
+.persona-btn .pb-name { font-weight: 500; color: #1a1a18; display: block; }
+
+/* ── HOROSCOPE ── */
+.horoscope-box {
+  border-radius: 9px; padding: 9px 12px; margin-bottom: 12px;
+  background: linear-gradient(135deg, #f5f0ff 0%, #fff0fa 100%);
+  border: 0.5px solid #d9b8f5;
+}
+.horoscope-label { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: #9b6fc7; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.horoscope-text  { font-size: 12px; color: #3d2060; line-height: 1.55; font-style: italic; }
+
+/* ── DARE ME ── */
+.dare-row { display: flex; gap: 7px; margin-bottom: 12px; }
+.dare-btn {
+  flex: 1; padding: 9px 10px; border-radius: 9px; border: 0.5px solid #f0997b;
+  background: #fef3f1; font-size: 13px; font-weight: 500; color: #993c1d;
+  cursor: pointer; user-select: none; transition: background .1s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.dare-btn:hover { background: #fde8e2; }
+.undare-btn {
+  padding: 9px 12px; border-radius: 9px; border: 0.5px solid #d3d1c7;
+  background: #f5f4f0; font-size: 12px; color: #5f5e5a;
+  cursor: pointer; user-select: none; transition: background .1s; white-space: nowrap;
+}
+.undare-btn:hover { background: #eceae4; }
 
 /* ── GAME LAYER ── */
 .status-banner {
@@ -312,7 +377,10 @@ footer {
     <h1>HABLA at River Glen — Budget Scenario Planner</h1>
     <p>FY2027 (Jul 2026 – Jun 2027) &nbsp;·&nbsp; Cash basis &nbsp;·&nbsp; For internal planning use</p>
   </div>
-  <button class="reset-btn" onclick="resetAll()">Reset to budget</button>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="reset-btn" onclick="shareScenario()" id="share-btn">🔗 Share</button>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+  </div>
 </header>
 
 <div style="max-width:1160px;margin:0 auto 1.25rem;border-radius:10px;overflow:hidden;border:0.5px solid #fac775;">
@@ -357,6 +425,24 @@ footer {
       <div class="status-msg"   id="status-msg"></div>
     </div>
 
+
+    <span class="sec-label" style="margin-top:4px;">Pick a persona</span>
+    <div class="persona-row">
+      <div class="persona-btn" onclick="loadPersona('claudia')" title="Conservative revenue, all programs kept"><span class="pb-emoji">🧘</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
+      <div class="persona-btn" onclick="loadPersona('sandra')" title="Hit approved revenue targets"><span class="pb-emoji">💪</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">approved targets</span></div>
+      <div class="persona-btn" onclick="loadPersona('gloria')" title="Max everything, cut nothing"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
+    </div>
+
+    <div class="horoscope-box">
+      <div class="horoscope-label">✨ Budget horoscope</div>
+      <div class="horoscope-text" id="horoscope-text">The stars are calculating your financial destiny...</div>
+    </div>
+
+    <div class="dare-row">
+      <div class="dare-btn" onclick="dareMe()">🎲 Dare me</div>
+      <div class="undare-btn" onclick="undare()" id="undare-btn" style="display:none;">Undo dare</div>
+    </div>
+
     <div class="score-grid">
       <div class="score-card">
         <div class="sc-label">Community impact</div>
@@ -369,6 +455,17 @@ footer {
         <div class="sc-val" id="sc-effort">—</div>
         <div class="sc-bar-track"><div class="sc-bar-fill" id="sc-effort-bar" style="width:0%;background:#ba7517;"></div></div>
         <div class="sc-sub" id="sc-effort-sub"></div>
+        <div style="margin-top:7px;">
+          <span onclick="toggleEffortBreakdown()" id="effort-toggle-btn"
+            style="font-size:10px;color:#185fa5;cursor:pointer;user-select:none;">▶ see breakdown</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="effort-breakdown" style="display:none;margin-bottom:12px;border:0.5px solid #d3d1c7;border-radius:9px;overflow:hidden;">
+      <div id="effort-breakdown-rows"></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#f5f4f0;font-size:11px;font-weight:600;color:#1a1a18;border-top:0.5px solid #d3d1c7;">
+        <span>Total</span><span id="effort-breakdown-total">—</span>
       </div>
     </div>
 
@@ -401,27 +498,33 @@ footer {
     <div style="border:0.5px solid #d3d1c7;border-radius:8px;padding:10px 12px;font-size:12px;color:#5f5e5a;line-height:1.7;">
       <p style="margin-bottom:6px;"><strong style="font-weight:500;">Yearbook</strong> — treated as break-even. Income ($7,000) and expense ($7,001) net to ~$0 and are excluded from both sides.</p>
       <p style="margin-bottom:6px;"><strong style="font-weight:500;">Baile de los Muertos</strong> — community event, break-even by design. Income ($4,000) and cost ($4,000) excluded from both sides.</p>
-      <p><strong style="font-weight:500;">RG Food Drive</strong> — there is a fund for collecting donations that can only be used for the food drive.</p>
+      <p><strong style="font-weight:500;">RG Food Drive</strong> — a restricted fund with donations that can only be used for the food drive.</p>
 
     </div>
     <div class="divider"></div>
     <ul class="note">
       <li>Dropping a fundraiser removes its revenue <em>and</em> its cost.</li>
     </ul>
-
-    <div class="divider"></div>
-    <label style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;display:block;margin-bottom:7px;">Submit your scenario</label>
-    <input type="text" id="sender-name" placeholder="Your name"
-      style="width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;margin-bottom:7px;box-sizing:border-box;">
-    <textarea id="sender-notes" placeholder="What do you think the budget should look like? Any priorities or tradeoffs worth discussing..."
-      style="width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:80px;font-family:inherit;line-height:1.5;margin-bottom:7px;box-sizing:border-box;"></textarea>
-    <button onclick="sendToTreasurer()"
-      style="width:100%;padding:9px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;">
-      Save scenario as PDF &#x2913;
-    </button>
-    <div id="send-msg" style="font-size:11px;color:#888780;margin-top:6px;min-height:16px;text-align:center;"></div>
   </div>
 
+</div>
+
+<div style="max-width:1160px;margin:2rem auto 0;background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;padding:1.5rem;">
+  <label style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;display:block;margin-bottom:12px;">Submit your scenario to the treasurer</label>
+  <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:start;">
+    <input type="text" id="sender-name" placeholder="Your name"
+      style="padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;box-sizing:border-box;width:100%;">
+    <textarea id="sender-notes" placeholder="Notes or recommendations for the treasurer..."
+      style="padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:40px;max-height:120px;font-family:inherit;line-height:1.5;box-sizing:border-box;width:100%;"></textarea>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;">
+      <button onclick="sendToTreasurer()"
+        style="padding:9px 18px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;white-space:nowrap;">
+        Save as PDF &#x2913;
+      </button>
+      <div style="font-size:11px;color:#b4b2a9;text-align:center;">then email to <a href="mailto:treasurer@hablariverglen.org" style="color:#185fa5;text-decoration:none;">treasurer@hablariverglen.org</a></div>
+    </div>
+  </div>
+  <div id="send-msg" style="font-size:11px;color:#888780;margin-top:8px;min-height:16px;"></div>
 </div>
 
 <div id="toast-container"></div>
@@ -502,8 +605,8 @@ function renderFrList() {
                   chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'likely'},{val:15000,label:'$15k',sub:'stretch'},{val:20000,label:'$20k',sub:'really stretch'},{val:27000,label:'$27k',sub:'top'}] },
       buyaspot: { label:'Revenue target', varName:'buyaspotRev', id:'bas-rev-val', slid:'sl-basrev', min:1000, max:12000, step:500, cur:buyaspotRev,
                   chips:[{val:1000,label:'$1k',sub:'low'},{val:5000,label:'$5k',sub:'likely'},{val:8000,label:'$8k',sub:'strong'},{val:12000,label:'$12k',sub:'approved'}] },
-      merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:0,    max:4000,  step:100, cur:merchRev,
-                  chips:[{val:1000,label:'$1k',sub:'start'},{val:2000,label:'$2k',sub:'likely'},{val:3000,label:'$3k',sub:'target'},{val:4000,label:'$4k',sub:'stretch'}] },
+      merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:1000, max:5000,  step:100, cur:merchRev,
+                  chips:[{val:1000,label:'$1k',sub:'conservative'},{val:3000,label:'$3k',sub:'target'},{val:5000,label:'$5k',sub:'stretch'}] },
       corporate:{ label:'Revenue target', varName:'corporateRev', id:'cor-rev-val', slid:'sl-correv', min:7000, max:12000, step:500, cur:corporateRev,
                   chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'target'},{val:12000,label:'$12k',sub:'stretch'}] },
     };
@@ -666,6 +769,7 @@ function update() {
 
   updateGame(net);
   checkRoasts(net, calcImpact());
+  updateHoroscope(net);
   document.getElementById('m-rev').textContent = fmt(totalRev);
   document.getElementById('m-exp').textContent = fmt(totalExp);
   const nm = document.getElementById('m-net');
@@ -783,23 +887,34 @@ function showToast(msg) {
 
 // ── ROAST MESSAGES ───────────────────────────────────────────────────────────
 const ROASTS = {
-  drop_gala:      ["Bold move... Gala moms have been notified 😬", "No more silent auction! The dads are devastated 🥲", "Gala is gone. Who's going to wear the fancy shoes now? 👠"],
-  restore_gala:   ["Gala is back! Start pressing your cocktail attire 🥂", "The decorator breathes again 🎊"],
-  drop_caminata:  ["No more walking in circles! (Literally) 🚶‍♀️", "The walkers have been stood down 🥾", "¡Ay, no Caminata! The snack tables weep 🌮"],
-  restore_caminata:["The walkers return! Dust off those sneakers 👟", "Caminata is back — someone tell the DJ 🎵"],
-  drop_donation:  ["Giving up on giving? Bold. 🤨", "The donation link has left the chat 📤"],
-  drop_buyaspot:  ["Bye-bye buy-a-spot! Those classroom parents will never know 😅"],
-  drop_corporate: ["Corporate matching dropped. CEOs across the valley untouched 💼"],
-  drop_merch:     ["No more merch! The spirit wear closet cries 👕😢"],
-  cut_art:        ["The art teacher has entered the chat 🎨😤", "No art? The hallways will be so... beige 🎨"],
-  cut_music:      ["No more bilingual singing! The K-1 kiddos are sad 🎶😢", "Los niños won't be singing together this year 🎵"],
-  cut_recess:     ["One less playground monitor... hope everyone plays nice 🤞", "The yard just got a little more chaotic 🏃‍♂️💨"],
-  cut_science:    ["Future scientists: endangered 🔬", "Science cut! Bill Nye has been informed 😔"],
-  balanced:       ["BALANCED! Someone call the accountant! 🎉", "Budget goals achieved! Wine o'clock? 🍷", "Nailed it! The PTA treasurer sheds a single tear of joy 😭✨"],
-  surplus:        ["SURPLUS! Treat yourselves, you earned it 🙌", "Extra money! New idea: teacher spa day 💆‍♀️"],
-  deep_red:       ["Yikes... the budget is not vibing 😬", "We may need a bake sale. Or ten. 🧁"],
-  impact_low:     ["Community impact dropping... the kids are watching 👀"],
-  donation_max:   ["$27K on Donation Drive?! You know some very generous people 💰😂"],
+  drop_gala:      ["Bold move... Gala moms have been notified 😬", "No more silent auction! The dads are devastated 🥲", "Gala is gone. Who's going to wear the fancy shoes now? 👠", "The event planner just closed 14 browser tabs 😮‍💨", "The charcuterie board has entered witness protection 🧀"],
+  restore_gala:   ["Gala is back! Start pressing your cocktail attire 🥂", "The decorator breathes again 🎊", "The silent auction items have been un-donated 🎁"],
+  drop_caminata:  ["No more walking in circles! (Literally) 🚶‍♀️", "The walkers have been stood down 🥾", "¡Ay, no Caminata! The snack tables weep 🌮", "The matching t-shirts will never be worn 😢👕", "Somewhere, a playlist titled 'Caminata Bangers' sits unopened 🎵"],
+  restore_caminata:["The walkers return! Dust off those sneakers 👟", "Caminata is back — someone tell the DJ 🎵", "The tamale ladies rejoice 🌮🎉"],
+  drop_donation:  ["Giving up on giving? Bold. 🤨", "The donation link has left the chat 📤", "Somewhere a Venmo handle weeps quietly 💸"],
+  restore_donation:["Donation drive is back! Time to send that email AGAIN 📧"],
+  drop_buyaspot:  ["Bye-bye buy-a-spot! Those classroom parents will never know 😅", "The teacher wish list lives on... in our hearts 💔"],
+  restore_buyaspot:["Buy-a-spot is back! Parents, prepare your wallets 💳"],
+  drop_corporate: ["Corporate matching dropped. CEOs across the valley untouched 💼", "LinkedIn has been notified. No one cared. 😐"],
+  restore_corporate:["Corporate matching is back! Time to shake hands with some executives 🤝"],
+  drop_merch:     ["No more merch! The spirit wear closet cries 👕😢", "The iron-on logo will never iron on 😔"],
+  restore_merch:  ["Merch is back! The Canva template has been reopened 🎨"],
+  drop_gendon:    ["General donations gone. Very brave. 😶"],
+  cut_art:        ["The art teacher has entered the chat 🎨😤", "No art? The hallways will be so... beige 🎨", "The clay projects will remain unfinished forever 🏺"],
+  cut_music:      ["No more bilingual singing! The K-1 kiddos are sad 🎶😢", "Los niños won't be singing together this year 🎵", "The tiny maracas rattle no more 🪇"],
+  cut_recess:     ["One less playground monitor... hope everyone plays nice 🤞", "The yard just got a little more chaotic 🏃‍♂️💨", "Someone's going to take someone else's ball. You know it. 😤"],
+  cut_science:    ["Future scientists: endangered 🔬", "Science cut! Bill Nye has been informed 😔", "The baking soda volcanoes erupt no more 🌋"],
+  cut_ga:         ["G&A cut! Truly living on the edge now 📎", "Somewhere, a receipt goes untracked 🧾"],
+  balanced:       ["BALANCED! Someone call the accountant! 🎉", "Budget goals achieved! Wine o'clock? 🍷", "Nailed it! The PTA treasurer sheds a single tear of joy 😭✨", "Even the spreadsheet is impressed 📊✨", "This is what peak HABLA performance looks like 💅"],
+  surplus:        ["SURPLUS! Treat yourselves, you earned it 🙌", "Extra money! New idea: teacher spa day 💆‍♀️", "Plot twist: we're rich (relatively speaking) 💰", "The treasurer is smiling. This is rare. Cherish it. 😊"],
+  deep_red:       ["Yikes... the budget is not vibing 😬", "We may need a bake sale. Or ten. 🧁", "The spreadsheet is sweating 📉😅", "This is fine. Everything is fine. 🔥"],
+  impact_low:     ["Community impact dropping... the kids are watching 👀", "The PTA guardian angel has left the building 😇"],
+  donation_max:   ["$27K on Donation Drive?! You know some very generous people 💰😂", "Who ARE these donors?! We love them. 😭💸"],
+  dare_drop:      ["Think you can balance it WITHOUT that? 😈 I dare you.", "One fundraiser down. Can you handle it? 🎲", "Bet you can't balance this now 😏"],
+  dare_cut:       ["Oops, a program just got cut. Budget harder. 😈", "One program gone. Still think you can do it? 🎲"],
+  persona_claudia:  ["Cautious Claudia has entered the building 🧘 Playing it safe!", "Claudia says: keep everything, expect little. Respect. 🙏"],
+  persona_sandra: ["Stretch Sandra is here to hit those approved targets 💪 Let's go!", "Sandra says: we CAN hit the August numbers. Believe! 📈"],
+  persona_gloria: ["Go Big Gloria has taken over the budget 🚀 No cuts. Max revenue. Chaos.", "Gloria doesn't believe in limits. Respect the energy. ✨"],
 };
 
 function roast(key) {
@@ -836,10 +951,31 @@ const MAX_IMPACT = Object.values(IMPACT_WEIGHTS).reduce((a,b)=>a+b,0);
 
 // Effort hours per fundraiser
 const EFFORT_HOURS = {
-  gala:40, caminata:30, donation:5, buyaspot:8,
-  corporate:3, merch:6, gendon:2,
+  gala: 150,       // 3 leads × ~50hrs, 16 weeks of planning meetings
+  caminata: 130,   // 3 leads + coordination of 50 day-of volunteers
+  donation: 18,    // 2 people, 2-week concentrated window
+  corporate: 8,    // HABLA-side admin only
+  gendon: 3,       // Passive — link maintenance + 1 mention
+  // buyaspot & merch are dynamic — see calcEffort()
 };
-const MAX_EFFORT = Object.values(EFFORT_HOURS).reduce((a,b)=>a+b,0);
+
+// Buy-a-spot: ~10 hrs/event, scales with revenue
+function buyaspotEffortHrs() {
+  if (buyaspotRev <= 1000)  return 20;
+  if (buyaspotRev <= 3000)  return 35;
+  if (buyaspotRev <= 5000)  return 50;
+  if (buyaspotRev <= 8000)  return 65;
+  return 85; // $10k–$12k
+}
+
+// Merch: ~6 hrs fixed (design + setup) + scales with revenue
+function merchEffortHrs() {
+  if (merchRev <= 1000) return 8;
+  if (merchRev <= 3000) return 12;
+  return 16; // $5k stretch
+}
+
+const MAX_EFFORT = 150 + 130 + 18 + 8 + 3 + 85 + 16; // all at max
 
 const STATUS_LEVELS = [
   { threshold: -40000, cls:'danger',  emoji:'🚨', msg:'Major shortfall — big decisions needed' },
@@ -871,7 +1007,10 @@ function calcImpact() {
 function calcEffort() {
   let hrs = 0;
   FUNDRAISERS.forEach(f => {
-    if (!dropped.has(f.key)) hrs += (EFFORT_HOURS[f.key] || 0);
+    if (dropped.has(f.key)) return;
+    if (f.key === 'buyaspot') hrs += buyaspotEffortHrs();
+    else if (f.key === 'merch') hrs += merchEffortHrs();
+    else hrs += (EFFORT_HOURS[f.key] || 0);
   });
   return hrs;
 }
@@ -927,11 +1066,14 @@ function updateGame(net) {
 
   // Effort score
   const hrs = calcEffort();
-  const effortPct = Math.round((hrs / MAX_EFFORT) * 100);
+  const effortPct = Math.min(100, Math.round((hrs / MAX_EFFORT) * 100));
   document.getElementById('sc-effort').textContent = hrs + ' hrs';
   document.getElementById('sc-effort-bar').style.width = effortPct + '%';
-  document.getElementById('sc-effort-bar').style.background = hrs <= 20 ? '#1d9e75' : hrs <= 50 ? '#ba7517' : '#d85a30';
-  document.getElementById('sc-effort-sub').textContent = hrs <= 20 ? 'Light load' : hrs <= 50 ? 'Manageable' : 'Heavy lift';
+  document.getElementById('sc-effort-bar').style.background = hrs <= 50 ? '#1d9e75' : hrs <= 150 ? '#ba7517' : '#d85a30';
+  document.getElementById('sc-effort-sub').textContent = hrs <= 50 ? 'Light load 🌿'
+    : hrs <= 150 ? 'Manageable — across your whole team 💪'
+    : 'Heavy lift — ' + hrs + ' hrs across your whole team 😮‍💨';
+  updateEffortBreakdown();
 }
 
 function setFrRev(key, val, chipEl) {
@@ -941,6 +1083,220 @@ function setFrRev(key, val, chipEl) {
   if (key === 'corporate') corporateRev = val;
   soundCoin();
   renderFrList(); update();
+}
+
+
+
+// ── SHARE SCENARIO ────────────────────────────────────────────────────────────
+function buildShareURL() {
+  const params = new URLSearchParams();
+  if (dropped.size) params.set('drop', [...dropped].join(','));
+  const cuts = Object.keys(toggleCuts);
+  if (cuts.length) params.set('cut', cuts.join(','));
+  if (donationRev  !== 7000)  params.set('don', donationRev);
+  if (buyaspotRev  !== 5000)  params.set('bas', buyaspotRev);
+  if (merchRev     !== 1000)  params.set('mer', merchRev);
+  if (corporateRev !== 7000)  params.set('cor', corporateRev);
+  // Only encode sliders that differ from max
+  const slidDiffs = [];
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
+    if ((sliderVals[i.key]||0) !== i.max) slidDiffs.push(i.key + ':' + sliderVals[i.key]);
+  }));
+  if (slidDiffs.length) params.set('sl', slidDiffs.join(','));
+  const base = window.location.href.split('?')[0];
+  return params.toString() ? base + '?' + params.toString() : base;
+}
+
+function shareScenario() {
+  const url = buildShareURL();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Link copied! Send it to your co-conspirators 📋');
+      soundChing();
+      const btn = document.getElementById('share-btn');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => btn.textContent = '🔗 Share', 2500);
+    });
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+function loadFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.toString()) return;
+
+  if (params.get('drop')) params.get('drop').split(',').forEach(k => dropped.add(k));
+  if (params.get('cut'))  params.get('cut').split(',').forEach(k => {
+    const el = document.querySelector(`.tog-item[data-key="${k}"]`);
+    if (el) { toggleCuts[k] = parseInt(el.dataset.amt); el.classList.add('selected'); el.querySelector('.chk').textContent = '✗'; }
+  });
+  if (params.get('don')) donationRev  = parseInt(params.get('don'));
+  if (params.get('bas')) buyaspotRev  = parseInt(params.get('bas'));
+  if (params.get('mer')) merchRev     = parseInt(params.get('mer'));
+  if (params.get('cor')) corporateRev = parseInt(params.get('cor'));
+  if (params.get('sl')) params.get('sl').split(',').forEach(pair => {
+    const [key, val] = pair.split(':');
+    sliderVals[key] = parseInt(val);
+    const sl = document.getElementById('sl-' + key);
+    if (sl) sl.value = val;
+  });
+
+  showToast('Scenario loaded from shared link 🔗');
+  renderFrList(); renderSliders(); update();
+}
+
+
+// ── EFFORT BREAKDOWN ─────────────────────────────────────────────────────────
+function toggleEffortBreakdown() {
+  const el = document.getElementById('effort-breakdown');
+  const btn = document.getElementById('effort-toggle-btn');
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '▶ see breakdown' : '▼ hide breakdown';
+}
+
+function updateEffortBreakdown() {
+  const rows = document.getElementById('effort-breakdown-rows');
+  const totalEl = document.getElementById('effort-breakdown-total');
+  if (!rows) return;
+  let html = '';
+  let total = 0;
+  FUNDRAISERS.forEach(f => {
+    const isDrop = dropped.has(f.key);
+    let hrs = 0;
+    if (!isDrop) {
+      if (f.key === 'buyaspot') hrs = buyaspotEffortHrs();
+      else if (f.key === 'merch') hrs = merchEffortHrs();
+      else hrs = EFFORT_HOURS[f.key] || 0;
+      total += hrs;
+    }
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:0.5px solid #f0efe9;font-size:11px;' + (isDrop ? 'opacity:.4;' : '') + '">';
+    html += '<span style="color:#1a1a18;">' + f.name + (isDrop ? ' <span style="font-size:10px;color:#993c1d;">(dropped)</span>' : '') + '</span>';
+    html += '<span style="font-weight:500;color:' + (isDrop ? '#b4b2a9' : '#1a1a18') + ';">' + (isDrop ? '—' : hrs + ' hrs') + '</span>';
+    html += '</div>';
+  });
+  rows.innerHTML = html;
+  if (totalEl) totalEl.textContent = total + ' hrs';
+}
+
+// ── HOROSCOPE ────────────────────────────────────────────────────────────────
+const HOROSCOPES = {
+  danger: [
+    "Mercury is in retrograde and so is your budget. Light a candle. 🕯️",
+    "The stars see struggle ahead. Also, you dropped the Gala. These are related. ✨",
+    "Jupiter says: host more fundraisers. Jupiter has spoken. 🪐",
+    "Your financial aura is deeply crimson. This is not a vibe. 🔴",
+    "The moon is full. So is the deficit. Coincidence? Probably. 🌕",
+    "Venus says you need more revenue. Venus is right. 💫",
+  ],
+  warning: [
+    "The stars sense progress, but also the faint smell of a bake sale. 🧁",
+    "You are close. The universe is rooting for you. So is the treasurer. 🌟",
+    "A financial breakthrough approaches. Have you tried adding a fundraiser? 🔮",
+    "Mercury says: a few more tweaks and you're golden. Mercury is optimistic today. ✨",
+    "The cosmic accountant squints at your numbers. Almost. Almost. 🌙",
+  ],
+  success: [
+    "The stars are aligned. The budget is balanced. All is well. ✨🌟",
+    "Your financial chakras are fully unblocked. Namaste. 🧘‍♀️💰",
+    "The universe rewards your fiscal discipline with surplus energy. 🚀",
+    "Saturn, the planet of responsibility, gives you a standing ovation. 🪐👏",
+    "This budget is written in the stars. Framed. On the treasurer's wall. 🖼️✨",
+    "Astrologers confirm: this is the most balanced chart they've ever seen. 📊🌟",
+  ],
+};
+
+function updateHoroscope(net) {
+  const pool = net < -10000 ? HOROSCOPES.danger : net < 0 ? HOROSCOPES.warning : HOROSCOPES.success;
+  const el = document.getElementById('horoscope-text');
+  if (!el._lastNet || Math.abs(el._lastNet - net) > 2000) {
+    el.textContent = pool[Math.floor(Math.random() * pool.length)];
+    el._lastNet = net;
+  }
+}
+
+// ── PERSONAS ─────────────────────────────────────────────────────────────────
+function loadPersona(name) {
+  // Reset first
+  dropped.clear();
+  for (const k in toggleCuts) delete toggleCuts[k];
+  document.querySelectorAll('.tog-item.selected').forEach(el => {
+    el.classList.remove('selected'); el.querySelector('.chk').textContent = '✓';
+  });
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
+    sliderVals[i.key] = i.max;
+    const sl = document.getElementById('sl-'+i.key);
+    if (sl) sl.value = i.max;
+  }));
+
+  if (name === 'claudia') {
+    // Conservative: low revenue targets, keep all programs
+    donationRev = 7000; buyaspotRev = 1000; merchRev = 1000; corporateRev = 7000;
+    roast('persona_claudia');
+  } else if (name === 'sandra') {
+    // Stretch: approved August targets
+    donationRev = 20000; buyaspotRev = 8000; merchRev = 3000; corporateRev = 10000;
+    roast('persona_sandra');
+  } else if (name === 'gloria') {
+    // Go big: max everything
+    donationRev = 27000; buyaspotRev = 12000; merchRev = 4000; corporateRev = 12000;
+    roast('persona_gloria');
+  }
+  soundFanfare();
+  renderFrList(); renderSliders(); update();
+}
+
+// ── DARE ME ───────────────────────────────────────────────────────────────────
+let dareState = null;
+
+function dareMe() {
+  // Undo previous dare first
+  if (dareState) undare(true);
+
+  const fixedKeys = ['art','recess','science','music','ga'];
+  const activeFr  = FUNDRAISERS.filter(f => !dropped.has(f.key));
+  const options   = [];
+
+  // Option: drop a random active fundraiser
+  activeFr.forEach(f => options.push({ type:'drop', key:f.key }));
+  // Option: cut a random unkept fixed expense
+  fixedKeys.forEach(k => { if (!toggleCuts[k]) options.push({ type:'cut', key:k }); });
+
+  if (options.length === 0) { showToast("Nothing left to cut! You've already gone full chaos 😈"); return; }
+
+  const pick = options[Math.floor(Math.random() * options.length)];
+  dareState = pick;
+  document.getElementById('undare-btn').style.display = '';
+
+  if (pick.type === 'drop') {
+    dropped.add(pick.key);
+    soundSadTrombone();
+    roast('dare_drop');
+    renderFrList();
+  } else {
+    const el = document.querySelector(`.tog-item[data-key="${pick.key}"]`);
+    if (el) { toggleCuts[pick.key] = parseInt(el.dataset.amt); el.classList.add('selected'); el.querySelector('.chk').textContent = '✗'; }
+    soundBloop();
+    roast('dare_cut');
+  }
+  update();
+}
+
+function undare(silent) {
+  if (!dareState) return;
+  if (dareState.type === 'drop') {
+    dropped.delete(dareState.key);
+    renderFrList();
+  } else {
+    delete toggleCuts[dareState.key];
+    const el = document.querySelector(`.tog-item[data-key="${dareState.key}"]`);
+    if (el) { el.classList.remove('selected'); el.querySelector('.chk').textContent = '✓'; }
+  }
+  dareState = null;
+  document.getElementById('undare-btn').style.display = 'none';
+  if (!silent) { soundPop(); showToast('Dare undone — phew! 😅'); }
+  update();
 }
 
 // Re-render fundraiser list when crossing mobile breakpoint
@@ -953,6 +1309,7 @@ window.addEventListener('resize', () => {
 renderFrList();
 renderSliders();
 update();
+loadFromURL();
 
 // ── MOBILE ACCORDIONS ────────────────────────────────────────────────────────
 function initAccordions() {
@@ -1024,52 +1381,72 @@ function sendToTreasurer() {
 
   // Populate print view
   const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
-  document.getElementById('pv-meta').textContent = 'Submitted by ' + name + '  ·  ' + now;
+  document.getElementById('pv-meta').innerHTML = '<strong>' + name + '</strong><br>' + now;
+  document.getElementById('pv-footer-date').textContent = now;
   document.getElementById('pv-rev').textContent = fmt(totalRev);
   document.getElementById('pv-exp').textContent = fmt(totalExp);
   const pvNet = document.getElementById('pv-net');
   pvNet.textContent = fmt(net); pvNet.className = 'v ' + (net>=0?'pos':'neg');
+  const pvStatus = document.getElementById('pv-status');
+  pvStatus.textContent = net >= 1000 ? '✅ Surplus' : net >= 0 ? '🎉 Balanced' : net >= -5000 ? '🤔 Nearly there' : net >= -15000 ? '😬 Gap to close' : '🚨 Major shortfall';
+  pvStatus.className = 'v ' + (net>=0?'pos':'neg');
 
   // Fundraisers
-  let frHtml = '';
+  let frHtml = '', frRevTotal = 0, frCostTotal = 0;
+  const revOvrPV = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
   FUNDRAISERS.forEach(f => {
     const isDrop = dropped.has(f.key);
+    const rev = revOvrPV[f.key] !== undefined ? revOvrPV[f.key] : f.rev;
+    if (!isDrop) { frRevTotal += rev; frCostTotal += f.cost; }
     frHtml += '<div class="pv-row' + (isDrop?' dropped':'') + '">';
-    frHtml += '<span class="label">' + f.name + (isDrop?' (dropped)':'') + '</span>';
-    if (!isDrop) frHtml += '<span class="amount">' + fmt(f.rev) + ' / cost ' + (f.cost>0?fmt(f.cost):'—') + '</span>';
+    frHtml += '<span class="label">' + f.name + '</span>';
+    if (!isDrop) {
+      frHtml += '<span class="amount">' + fmt(rev - f.cost) + '</span>';
+    } else {
+      frHtml += '<span class="amount" style="color:#bbb;font-size:10px;">dropped</span>';
+    }
     frHtml += '</div>';
   });
   document.getElementById('pv-fundraisers').innerHTML = frHtml;
+  document.getElementById('pv-fr-total').innerHTML = '<span>Net fundraising</span><span>' + fmt(frRevTotal - frCostTotal) + '</span>';
 
   // Fixed expenses
   const fixedNames = { art:'Art program', recess:'Recess support', science:'Science workshops', music:'Music program', ga:'G&A expenses' };
   const fixedAmts  = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
-  let fixHtml = '';
+  let fixHtml = '', fixTotal = 0;
   Object.keys(fixedNames).forEach(k => {
     const isCut = !!toggleCuts[k];
+    const amt = isCut ? 0 : fixedAmts[k];
+    fixTotal += amt;
     fixHtml += '<div class="pv-row' + (isCut?' cut':'') + '">';
-    fixHtml += '<span class="label">' + fixedNames[k] + (isCut?' (cut)':'') + '</span>';
-    fixHtml += '<span class="amount">' + (isCut?'$0':fmt(fixedAmts[k])) + '</span>';
+    fixHtml += '<span class="label">' + fixedNames[k] + '</span>';
+    fixHtml += '<span class="amount">' + (isCut ? '<span style="color:#bbb;font-size:10px;">cut</span>' : fmt(amt)) + '</span>';
     fixHtml += '</div>';
   });
   document.getElementById('pv-fixed').innerHTML = fixHtml;
+  document.getElementById('pv-fix-total').innerHTML = '<span>Total fixed</span><span>' + fmt(fixTotal) + '</span>';
 
   // Variable expenses
-  let varHtml = '';
+  let varHtml = '', varTotal = 0;
   SLIDER_GROUPS.forEach(g => {
-    varHtml += '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#888;margin:8px 0 3px;">' + g.label + '</div>';
+    let groupTotal = 0;
+    let groupHtml = '';
     g.items.forEach(i => {
       const mult = i.multiplier || 1;
       const cur  = sliderVals[i.key] || 0;
       const total = cur * mult, maxTotal = i.max * mult, saving = maxTotal - total;
-      varHtml += '<div class="pv-row">';
-      varHtml += '<span class="label">' + i.name + (mult>1 ? ' (' + fmt(cur) + (i.unit||'') + ')' : '') + '</span>';
-      varHtml += '<span class="amount">' + fmt(total);
-      if (saving > 0) varHtml += ' <span class="saving">-' + fmt(saving) + '</span>';
-      varHtml += '</span></div>';
+      groupTotal += total; varTotal += total;
+      groupHtml += '<div class="pv-row">';
+      groupHtml += '<span class="label">' + i.name + '</span>';
+      groupHtml += '<span class="amount">' + fmt(total);
+      if (saving > 0) groupHtml += ' <span class="saving">−' + fmt(saving) + '</span>';
+      groupHtml += '</span></div>';
     });
+    varHtml += '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin:10px 0 3px;padding-top:4px;border-top:0.5px solid #e8e8e8;">' + g.label + '</div>';
+    varHtml += groupHtml;
   });
   document.getElementById('pv-variable').innerHTML = varHtml;
+  document.getElementById('pv-var-total').innerHTML = '<span>Total variable</span><span>' + fmt(varTotal) + '</span>';
 
   // Notes
   document.getElementById('pv-notes').textContent = notes || '(no notes provided)';
@@ -1085,28 +1462,42 @@ function sendToTreasurer() {
 </script>
 
 <div id="print-view">
-  <div class="pv-title">HABLA at River Glen — FY2027 Budget Scenario</div>
-  <div class="pv-sub" id="pv-meta"></div>
-  <div class="pv-grid">
-    <div class="pv-metric"><label>Revenue</label><div class="v" id="pv-rev"></div></div>
-    <div class="pv-metric"><label>Expenses</label><div class="v" id="pv-exp"></div></div>
+  <div class="pv-header-band">
+    <div>
+      <div class="pv-title">HABLA at River Glen — FY2027 Budget Scenario</div>
+      <div class="pv-sub">FY2027 (Jul 2026 – Jun 2027) &nbsp;·&nbsp; Cash basis &nbsp;·&nbsp; Internal planning</div>
+    </div>
+    <div class="pv-meta-right" id="pv-meta"></div>
+  </div>
+  <div class="pv-summary">
+    <div class="pv-metric"><label>Total Revenue</label><div class="v" id="pv-rev"></div></div>
+    <div class="pv-metric"><label>Total Expenses</label><div class="v" id="pv-exp"></div></div>
     <div class="pv-metric"><label>Net</label><div class="v" id="pv-net"></div></div>
+    <div class="pv-metric"><label>Status</label><div class="v" id="pv-status" style="font-size:13px;"></div></div>
   </div>
   <div class="pv-cols">
     <div>
       <div class="pv-h2">Fundraisers</div>
       <div id="pv-fundraisers"></div>
-      <div class="pv-h2" style="margin-top:1rem;">Fixed expenses</div>
+      <div id="pv-fr-total" class="pv-row-total"></div>
+    </div>
+    <div>
+      <div class="pv-h2">Fixed expenses</div>
       <div id="pv-fixed"></div>
+      <div id="pv-fix-total" class="pv-row-total"></div>
     </div>
     <div>
       <div class="pv-h2">Variable expenses</div>
       <div id="pv-variable"></div>
+      <div id="pv-var-total" class="pv-row-total"></div>
     </div>
   </div>
-  <div class="pv-h2">Notes &amp; recommendations</div>
+  <div class="pv-notes-label">Notes &amp; recommendations</div>
   <div class="pv-notes" id="pv-notes"></div>
-  <div class="pv-footer">HABLA at River Glen &nbsp;·&nbsp; FY2027 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</div>
+  <div class="pv-footer">
+    <span>HABLA at River Glen &nbsp;·&nbsp; FY2027 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</span>
+    <span id="pv-footer-date"></span>
+  </div>
 </div>
 </body>
 </html>
