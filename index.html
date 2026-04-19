@@ -71,20 +71,33 @@ header p  { font-size: 12px; color: #888780; margin-top: 2px; }
 .drop-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: #faece7; color: #993c1d; margin-left: auto; }
 .keep-badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: #e1f5ee; color: #0f6e56; margin-left: auto; }
 
+.chip-group { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.chip {
+  flex: 1; min-width: 0; padding: 6px 4px; border-radius: 8px; border: 0.5px solid #d3d1c7;
+  background: #f5f4f0; font-size: 12px; color: #5f5e5a; text-align: center;
+  cursor: pointer; user-select: none; transition: background .1s, border-color .1s, color .1s;
+  white-space: nowrap;
+}
+.chip:hover { background: #eceae4; }
+.chip.active { background: #e1f5ee; border-color: #5dcaa5; color: #0f6e56; font-weight: 500; }
+.chip-label { font-size: 10px; color: #b4b2a9; margin-top: 5px; display: flex; justify-content: space-between; }
+
 .tog-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 7px 11px; border-radius: 8px; border: 0.5px solid #d3d1c7;
+  padding: 7px 11px; border-radius: 8px; border: 0.5px solid #5dcaa5;
   margin-bottom: 5px; cursor: pointer; user-select: none; transition: background .1s;
+  background: #e1f5ee;
 }
-.tog-item:hover { background: #f5f4f0; }
+.tog-item:hover { background: #d0f0e4; }
 .tog-item.selected { background: #fef3f1; border-color: #f0997b; }
-.tog-item .tn { font-size: 13px; color: #1a1a18; display: flex; align-items: center; gap: 8px; }
+.tog-item .tn { font-size: 13px; color: #0f6e56; display: flex; align-items: center; gap: 8px; }
 .tog-item.selected .tn { color: #993c1d; text-decoration: line-through; }
-.tog-item .ta { font-size: 13px; font-weight: 500; color: #888780; }
+.tog-item .ta { font-size: 13px; font-weight: 500; color: #0f6e56; }
 .tog-item.selected .ta { color: #993c1d; }
 .chk {
-  width: 14px; height: 14px; border-radius: 3px; border: 0.5px solid #b4b2a9;
+  width: 14px; height: 14px; border-radius: 3px; border: 0.5px solid #0f6e56;
   display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: #fff;
+  background: #0f6e56;
 }
 .tog-item.selected .chk { background: #993c1d; border-color: #993c1d; }
 
@@ -322,12 +335,12 @@ footer {
     <div class="card">
       <span class="sec-label">Fixed expenses — click to cut entirely</span>
       <span class="sub-label">Essential programs</span>
-      <div class="tog-item" data-key="art"     data-amt="15900" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Art program</span><span class="ta">$15,900</span></div>
-      <div class="tog-item" data-key="recess"  data-amt="14950" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Recess support</span><span class="ta">$14,950</span></div>
-      <div class="tog-item" data-key="science" data-amt="21000" onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Science workshops</span><span class="ta">$21,000</span></div>
-      <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>Music program</span><span class="ta">$1,800</span></div>
+      <div class="tog-item" data-key="art"     data-amt="15900" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Art program</span><span class="ta">$15,900</span></div>
+      <div class="tog-item" data-key="recess"  data-amt="14950" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Recess support</span><span class="ta">$14,950</span></div>
+      <div class="tog-item" data-key="science" data-amt="21000" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Science workshops</span><span class="ta">$21,000</span></div>
+      <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Music program</span><span class="ta">$1,800</span></div>
       <span class="sub-label">Overhead</span>
-      <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk"></span>G&amp;A expenses</span><span class="ta">$6,259</span></div>
+      <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>G&amp;A expenses</span><span class="ta">$6,259</span></div>
     </div>
 
     <div class="card">
@@ -484,29 +497,44 @@ function renderFrList() {
     el.className = 'fr-card' + (isDrop ? ' dropped' : '');
 
     const sliderCfg = {
-      donation: { label:'Revenue target', varName:'donationRev', id:'don-rev-val', slid:'sl-donrev', min:7000,  max:27000, step:500,  cur:donationRev },
-      buyaspot: { label:'Revenue target', varName:'buyaspotRev', id:'bas-rev-val', slid:'sl-basrev', min:1000,  max:12000, step:500,  cur:buyaspotRev },
-      merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:0,     max:4000,  step:100,  cur:merchRev    },
+      donation: { label:'Revenue target', varName:'donationRev', id:'don-rev-val', slid:'sl-donrev', min:7000, max:27000, step:500, cur:donationRev,
+                  chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'likely'},{val:15000,label:'$15k',sub:'stretch'},{val:20000,label:'$20k',sub:'really stretch'},{val:27000,label:'$27k',sub:'top'}] },
+      buyaspot: { label:'Revenue target', varName:'buyaspotRev', id:'bas-rev-val', slid:'sl-basrev', min:1000, max:12000, step:500, cur:buyaspotRev,
+                  chips:[{val:1000,label:'$1k',sub:'low'},{val:5000,label:'$5k',sub:'likely'},{val:8000,label:'$8k',sub:'strong'},{val:12000,label:'$12k',sub:'approved'}] },
+      merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:0,    max:4000,  step:100, cur:merchRev,
+                  chips:[{val:1000,label:'$1k',sub:'start'},{val:2000,label:'$2k',sub:'likely'},{val:3000,label:'$3k',sub:'target'},{val:4000,label:'$4k',sub:'stretch'}] },
     };
+    const isMobile = window.innerWidth <= 760;
     let extra = '';
     if (sliderCfg[f.key]) {
       const c = sliderCfg[f.key];
-      extra = `
-        <div style="margin-top:8px;" onclick="event.stopPropagation()">
-          <div style="display:flex;justify-content:space-between;font-size:11px;color:#888780;margin-bottom:3px;">
-            <span>${c.label}</span>
-            <span id="${c.id}">$${c.cur.toLocaleString()}</span>
-          </div>
-          <input type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.cur}" id="${c.slid}"
-            style="width:100%;" onclick="event.stopPropagation()"
-            oninput="event.stopPropagation(); ${c.varName}=parseInt(this.value);
-              document.getElementById('${c.id}').textContent='$'+${c.varName}.toLocaleString();
-              if(donationRev===27000) roast('donation_max');
-              renderFrList(); update();">
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:#b4b2a9;margin-top:2px;">
-            <span>$${c.min.toLocaleString()}</span><span>$${c.max.toLocaleString()}</span>
-          </div>
-        </div>`;
+      if (isMobile) {
+        const chipsHtml = c.chips.map(ch =>
+          `<div class="chip${ch.val===c.cur?' active':''}" onclick="event.stopPropagation();setFrRev('${f.key}',${ch.val},this)">${ch.label}<div style="font-size:10px;opacity:.7">${ch.sub}</div></div>`
+        ).join('');
+        extra = `
+          <div style="margin-top:8px;" onclick="event.stopPropagation()">
+            <div style="font-size:11px;color:#888780;margin-bottom:5px;">${c.label}: <strong id="${c.id}">$${c.cur.toLocaleString()}</strong></div>
+            <div class="chip-group">${chipsHtml}</div>
+          </div>`;
+      } else {
+        extra = `
+          <div style="margin-top:8px;" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#888780;margin-bottom:3px;">
+              <span>${c.label}</span>
+              <span id="${c.id}">$${c.cur.toLocaleString()}</span>
+            </div>
+            <input type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.cur}" id="${c.slid}"
+              style="width:100%;" onclick="event.stopPropagation()"
+              oninput="event.stopPropagation(); ${c.varName}=parseInt(this.value);
+                document.getElementById('${c.id}').textContent='$'+${c.varName}.toLocaleString();
+                if(donationRev===27000) roast('donation_max');
+                renderFrList(); update();">
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#b4b2a9;margin-top:2px;">
+              <span>$${c.min.toLocaleString()}</span><span>$${c.max.toLocaleString()}</span>
+            </div>
+          </div>`;
+      }
     }
 
     el.innerHTML = `
@@ -580,10 +608,10 @@ function onSlide(key, max, rawVal, mult, unit) {
 function toggleCut(el) {
   const key = el.dataset.key, amt = parseInt(el.dataset.amt);
   if (toggleCuts[key]) {
-    delete toggleCuts[key]; el.classList.remove('selected'); el.querySelector('.chk').textContent = '';
+    delete toggleCuts[key]; el.classList.remove('selected'); el.querySelector('.chk').textContent = '✓';
     soundPop();
   } else {
-    toggleCuts[key] = amt; el.classList.add('selected'); el.querySelector('.chk').textContent = '✓';
+    toggleCuts[key] = amt; el.classList.add('selected'); el.querySelector('.chk').textContent = '✗';
     soundBloop(); roast('cut_' + key);
   }
   update();
@@ -596,7 +624,7 @@ function resetAll() {
   merchRev = 1000;
   for (const k in toggleCuts) delete toggleCuts[k];
   document.querySelectorAll('.tog-item.selected').forEach(el => {
-    el.classList.remove('selected'); el.querySelector('.chk').textContent = '';
+    el.classList.remove('selected'); el.querySelector('.chk').textContent = '✓';
   });
   SLIDER_GROUPS.forEach(g => g.items.forEach(i => {
     sliderVals[i.key] = i.max;
@@ -901,6 +929,21 @@ function updateGame(net) {
   document.getElementById('sc-effort-bar').style.background = hrs <= 20 ? '#1d9e75' : hrs <= 50 ? '#ba7517' : '#d85a30';
   document.getElementById('sc-effort-sub').textContent = hrs <= 20 ? 'Light load' : hrs <= 50 ? 'Manageable' : 'Heavy lift';
 }
+
+function setFrRev(key, val, chipEl) {
+  if (key === 'donation') { donationRev = val; if (val === 27000) roast('donation_max'); }
+  if (key === 'buyaspot') buyaspotRev = val;
+  if (key === 'merch')    merchRev = val;
+  soundCoin();
+  renderFrList(); update();
+}
+
+// Re-render fundraiser list when crossing mobile breakpoint
+let _lastMobile = window.innerWidth <= 760;
+window.addEventListener('resize', () => {
+  const nowMobile = window.innerWidth <= 760;
+  if (nowMobile !== _lastMobile) { _lastMobile = nowMobile; renderFrList(); }
+});
 
 renderFrList();
 renderSliders();
