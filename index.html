@@ -458,10 +458,10 @@ footer {
     <div class="card">
       <span class="sec-label">Fixed expenses — click to cut entirely</span>
       <span class="sub-label">Essential programs</span>
-      <div class="tog-item" data-key="art"     data-amt="15900" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Art program</span><span class="ta">$15,900</span></div>
-      <div class="tog-item" data-key="recess"  data-amt="14950" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Recess support</span><span class="ta">$14,950</span></div>
-      <div class="tog-item" data-key="science" data-amt="21000" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Science workshops</span><span class="ta">$21,000</span></div>
-      <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Music program</span><span class="ta">$1,800</span></div>
+      <div class="tog-item" data-key="art"     data-amt="15900" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Art program</span><span class="ta">$15,900</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">K–8 program — HABLA covers half; school funds the other half via Prop 28</div>
+      <div class="tog-item" data-key="recess"  data-amt="14950" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Recess support</span><span class="ta">$14,950</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">Structured recess & lunch supervision (10:30am–2pm) — sportsmanship, teamwork & resilience. School contributes $12,650; HABLA covers $14,950</div>
+      <div class="tog-item" data-key="science" data-amt="21100" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Science workshops</span><span class="ta">$21,100</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">7 workshops for K–8 + $100 teacher appreciation gift</div>
+      <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Music program</span><span class="ta">$1,800</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">$600 Buy-a-Spot event + $1,200 content development. School funds 28 weeks of instruction ($12,600) via Prop 28</div>
       <span class="sub-label">Overhead</span>
       <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>G&amp;A expenses</span><span class="ta">$6,259</span></div>
     </div>
@@ -665,7 +665,7 @@ let donationRev = 8000;
 let buyaspotRev = 5000;
 let merchRev = 1000;
 let corporateRev = 7000;
-const FIXED_DEFAULTS = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
+const FIXED_DEFAULTS = { art:15900, recess:14950, science:21100, music:1800, ga:6259 };
 const BASE_NON_FR_REV = 0;
 
 const dropped = new Set();
@@ -1625,7 +1625,7 @@ function sendToTreasurer() {
 
   // Fixed expenses
   const fixedNames = { art:'Art program', recess:'Recess support', science:'Science workshops', music:'Music program', ga:'G&A expenses' };
-  const fixedAmts  = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
+  const fixedAmts  = { art:15900, recess:14950, science:21100, music:1800, ga:6259 };
   let fixHtml = '', fixTotal = 0;
   Object.keys(fixedNames).forEach(k => {
     const isCut = !!toggleCuts[k];
