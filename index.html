@@ -383,14 +383,7 @@ footer {
   </div>
 </header>
 
-<div style="max-width:1160px;margin:0 auto 1.25rem;border-radius:10px;overflow:hidden;border:0.5px solid #fac775;">
-  <div style="background:#faeeda;padding:11px 16px;font-size:13px;color:#633806;line-height:1.6;">
-    <strong style="font-weight:500;">&#9888;&#xFE0E; Note on revenue assumptions:</strong> This planner uses more conservative revenue targets than the budget approved in August 2025. Gala ($51,400 vs. $61,400 approved), Donation Drive ($7,000 vs. $20,000), Buy-a-spot ($5,000 vs. $12,000), and Merchandise ($1,000 vs. $4,000) are all set lower — about $31,000 less in total. That's why the starting position shows a deficit. Use the fundraiser sliders to explore what happens if we hit the August-approved targets.
-  </div>
-  <div style="background:#fff8ee;padding:11px 16px;font-size:13px;color:#633806;line-height:1.6;border-top:0.5px solid #fac775;">
-    <strong style="font-weight:500;">&#9432;&#xFE0E; One-time FY2026 expenses not included:</strong> ADTLE teacher conference, Theater program subsidy, and Field trips have been removed as they were one-time investments not expected to recur. Middle school learning opportunities has been reduced from $9,624 to $4,716 for the same reason.
-  </div>
-</div>
+
 <div class="layout">
 
   <div class="left-panel">
@@ -428,8 +421,8 @@ footer {
 
     <span class="sec-label" style="margin-top:4px;">Pick a persona</span>
     <div class="persona-row">
-      <div class="persona-btn" onclick="loadPersona('claudia')" title="Conservative revenue, all programs kept"><span class="pb-emoji">🧘</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
-      <div class="persona-btn" onclick="loadPersona('sandra')" title="Hit approved revenue targets"><span class="pb-emoji">💪</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">approved targets</span></div>
+      <div class="persona-btn" onclick="loadPersona('claudia')" title="Conservative revenue, all programs kept"><span class="pb-emoji">🌿</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
+      <div class="persona-btn" onclick="loadPersona('sandra')" title="Hit approved revenue targets"><span class="pb-emoji">📈</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">approved targets</span></div>
       <div class="persona-btn" onclick="loadPersona('gloria')" title="Max everything, cut nothing"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
     </div>
 
@@ -494,17 +487,24 @@ footer {
     </div>
 
     <div class="divider"></div>
-    <p style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:7px;">Not included in this model</p>
-    <div style="border:0.5px solid #d3d1c7;border-radius:8px;padding:10px 12px;font-size:12px;color:#5f5e5a;line-height:1.7;">
-      <p style="margin-bottom:6px;"><strong style="font-weight:500;">Yearbook</strong> — treated as break-even. Income ($7,000) and expense ($7,001) net to ~$0 and are excluded from both sides.</p>
-      <p style="margin-bottom:6px;"><strong style="font-weight:500;">Baile de los Muertos</strong> — community event, break-even by design. Income ($4,000) and cost ($4,000) excluded from both sides.</p>
-      <p><strong style="font-weight:500;">RG Food Drive</strong> — a restricted fund with donations that can only be used for the food drive.</p>
-
+    <div style="border:0.5px solid #d3d1c7;border-radius:9px;overflow:hidden;">
+      <div onclick="toggleAssumptions()" style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;cursor:pointer;user-select:none;background:#f5f4f0;">
+        <span style="font-size:11px;font-weight:500;color:#5f5e5a;">ℹ️ Assumptions &amp; notes</span>
+        <span id="assumptions-arrow" style="font-size:11px;color:#888780;transition:transform .2s;">▶</span>
+      </div>
+      <div id="assumptions-body" style="display:none;padding:10px 12px;font-size:12px;color:#5f5e5a;line-height:1.7;border-top:0.5px solid #d3d1c7;">
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#b4b2a9;margin-bottom:6px;">Revenue assumptions</p>
+        <p style="margin-bottom:8px;">This planner uses more conservative revenue targets than the budget approved in August 2025. Gala ($51,400 vs. $61,400), Donation Drive ($7,000 vs. $20,000), Buy-a-spot ($5,000 vs. $12,000), and Merchandise ($1,000 vs. $4,000) — about $31,000 less in total. Use the revenue controls to explore hitting the approved targets.</p>
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#b4b2a9;margin-bottom:6px;">One-time FY2026 expenses not included</p>
+        <p style="margin-bottom:8px;">ADTLE teacher conference, Theater program subsidy, and Field trips have been removed as one-time investments. Middle school learning opportunities reduced from $9,624 to $4,716 for the same reason.</p>
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#b4b2a9;margin-bottom:6px;">Not included in this model</p>
+        <p style="margin-bottom:4px;"><strong style="font-weight:500;">Yearbook</strong> — break-even. Income ($7,000) and expense ($7,001) net to ~$0.</p>
+        <p style="margin-bottom:4px;"><strong style="font-weight:500;">Baile de los Muertos</strong> — community event, break-even by design. Income and cost both $4,000.</p>
+        <p style="margin-bottom:8px;"><strong style="font-weight:500;">RG Food Drive</strong> — a restricted fund with donations that can only be used for the food drive.</p>
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#b4b2a9;margin-bottom:6px;">How this works</p>
+        <p>Dropping a fundraiser removes its revenue <em>and</em> its cost. All figures are cash basis.</p>
+      </div>
     </div>
-    <div class="divider"></div>
-    <ul class="note">
-      <li>Dropping a fundraiser removes its revenue <em>and</em> its cost.</li>
-    </ul>
   </div>
 
 </div>
@@ -535,7 +535,7 @@ footer {
 const FUNDRAISERS = [
   { key:'gala',      name:'Gala Night',        rev:51400, cost:20000 },
   { key:'caminata',  name:'Caminata',           rev:42400, cost:11411 },
-  { key:'donation',  name:'Donation Drive',     rev:7000,  cost:0     },
+  { key:'donation',  name:'Donation Drive',     rev:8000,  cost:0     },
   { key:'buyaspot',  name:'Buy-a-spot',          rev:5000,  cost:1200  },
   { key:'corporate', name:'Corporate Matching', rev:7000,  cost:0     },
   { key:'merch',     name:'Merchandise',        rev:1000,  cost:200   },
@@ -574,7 +574,7 @@ const SLIDER_GROUPS = [
   ]},
 ];
 
-let donationRev = 7000;
+let donationRev = 8000;
 let buyaspotRev = 5000;
 let merchRev = 1000;
 let corporateRev = 7000;
@@ -600,15 +600,19 @@ function renderFrList() {
     const el = document.createElement('div');
     el.className = 'fr-card' + (isDrop ? ' dropped' : '');
 
+    const FR_NOTES = {
+      donation: 'Target set conservatively based on FY2026 results.',
+    };
+    const frNote = FR_NOTES[f.key] ? `<div style="font-size:10px;color:#888780;margin-top:4px;font-style:italic;">${FR_NOTES[f.key]}</div>` : '';
     const sliderCfg = {
-      donation: { label:'Revenue target', varName:'donationRev', id:'don-rev-val', slid:'sl-donrev', min:7000, max:27000, step:500, cur:donationRev,
-                  chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'likely'},{val:15000,label:'$15k',sub:'stretch'},{val:20000,label:'$20k',sub:'really stretch'},{val:27000,label:'$27k',sub:'top'}] },
+      donation: { label:'Revenue target', varName:'donationRev', id:'don-rev-val', slid:'sl-donrev', min:8000, max:27000, step:500, cur:donationRev,
+                  chips:[{val:8000,label:'$8k',sub:'conservative'},{val:10000,label:'$10k',sub:'likely'},{val:15000,label:'$15k',sub:'stretch'},{val:20000,label:'$20k',sub:'really stretch'},{val:27000,label:'$27k',sub:'top'}] },
       buyaspot: { label:'Revenue target', varName:'buyaspotRev', id:'bas-rev-val', slid:'sl-basrev', min:1000, max:12000, step:500, cur:buyaspotRev,
                   chips:[{val:1000,label:'$1k',sub:'low'},{val:5000,label:'$5k',sub:'likely'},{val:8000,label:'$8k',sub:'strong'},{val:12000,label:'$12k',sub:'approved'}] },
       merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:1000, max:5000,  step:100, cur:merchRev,
                   chips:[{val:1000,label:'$1k',sub:'conservative'},{val:3000,label:'$3k',sub:'target'},{val:5000,label:'$5k',sub:'stretch'}] },
       corporate:{ label:'Revenue target', varName:'corporateRev', id:'cor-rev-val', slid:'sl-correv', min:7000, max:12000, step:500, cur:corporateRev,
-                  chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'target'},{val:12000,label:'$12k',sub:'stretch'}] },
+                  chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'FY26 high water'},{val:12000,label:'$12k',sub:'stretch'}] },
     };
     const isMobile = window.innerWidth <= 760;
     let extra = '';
@@ -651,7 +655,7 @@ function renderFrList() {
         <div class="fr-num">Revenue<span>${fmt(rev)}</span></div>
         <div class="fr-num">Cost<span>${f.cost>0?fmt(f.cost):'—'}</span></div>
         <div class="fr-num">Net<span class="${net>=0?'pos':'neg'}">${fmt(net)}</span></div>
-      </div>${extra}`;
+      </div>${frNote}${extra}`;
 
     el.onclick = (e) => {
       if (['donation','buyaspot','merch','corporate'].includes(f.key) && e.target.closest('input')) return;
@@ -725,7 +729,7 @@ function toggleCut(el) {
 
 function resetAll() {
   dropped.clear();
-  donationRev = 7000;
+  donationRev = 8000;
   buyaspotRev = 5000;
   merchRev = 1000;
   corporateRev = 7000;
@@ -1148,6 +1152,15 @@ function loadFromURL() {
 
 
 // ── EFFORT BREAKDOWN ─────────────────────────────────────────────────────────
+
+function toggleAssumptions() {
+  const body = document.getElementById('assumptions-body');
+  const arrow = document.getElementById('assumptions-arrow');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
 function toggleEffortBreakdown() {
   const el = document.getElementById('effort-breakdown');
   const btn = document.getElementById('effort-toggle-btn');
@@ -1232,7 +1245,7 @@ function loadPersona(name) {
 
   if (name === 'claudia') {
     // Conservative: low revenue targets, keep all programs
-    donationRev = 7000; buyaspotRev = 1000; merchRev = 1000; corporateRev = 7000;
+    donationRev = 8000; buyaspotRev = 1000; merchRev = 1000; corporateRev = 7000;
     roast('persona_claudia');
   } else if (name === 'sandra') {
     // Stretch: approved August targets
