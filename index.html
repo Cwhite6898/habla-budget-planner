@@ -602,20 +602,16 @@ footer {
 
 <div style="max-width:1160px;margin:2rem auto 0;background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;padding:1.5rem;">
   <label style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#888780;display:block;margin-bottom:12px;">Submit your scenario to the treasurer</label>
-  <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:start;">
-    <input type="text" id="sender-name" placeholder="Your name"
-      style="padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;box-sizing:border-box;width:100%;">
-    <textarea id="sender-notes" placeholder="Notes or recommendations for the treasurer..."
-      style="padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:40px;max-height:120px;font-family:inherit;line-height:1.5;box-sizing:border-box;width:100%;"></textarea>
-    <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch;">
-      <button onclick="sendToTreasurer()"
-        style="padding:9px 18px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;white-space:nowrap;">
-        Save as PDF &#x2913;
-      </button>
-      <div style="font-size:11px;color:#b4b2a9;text-align:center;">then email to <a href="mailto:treasurer@hablariverglen.org" style="color:#185fa5;text-decoration:none;">treasurer@hablariverglen.org</a></div>
-    </div>
-  </div>
-  <div id="send-msg" style="font-size:11px;color:#888780;margin-top:8px;min-height:16px;"></div>
+  <input type="text" id="sender-name" placeholder="Your name"
+    style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;box-sizing:border-box;margin-bottom:8px;">
+  <textarea id="sender-notes" placeholder="Notes or recommendations for the treasurer..."
+    style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:80px;font-family:inherit;line-height:1.5;box-sizing:border-box;margin-bottom:8px;"></textarea>
+  <button onclick="sendToTreasurer()"
+    style="width:100%;padding:9px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;">
+    Save as PDF &#x2913;
+  </button>
+  <div style="font-size:11px;color:#b4b2a9;text-align:center;margin-top:8px;">Then email to <a href="mailto:treasurer@hablariverglen.org" style="color:#185fa5;text-decoration:none;">treasurer@hablariverglen.org</a></div>
+  <div id="send-msg" style="font-size:11px;color:#888780;margin-top:6px;min-height:16px;text-align:center;"></div>
 </div>
 
 <div id="toast-container"></div>
