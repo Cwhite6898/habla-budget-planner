@@ -474,6 +474,7 @@ const SLIDER_GROUPS = [
 let donationRev = 7000;
 let buyaspotRev = 5000;
 let merchRev = 1000;
+let corporateRev = 7000;
 const FIXED_DEFAULTS = { art:15900, recess:14950, science:21000, music:1800, ga:6259 };
 const BASE_NON_FR_REV = 0;
 
@@ -490,7 +491,7 @@ function renderFrList() {
   const list = document.getElementById('fr-list');
   list.innerHTML = '';
   FUNDRAISERS.forEach(f => {
-    const revMap = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+    const revMap = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
     const rev = revMap[f.key] !== undefined ? revMap[f.key] : f.rev;
     const net = rev - f.cost, isDrop = dropped.has(f.key);
     const el = document.createElement('div');
@@ -503,6 +504,8 @@ function renderFrList() {
                   chips:[{val:1000,label:'$1k',sub:'low'},{val:5000,label:'$5k',sub:'likely'},{val:8000,label:'$8k',sub:'strong'},{val:12000,label:'$12k',sub:'approved'}] },
       merch:    { label:'Revenue target', varName:'merchRev',    id:'mer-rev-val', slid:'sl-merrev', min:0,    max:4000,  step:100, cur:merchRev,
                   chips:[{val:1000,label:'$1k',sub:'start'},{val:2000,label:'$2k',sub:'likely'},{val:3000,label:'$3k',sub:'target'},{val:4000,label:'$4k',sub:'stretch'}] },
+      corporate:{ label:'Revenue target', varName:'corporateRev', id:'cor-rev-val', slid:'sl-correv', min:7000, max:12000, step:500, cur:corporateRev,
+                  chips:[{val:7000,label:'$7k',sub:'conservative'},{val:10000,label:'$10k',sub:'target'},{val:12000,label:'$12k',sub:'stretch'}] },
     };
     const isMobile = window.innerWidth <= 760;
     let extra = '';
@@ -548,7 +551,7 @@ function renderFrList() {
       </div>${extra}`;
 
     el.onclick = (e) => {
-      if (['donation','buyaspot','merch'].includes(f.key) && e.target.closest('input')) return;
+      if (['donation','buyaspot','merch','corporate'].includes(f.key) && e.target.closest('input')) return;
       const wasDropped = dropped.has(f.key);
       wasDropped ? dropped.delete(f.key) : dropped.add(f.key);
       if (!wasDropped) { soundSadTrombone(); roast('drop_' + f.key); }
@@ -622,6 +625,7 @@ function resetAll() {
   donationRev = 7000;
   buyaspotRev = 5000;
   merchRev = 1000;
+  corporateRev = 7000;
   for (const k in toggleCuts) delete toggleCuts[k];
   document.querySelectorAll('.tog-item.selected').forEach(el => {
     el.classList.remove('selected'); el.querySelector('.chk').textContent = '✓';
@@ -645,7 +649,7 @@ function resetAll() {
 let chart = null;
 function update() {
   const active  = FUNDRAISERS.filter(f => !dropped.has(f.key));
-  const revOverride  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+  const revOverride  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
   const frRev   = active.reduce((a,f) => a + (revOverride[f.key]!==undefined ? revOverride[f.key] : f.rev), 0);
   const frCost  = active.reduce((a,f) => a+f.cost, 0);
   const togCut  = Object.values(toggleCuts).reduce((a,b) => a+b, 0);
@@ -934,6 +938,7 @@ function setFrRev(key, val, chipEl) {
   if (key === 'donation') { donationRev = val; if (val === 27000) roast('donation_max'); }
   if (key === 'buyaspot') buyaspotRev = val;
   if (key === 'merch')    merchRev = val;
+  if (key === 'corporate') corporateRev = val;
   soundCoin();
   renderFrList(); update();
 }
@@ -1010,7 +1015,7 @@ function sendToTreasurer() {
   const fixedExp = Object.values(FIXED_DEFAULTS).reduce((a,b)=>a+b,0) - togCut;
   let varExp = 0;
   SLIDER_GROUPS.forEach(g => g.items.forEach(i => { varExp += (sliderVals[i.key]||0)*(i.multiplier||1); }));
-  const revOvr  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev };
+  const revOvr  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
   const frRev  = active.reduce((a,f)=>a+(revOvr[f.key]!==undefined?revOvr[f.key]:f.rev),0);
   const frCost = active.reduce((a,f)=>a+f.cost,0);
   const totalRev = BASE_NON_FR_REV + frRev;
