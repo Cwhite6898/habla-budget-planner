@@ -1244,6 +1244,16 @@ function buildShareURL() {
     if ((sliderVals[i.key]||0) !== i.max) slidDiffs.push(i.key + ':' + sliderVals[i.key]);
   }));
   if (slidDiffs.length) params.set('sl', slidDiffs.join(','));
+  // Bonus one-time investments
+  const bonusKeys = Object.keys(bonusItems);
+  if (bonusKeys.length) params.set('bonus', bonusKeys.join(','));
+  // Custom items: encode as name~amt~type~active, separated by |
+  if (customItems.length) {
+    const encoded = customItems.map(i =>
+      [encodeURIComponent(i.name), i.amt, i.type, i.active ? '1' : '0'].join('~')
+    ).join('|');
+    params.set('custom', encoded);
+  }
   const base = window.location.href.split('?')[0];
   return params.toString() ? base + '?' + params.toString() : base;
 }
@@ -1281,6 +1291,16 @@ function loadFromURL() {
     sliderVals[key] = parseInt(val);
     const sl = document.getElementById('sl-' + key);
     if (sl) sl.value = val;
+  });
+  // Restore bonus one-time investments
+  if (params.get('bonus')) params.get('bonus').split(',').forEach(k => {
+    const el = document.querySelector(`.bonus-card[data-key="${k}"]`);
+    if (el) { bonusItems[k] = parseInt(el.dataset.amt); el.classList.add('active'); }
+  });
+  // Restore custom items
+  if (params.get('custom')) params.get('custom').split('|').forEach(chunk => {
+    const [name, amt, type, active] = chunk.split('~');
+    customItems.push({ id: customIdCounter++, name: decodeURIComponent(name), amt: parseInt(amt), type, active: active === '1' });
   });
 
   showToast('Scenario loaded from shared link 🔗');
