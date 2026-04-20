@@ -1076,8 +1076,8 @@ const IMPACT_WEIGHTS = {
   // fixed programs (full value = weight)
   art:7, recess:8, science:10, music:6,
   // variable sliders (max value = 100% of weight)
-  tchperperson:9, tchstaff:5, ms:7, theater:7, enrichsch:8,
-  fieldtrips:6, mathfest:4, playdate:4, sportsnight:4,
+  tchperperson:9, tchstaff:5, ms:7, enrichsch:8,
+  mathfest:4, playdate:4, sportsnight:4,
   staffapp:5, visa:3, studact:5, fooddrive:6,
   hospitality:2, '5thgrade':6, '8thgrade':6,
   beautif:2, childrenday:3, goldrush:4, childcare:3,
@@ -1140,8 +1140,7 @@ function calcImpact() {
   }));
   // bonus items
   Object.keys(bonusItems).forEach(k => { score += (BONUS_IMPACT[k] || 0); });
-  const maxWithBonus = MAX_IMPACT + Object.values(BONUS_IMPACT).reduce((a,b)=>a+b,0);
-  return Math.round((score / maxWithBonus) * 100);
+  return Math.round((score / MAX_IMPACT) * 100);
 }
 
 function calcEffort() {
@@ -1199,10 +1198,10 @@ function updateGame(net) {
 
   // Impact score
   const impact = calcImpact();
-  document.getElementById('sc-impact').textContent = impact;
-  document.getElementById('sc-impact-bar').style.width = impact + '%';
-  document.getElementById('sc-impact-bar').style.background = impact >= 70 ? '#1d9e75' : impact >= 45 ? '#ba7517' : '#d85a30';
-  document.getElementById('sc-impact-sub').textContent = impact >= 70 ? 'Strong programs' : impact >= 45 ? 'Moderate programs' : 'Many programs cut';
+  document.getElementById('sc-impact').textContent = impact + '%';
+  document.getElementById('sc-impact-bar').style.width = Math.min(impact, 100) + '%';
+  document.getElementById('sc-impact-bar').style.background = impact > 100 ? '#0f6e56' : impact >= 70 ? '#1d9e75' : impact >= 45 ? '#ba7517' : '#d85a30';
+  document.getElementById('sc-impact-sub').textContent = impact > 100 ? 'Above & beyond ✨' : impact >= 70 ? 'Strong programs' : impact >= 45 ? 'Moderate programs' : 'Many programs cut';
 
   // Effort score
   const hrs = calcEffort();
