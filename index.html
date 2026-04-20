@@ -456,7 +456,7 @@ footer {
       <div class="tog-item" data-key="science" data-amt="21100" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Science workshops</span><span class="ta">$21,100</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">7 workshops for K–8 + $100 teacher appreciation gift</div>
       <div class="tog-item" data-key="music"   data-amt="1800"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Music program</span><span class="ta">$1,800</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">$600 Buy-a-Spot event + $1,200 content development. School funds 28 weeks of instruction ($12,600) via Prop 28</div>
       <span class="sub-label">Overhead</span>
-      <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>G&amp;A expenses</span><span class="ta">$6,259</span></div>
+      <div class="tog-item" data-key="ga"      data-amt="6259"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>G&amp;A expenses</span><span class="ta">$6,259</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">Insurance, bank fees, state filing costs, and other overhead required to keep HABLA operating as a nonprofit.</div>
     </div>
 
     <div class="card">
@@ -469,7 +469,7 @@ footer {
       <div class="bonus-card" data-key="adtle"   data-amt="7000"  onclick="toggleBonus(this)"><div class="bonus-name">ADTLE teacher conference <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$7,000</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">National bilingual immersion conference — professional development for teachers</div></div>
       <div class="bonus-card" data-key="theater" data-amt="5000"  onclick="toggleBonus(this)"><div class="bonus-name">Theater program subsidy <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$5,000</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">Subsidizes participation fees for ~80 students in grades 3–8 in RG LAB's bilingual musical theater productions</div></div>
       <div class="bonus-card" data-key="trips"   data-amt="4500"  onclick="toggleBonus(this)"><div class="bonus-name">Field trips <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$4,500</div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">Reduces the out-of-pocket cost for families — covers the gap between school funding and actual trip cost</div></div>
-      <div class="bonus-card" data-key="msbump"  data-amt="4908"  onclick="toggleBonus(this)"><div class="bonus-name">Middle school opportunities bump <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$4,908 <span style="font-size:10px;color:#b4b2a9;">(from $4,716 → $9,624)</span></div></div>
+      <div class="bonus-card" data-key="msbump"  data-amt="4908"  onclick="toggleBonus(this)"><div class="bonus-name">Middle school opportunities bump <span class="bonus-badge">+ expense</span></div><div class="bonus-amt">$4,908 <span style="font-size:10px;color:#b4b2a9;">(from $4,716 → $9,624)</span></div><div style="font-size:11px;color:#888780;font-style:italic;margin-top:3px;">Doubles HABLA's contribution to 6th–8th grade activities and enrichment — meaningful at an age when engagement matters most.</div></div>
     </div>
 
     <div class="card">
@@ -630,33 +630,33 @@ const FUNDRAISERS = [
 
 const SLIDER_GROUPS = [
   { label: 'Teacher support', items: [
-    { key:'tchperperson', name:'Teacher grants', max:600, multiplier:20, unit:'/teacher' },
-    { key:'tchstaff',     name:'Support staff grants',           max:1650  },
+    { key:'tchperperson', name:'Teacher grants', max:600, multiplier:20, unit:'/teacher', desc:'Per-teacher grants for classroom supplies and enrichment — $600 per teacher × 20 teachers.' },
+    { key:'tchstaff',     name:'Support staff grants',           max:1650,  desc:'Grants for non-teaching staff — yard duties, office staff, and aides.' },
   ]},
   { label: 'Academic enrichment', items: [
-    { key:'ms',         name:'Middle school opportunities',      max:4716  },
-    { key:'enrichsch',  name:'Enrichment scholarships',          max:3300  },
-    { key:'mathfest',   name:'Math festival',                    max:1800  },
+    { key:'ms',         name:'Middle school opportunities',      max:4716,  desc:'Clubs, activities, and enrichment experiences for 6th–8th graders.' },
+    { key:'enrichsch',  name:'Enrichment scholarships',          max:3300,  desc:'Need-based scholarships helping families afford after-school enrichment programs.' },
+    { key:'mathfest',   name:'Math festival',                    max:1800,  desc:'Annual hands-on math event for all grades — games, puzzles, and problem-solving challenges.' },
   ]},
   { label: 'Community events', items: [
-    { key:'playdate',    name:'All school playdate',             max:300   },
-    { key:'sportsnight', name:'Family sports night',             max:350   },
+    { key:'playdate',    name:'All school playdate',             max:300,   desc:'End-of-year playdate bringing together students and families from all grades.' },
+    { key:'sportsnight', name:'Family sports night',             max:350,   desc:'Evening of friendly competition for families — builds community across grade levels.' },
   ]},
   { label: 'School & community support', items: [
-    { key:'staffapp',    name:'Teacher & staff appreciation',    max:2000  },
-    { key:'fooddrive',   name:'RG Food Drive expense',           max:250   },
-    { key:'visa',        name:'VISA',                            max:800   },
-    { key:'studact',     name:'Student activities & celebrations',max:700  },
-    { key:'hospitality', name:'Hospitality',                     max:550   },
-    { key:'5thgrade',    name:'5th grade science camp',          max:500   },
-    { key:'8thgrade',    name:'8th grade camp/promotion',        max:500   },
-    { key:'beautif',     name:'School beautification',           max:250   },
-    { key:'childrenday', name:"Children's appreciation day",     max:200   },
-    { key:'goldrush',    name:'4th grade Gold Rush',             max:200   },
-    { key:'childcare',   name:'Child care – meetings & events',  max:150   },
+    { key:'staffapp',    name:'Teacher & staff appreciation',    max:2000,  desc:'Gifts, meals, and recognition for teachers and staff throughout the year.' },
+    { key:'fooddrive',   name:'RG Food Drive expense',           max:250,   desc:'HABLA\'s contribution to cover logistics and supplies for the annual school food drive.' },
+    { key:'visa',        name:'VISA',                            max:800,   desc:'Rewards for River Glen\'s positive behavior program — ice cream, certificates, pencils, and small prizes.' },
+    { key:'studact',     name:'Student activities & celebrations',max:700,  desc:'Supplies, snacks, and awards for Reclassification, College Day, and Cesar Chavez Day.' },
+    { key:'hospitality', name:'Hospitality',                     max:550,   desc:'Refreshments and supplies for HABLA meetings, events, and volunteer appreciation.' },
+    { key:'5thgrade',    name:'5th grade promotion',             max:500,   desc:'HABLA contribution toward the 5th grade promotion celebration.' },
+    { key:'8thgrade',    name:'8th grade camp/promotion',        max:500,   desc:'HABLA contribution toward the 8th grade overnight trip and promotion celebration.' },
+    { key:'beautif',     name:'School beautification',           max:250,   desc:'Plants, paint, and supplies to keep the campus welcoming and well-maintained.' },
+    { key:'childrenday', name:"Children's appreciation day",     max:200,   desc:'Annual student recognition event celebrating the whole school community.' },
+    { key:'goldrush',    name:'4th grade Gold Rush',             max:200,   desc:'Hands-on Gold Rush simulation experience for 4th graders tied to the California history curriculum.' },
+    { key:'childcare',   name:'Child care – meetings & events',  max:150,   desc:'On-site childcare so parents can attend HABLA meetings and volunteer at events.' },
   ]},
   { label: 'Fundraising overhead', items: [
-    { key:'parentdon', name:'Parent donation campaign',          max:200   },
+    { key:'parentdon', name:'Parent donation campaign',          max:200,   desc:'Small campaign encouraging HABLA board members and volunteers to make a personal donation.' },
   ]},
 ];
 
@@ -690,7 +690,13 @@ function renderFrList() {
     el.className = 'fr-card' + (isDrop ? ' dropped' : '');
 
     const FR_NOTES = {
-      donation: 'Target set conservatively based on FY2026 results.',
+      gala:      'Annual ticketed dinner & auction — HABLA\'s largest fundraiser and a beloved community tradition.',
+      caminata:  'All-school walkathon where students collect pledges and families cheer from the sidelines — plus carnival games for everyone. Community spirit at its best.',
+      donation:  'Direct-ask email campaign to all families. Low effort, meaningful revenue — target set conservatively based on FY2026 results.',
+      buyaspot:  'Families sponsor a classroom activity or special experience. Tied to the music program Buy-a-Spot event.',
+      corporate: 'Outreach to employers who match employee charitable donations — pure upside with minimal volunteer time.',
+      merch:     'HABLA branded gear — hoodies, tote bags, t-shirts. Builds community pride and raises funds.',
+      gendon:    'Passive donations via payment link — low maintenance, low volume, but worth keeping open.',
     };
     const frNote = FR_NOTES[f.key] ? `<div style="font-size:10px;color:#888780;margin-top:4px;font-style:italic;">${FR_NOTES[f.key]}</div>` : '';
     const sliderCfg = {
@@ -782,7 +788,8 @@ function renderSliders() {
           </span>
         </div>
         <input type="range" min="0" max="${item.max}" step="${step}" value="${item.max}"
-               id="sl-${item.key}" oninput="onSlide('${item.key}',${item.max},this.value,${mult},'${item.unit||''}')">`;
+               id="sl-${item.key}" oninput="onSlide('${item.key}',${item.max},this.value,${mult},'${item.unit||''}')">
+        ${item.desc ? `<div style="font-size:10px;color:#888780;font-style:italic;margin-top:4px;">${item.desc}</div>` : ''}`;
       container.appendChild(div);
     });
   });
@@ -1073,15 +1080,17 @@ function checkRoasts(net, impact) {
 
 // ── GAME DATA ────────────────────────────────────────────────────────────────
 const IMPACT_WEIGHTS = {
-  // fixed programs (full value = weight)
-  art:7, recess:8, science:10, music:6,
-  // variable sliders (max value = 100% of weight)
-  tchperperson:9, tchstaff:5, ms:7, enrichsch:8,
-  mathfest:4, playdate:4, sportsnight:4,
-  staffapp:5, visa:3, studact:5, fooddrive:6,
-  hospitality:2, '5thgrade':6, '8thgrade':6,
-  beautif:2, childrenday:3, goldrush:4, childcare:3,
-  parentdon:0,
+  // essential fixed programs — ~75% of total weight
+  art:20, recess:25, science:30, music:8,
+  // community fundraising events
+  caminata:21, gala:8,
+  // variable sliders — weighted proportional to max dollar cost
+  tchperperson:12, tchstaff:2, ms:5, enrichsch:3,
+  mathfest:2, playdate:1, sportsnight:1,
+  staffapp:2, visa:1, studact:1, fooddrive:1,
+  hospitality:1, '5thgrade':1, '8thgrade':1,
+  beautif:1, childrenday:1, goldrush:1, childcare:1,
+  parentdon:1,
 };
 const IMPACT_FIXED_KEYS = ['art','recess','science','music'];
 const MAX_IMPACT = Object.values(IMPACT_WEIGHTS).reduce((a,b)=>a+b,0);
@@ -1138,6 +1147,10 @@ function calcImpact() {
     const max  = i.max;
     score += w * (max > 0 ? (cur / max) : 0);
   }));
+  // community fundraising events
+  FUNDRAISERS.forEach(f => {
+    if (!dropped.has(f.key)) score += (IMPACT_WEIGHTS[f.key] || 0);
+  });
   // bonus items
   Object.keys(bonusItems).forEach(k => { score += (BONUS_IMPACT[k] || 0); });
   return Math.round((score / MAX_IMPACT) * 100);
@@ -1200,8 +1213,8 @@ function updateGame(net) {
   const impact = calcImpact();
   document.getElementById('sc-impact').textContent = impact + '%';
   document.getElementById('sc-impact-bar').style.width = Math.min(impact, 100) + '%';
-  document.getElementById('sc-impact-bar').style.background = impact > 100 ? '#0f6e56' : impact >= 70 ? '#1d9e75' : impact >= 45 ? '#ba7517' : '#d85a30';
-  document.getElementById('sc-impact-sub').textContent = impact > 100 ? 'Above & beyond ✨' : impact >= 70 ? 'Strong programs' : impact >= 45 ? 'Moderate programs' : 'Many programs cut';
+  document.getElementById('sc-impact-bar').style.background = impact > 100 ? '#0f6e56' : impact >= 85 ? '#1d9e75' : impact >= 55 ? '#ba7517' : '#d85a30';
+  document.getElementById('sc-impact-sub').textContent = impact > 100 ? 'Above & beyond ✨' : impact >= 85 ? 'Strong programs' : impact >= 55 ? 'Moderate programs' : 'Many programs cut';
 
   // Effort score
   const hrs = calcEffort();
