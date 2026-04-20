@@ -153,51 +153,44 @@ footer {
 }
 
 @media print {
-  @page { margin: 1.8cm 1.8cm 1.5cm; }
-  body { background: #fff; padding: 0; font-size: 11px; color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { margin: 2cm 2cm 1.5cm; }
+  body { background: #fff; padding: 0; font-size: 11px; color: #111; }
   .layout, header, footer, .reset-btn { display: none !important; }
   #print-view { display: block !important; }
 
-  /* Header band */
-  .pv-header-band { background: #1a1a18; color: #fff; padding: 14px 18px 12px; border-radius: 6px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
-  .pv-title { font-size: 17px; font-weight: 700; letter-spacing: -.2px; color: #fff; margin: 0; }
-  .pv-sub { font-size: 10px; color: #aaa; margin-top: 3px; }
-  .pv-meta-right { text-align: right; font-size: 10px; color: #bbb; line-height: 1.6; }
+  .pv-header-band { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px; margin-bottom: 16px; border-bottom: 2px solid #111; }
+  .pv-title { font-size: 15px; font-weight: 700; color: #111; margin: 0 0 3px; }
+  .pv-sub { font-size: 10px; color: #666; }
+  .pv-meta-right { text-align: right; font-size: 10px; color: #666; line-height: 1.6; }
 
-  /* Summary metrics row */
-  .pv-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
-  .pv-metric { border: 1px solid #e0e0e0; border-radius: 6px; padding: 10px 12px; background: #fafafa; }
-  .pv-metric label { font-size: 9px; text-transform: uppercase; letter-spacing: .07em; color: #888; display: block; margin-bottom: 4px; }
-  .pv-metric .v { font-size: 20px; font-weight: 700; color: #111; }
+  .pv-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .pv-metric { border-bottom: 1px solid #ccc; padding-bottom: 6px; }
+  .pv-metric label { font-size: 9px; text-transform: uppercase; letter-spacing: .07em; color: #888; display: block; margin-bottom: 3px; }
+  .pv-metric .v { font-size: 16px; font-weight: 700; color: #111; }
   .pv-metric .v.pos { color: #0a5e49; }
   .pv-metric .v.neg { color: #8b2e10; }
-  .pv-metric .v-sub { font-size: 9px; color: #888; margin-top: 2px; }
 
-  /* Section headers */
-  .pv-h2 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #fff; background: #555; padding: 3px 8px; border-radius: 3px; margin: 14px 0 7px; display: inline-block; }
+  .pv-section { margin-bottom: 14px; }
+  .pv-h2 { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #111; border-bottom: 1.5px solid #111; padding-bottom: 3px; margin-bottom: 5px; }
 
-  /* Three-column layout */
-  .pv-cols { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 20px; }
-
-  /* Rows */
-  .pv-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; border-bottom: 0.5px solid #efefef; font-size: 11px; gap: 8px; }
+  .pv-row { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 0.5px solid #eee; font-size: 11px; gap: 8px; }
   .pv-row:last-child { border-bottom: none; }
   .pv-row .label { color: #222; flex: 1; }
   .pv-row .amount { font-weight: 600; text-align: right; white-space: nowrap; color: #111; }
   .pv-row .amount .saving { color: #0a5e49; font-weight: 400; font-size: 10px; margin-left: 4px; }
-  .pv-row.dropped .label { color: #bbb; text-decoration: line-through; }
-  .pv-row.dropped .amount { color: #bbb; }
-  .pv-row.cut .label { color: #bbb; text-decoration: line-through; }
-  .pv-row.cut .amount { color: #bbb; }
-  .pv-row-total { display: flex; justify-content: space-between; padding: 5px 0 0; font-size: 12px; font-weight: 700; margin-top: 3px; border-top: 1.5px solid #222; }
+  .pv-row.dropped .label { color: #aaa; text-decoration: line-through; }
+  .pv-row.dropped .amount { color: #aaa; }
+  .pv-row.cut .label { color: #aaa; text-decoration: line-through; }
+  .pv-row.cut .amount { color: #aaa; }
+  .pv-row-total { display: flex; justify-content: space-between; padding: 5px 0 0; font-size: 12px; font-weight: 700; margin-top: 3px; border-top: 1.5px solid #111; }
+  .pv-group-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #888; margin: 8px 0 3px; padding-top: 4px; border-top: 0.5px solid #e0e0e0; }
 
-  /* Notes */
-  .pv-notes-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #fff; background: #555; padding: 3px 8px; border-radius: 3px; margin: 14px 0 7px; display: inline-block; }
-  .pv-notes { border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: 11px; color: #333; white-space: pre-wrap; line-height: 1.6; min-height: 64px; background: #fafafa; }
+  .pv-notes-label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #111; border-bottom: 1.5px solid #111; padding-bottom: 3px; margin: 16px 0 6px; }
+  .pv-notes { font-size: 11px; color: #333; white-space: pre-wrap; line-height: 1.65; }
 
-  /* Footer */
-  .pv-footer { margin-top: 20px; font-size: 9px; color: #bbb; text-align: center; border-top: 0.5px solid #e0e0e0; padding-top: 8px; display: flex; justify-content: space-between; }
+  .pv-footer { margin-top: 24px; font-size: 9px; color: #aaa; border-top: 0.5px solid #ddd; padding-top: 8px; display: flex; justify-content: space-between; }
 }
+
 @media screen {
   #print-view { display: none; }
 }
@@ -606,11 +599,17 @@ footer {
     style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;box-sizing:border-box;margin-bottom:8px;">
   <textarea id="sender-notes" placeholder="Notes or recommendations for the treasurer..."
     style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid #d3d1c7;border-radius:8px;outline:none;background:#fff;color:#1a1a18;resize:vertical;min-height:80px;font-family:inherit;line-height:1.5;box-sizing:border-box;margin-bottom:8px;"></textarea>
-  <button onclick="sendToTreasurer()"
-    style="width:100%;padding:9px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #185fa5;background:#e6f1fb;color:#185fa5;cursor:pointer;">
-    Save as PDF &#x2913;
-  </button>
-  <div style="font-size:11px;color:#b4b2a9;text-align:center;margin-top:8px;">Then email to <a href="mailto:treasurer@hablariverglen.org" style="color:#185fa5;text-decoration:none;">treasurer@hablariverglen.org</a></div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch;">
+    <button onclick="sendEmail()"
+      style="padding:10px;font-size:13px;font-weight:500;border-radius:8px;border:0.5px solid #0f6e56;background:#e1f5ee;color:#0f6e56;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;">
+      <span style="font-size:16px;">📧</span> Email to Treasurer
+    </button>
+    <button onclick="sendToTreasurer()" title="Save as PDF instead"
+      style="padding:10px 14px;font-size:12px;border-radius:8px;border:0.5px solid #d3d1c7;background:#f5f4f0;color:#5f5e5a;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:14px;">🖨️</span> Save as PDF
+    </button>
+  </div>
+  <div style="font-size:11px;color:#b4b2a9;text-align:center;margin-top:8px;">Opens your email app pre-filled and ready to send to <strong style="color:#5f5e5a;">treasurer@hablariverglen.org</strong></div>
   <div id="send-msg" style="font-size:11px;color:#888780;margin-top:6px;min-height:16px;text-align:center;"></div>
 </div>
 
@@ -1591,6 +1590,90 @@ window.addEventListener('resize', () => {
 });
 
 
+function sendEmail() {
+  const name  = document.getElementById('sender-name').value.trim() || 'Anonymous';
+  const notes = document.getElementById('sender-notes').value.trim();
+
+  const active  = FUNDRAISERS.filter(f => !dropped.has(f.key));
+  const togCut  = Object.values(toggleCuts).reduce((a,b)=>a+b,0);
+  const fixedExp = Object.values(FIXED_DEFAULTS).reduce((a,b)=>a+b,0) - togCut;
+  let varExp = 0;
+  SLIDER_GROUPS.forEach(g => g.items.forEach(i => { varExp += (sliderVals[i.key]||0)*(i.multiplier||1); }));
+  const revOvr  = { donation: donationRev, buyaspot: buyaspotRev, merch: merchRev, corporate: corporateRev };
+  const frRev   = active.reduce((a,f)=>a+(revOvr[f.key]!==undefined?revOvr[f.key]:f.rev),0);
+  const frCost  = active.reduce((a,f)=>a+f.cost,0);
+  const bonusExp   = Object.values(bonusItems).reduce((a,b)=>a+b,0);
+  const customRev  = customItems.filter(i=>i.active&&i.type==='revenue').reduce((a,i)=>a+i.amt,0);
+  const customExp  = customItems.filter(i=>i.active&&i.type==='expense').reduce((a,i)=>a+i.amt,0);
+  const totalRev = BASE_NON_FR_REV + frRev + customRev;
+  const totalExp = fixedExp + varExp + frCost + bonusExp + customExp;
+  const net = totalRev - totalExp;
+  const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  const status = net >= 1000 ? 'Surplus' : net >= 0 ? 'Balanced' : net >= -5000 ? 'Nearly there' : net >= -15000 ? 'Gap to close' : 'Major shortfall';
+
+  const line = '\u2500'.repeat(44);
+  let body = '';
+  body += 'HABLA at River Glen \u2014 FY2027 Budget Scenario\n';
+  body += 'Submitted by: ' + name + '   |   ' + now + '\n';
+  body += line + '\n\n';
+
+  body += 'SUMMARY\n';
+  body += '  Total Revenue:   ' + fmt(totalRev) + '\n';
+  body += '  Total Expenses:  ' + fmt(totalExp) + '\n';
+  body += '  Net:             ' + fmt(net) + '  \u2192  ' + status + '\n\n';
+
+  body += 'FUNDRAISERS\n';
+  FUNDRAISERS.forEach(function(f) {
+    const isDrop = dropped.has(f.key);
+    const rev = revOvr[f.key] !== undefined ? revOvr[f.key] : f.rev;
+    if (isDrop) {
+      body += '  [dropped]  ' + f.name + '\n';
+    } else {
+      body += '  ' + f.name + ': ' + fmt(rev - f.cost) + ' net  (' + fmt(rev) + ' rev \u2212 ' + fmt(f.cost) + ' cost)\n';
+    }
+  });
+
+  const fixedNames = { art:'Art program', recess:'Recess support', science:'Science workshops', music:'Music program', ga:'G&A expenses' };
+  body += '\nFIXED EXPENSES\n';
+  Object.keys(fixedNames).forEach(function(k) {
+    const isCut = !!toggleCuts[k];
+    body += '  ' + (isCut ? '[cut]  ' : '       ') + fixedNames[k] + ': ' + (isCut ? '\u2014' : fmt(FIXED_DEFAULTS[k])) + '\n';
+  });
+
+  let hasVar = false;
+  let varLines = '';
+  SLIDER_GROUPS.forEach(function(g) { g.items.forEach(function(i) {
+    const val = (sliderVals[i.key]||0) * (i.multiplier||1);
+    const maxVal = i.max * (i.multiplier||1);
+    if (val > 0) {
+      const saving = maxVal - val;
+      varLines += '  ' + i.name + ': ' + fmt(val) + (saving > 0 ? '  (\u2212' + fmt(saving) + ' vs full)' : '') + '\n';
+      hasVar = true;
+    }
+  }); });
+  if (hasVar) { body += '\nVARIABLE EXPENSES\n' + varLines; }
+
+  const bonusNames = { adtle:'ADTLE teacher conference', theater:'Theater program subsidy', trips:'Field trips', msbump:'Middle school opportunities bump' };
+  const activeBonus = Object.keys(bonusItems);
+  if (activeBonus.length) {
+    body += '\nONE-TIME INVESTMENTS\n';
+    activeBonus.forEach(function(k) { body += '  ' + bonusNames[k] + ': ' + fmt(bonusItems[k]) + '\n'; });
+  }
+
+  const activeCustom = customItems.filter(function(i) { return i.active; });
+  if (activeCustom.length) {
+    body += '\nCUSTOM PROPOSALS\n';
+    activeCustom.forEach(function(i) { body += '  [' + i.type + ']  ' + i.name + ': ' + fmt(i.amt) + '\n'; });
+  }
+
+  body += '\nNOTES\n' + (notes || '(none provided)') + '\n';
+  body += '\n' + line + '\n';
+  body += 'Load this exact scenario in the planner:\n' + buildShareURL() + '\n';
+
+  const subject = 'FY2027 Budget Scenario from ' + name + ' \u2014 ' + status + ' (' + fmt(net) + ')';
+  window.location.href = 'mailto:treasurer@hablariverglen.org?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
 function sendToTreasurer() {
   const name  = document.getElementById('sender-name').value.trim() || 'Anonymous';
   const notes = document.getElementById('sender-notes').value.trim();
@@ -1659,17 +1742,21 @@ function sendToTreasurer() {
   document.getElementById('pv-fixed').innerHTML = fixHtml;
   document.getElementById('pv-fix-total').innerHTML = '<span>Total fixed</span><span>' + fmt(fixTotal) + '</span>';
 
-  // Bonus items in PDF
+  // Bonus items
   const bonusNames = { adtle:'ADTLE teacher conference', theater:'Theater program subsidy', trips:'Field trips', msbump:'Middle school opportunities bump' };
-  let bonusHtml = '';
+  let bonusHtml = '', bonusTotal = 0;
   Object.keys(bonusNames).forEach(k => {
-    const isOn = !!bonusItems[k];
-    if (isOn) {
-      bonusHtml += '<div class="pv-row"><span class="label">' + bonusNames[k] + ' <span style="font-size:10px;color:#0a5e49;">(added)</span></span><span class="amount">' + fmt(BONUS_DEFAULTS[k]) + '</span></div>';
+    if (bonusItems[k]) {
+      bonusHtml += '<div class="pv-row"><span class="label">' + bonusNames[k] + '</span><span class="amount">' + fmt(BONUS_DEFAULTS[k]) + '</span></div>';
+      bonusTotal += BONUS_DEFAULTS[k];
     }
   });
   if (bonusHtml) {
-    document.getElementById('pv-fix-total').innerHTML += '<div style="margin-top:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:4px;">One-time investments added</div>' + bonusHtml;
+    document.getElementById('pv-bonus').innerHTML = bonusHtml;
+    document.getElementById('pv-bonus-total').innerHTML = '<span>Total one-time</span><span>' + fmt(bonusTotal) + '</span>';
+    document.getElementById('pv-bonus-section').style.display = '';
+  } else {
+    document.getElementById('pv-bonus-section').style.display = 'none';
   }
 
   // Variable expenses
@@ -1688,20 +1775,22 @@ function sendToTreasurer() {
       if (saving > 0) groupHtml += ' <span class="saving">−' + fmt(saving) + '</span>';
       groupHtml += '</span></div>';
     });
-    varHtml += '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin:10px 0 3px;padding-top:4px;border-top:0.5px solid #e8e8e8;">' + g.label + '</div>';
+    varHtml += '<div class="pv-group-label">' + g.label + '</div>';
     varHtml += groupHtml;
   });
   document.getElementById('pv-variable').innerHTML = varHtml;
   document.getElementById('pv-var-total').innerHTML = '<span>Total variable</span><span>' + fmt(varTotal) + '</span>';
 
-  // Custom items in PDF
+  // Custom items
   const activeCustom = customItems.filter(i => i.active);
   if (activeCustom.length) {
-    let custHtml = '<div style="margin-top:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:4px;">Custom proposals</div>';
-    activeCustom.forEach(i => {
-      custHtml += '<div class="pv-row"><span class="label">' + i.name + ' <span style="font-size:10px;color:#888;">(' + i.type + ')</span></span><span class="amount">' + (i.type==='revenue'?'+':'-') + fmt(i.amt) + '</span></div>';
-    });
-    document.getElementById('pv-fix-total').innerHTML += custHtml;
+    let custHtml = activeCustom.map(i =>
+      '<div class="pv-row"><span class="label">' + i.name + ' <span style="font-size:10px;color:#888;">(' + i.type + ')</span></span><span class="amount">' + (i.type==='revenue'?'+':'') + fmt(i.amt) + '</span></div>'
+    ).join('');
+    document.getElementById('pv-custom').innerHTML = custHtml;
+    document.getElementById('pv-custom-section').style.display = '';
+  } else {
+    document.getElementById('pv-custom-section').style.display = 'none';
   }
 
   // Notes
@@ -1725,31 +1814,46 @@ function sendToTreasurer() {
     </div>
     <div class="pv-meta-right" id="pv-meta"></div>
   </div>
+
   <div class="pv-summary">
     <div class="pv-metric"><label>Total Revenue</label><div class="v" id="pv-rev"></div></div>
     <div class="pv-metric"><label>Total Expenses</label><div class="v" id="pv-exp"></div></div>
     <div class="pv-metric"><label>Net</label><div class="v" id="pv-net"></div></div>
     <div class="pv-metric"><label>Status</label><div class="v" id="pv-status" style="font-size:13px;"></div></div>
   </div>
-  <div class="pv-cols">
-    <div>
-      <div class="pv-h2">Fundraisers</div>
-      <div id="pv-fundraisers"></div>
-      <div id="pv-fr-total" class="pv-row-total"></div>
-    </div>
-    <div>
-      <div class="pv-h2">Fixed expenses</div>
-      <div id="pv-fixed"></div>
-      <div id="pv-fix-total" class="pv-row-total"></div>
-    </div>
-    <div>
-      <div class="pv-h2">Variable expenses</div>
-      <div id="pv-variable"></div>
-      <div id="pv-var-total" class="pv-row-total"></div>
-    </div>
+
+  <div class="pv-section">
+    <span class="pv-h2">Fundraisers</span>
+    <div id="pv-fundraisers"></div>
+    <div id="pv-fr-total" class="pv-row-total"></div>
   </div>
-  <div class="pv-notes-label">Notes &amp; recommendations</div>
+
+  <div class="pv-section">
+    <span class="pv-h2">Fixed Expenses</span>
+    <div id="pv-fixed"></div>
+    <div id="pv-fix-total" class="pv-row-total"></div>
+  </div>
+
+  <div class="pv-section" id="pv-bonus-section" style="display:none;">
+    <span class="pv-h2">One-time Investments</span>
+    <div id="pv-bonus"></div>
+    <div id="pv-bonus-total" class="pv-row-total"></div>
+  </div>
+
+  <div class="pv-section">
+    <span class="pv-h2">Variable Expenses</span>
+    <div id="pv-variable"></div>
+    <div id="pv-var-total" class="pv-row-total"></div>
+  </div>
+
+  <div class="pv-section" id="pv-custom-section" style="display:none;">
+    <span class="pv-h2">Custom Proposals</span>
+    <div id="pv-custom"></div>
+  </div>
+
+  <div class="pv-notes-label">Notes &amp; Recommendations</div>
   <div class="pv-notes" id="pv-notes"></div>
+
   <div class="pv-footer">
     <span>HABLA at River Glen &nbsp;·&nbsp; FY2027 Budget Scenario Planner &nbsp;·&nbsp; For internal planning use</span>
     <span id="pv-footer-date"></span>
