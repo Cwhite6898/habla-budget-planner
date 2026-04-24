@@ -5,194 +5,153 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HABLA Budget Proposals — FY 2026/27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --forest: #1E4D35;
-  --forest-mid: #2D6A4F;
-  --forest-light: #52B788;
-  --sage: #95C9A8;
-  --clay: #C0612B;
-  --clay-light: #E8916A;
-  --gold: #C89B3C;
-  --cream: #FAF8F2;
-  --cream2: #F0ECE2;
-  --parchment: #E8E1D0;
-  --text: #1C1A14;
-  --text2: #5C5648;
-  --surface: #FFFFFF;
-  --radius: 18px;
-  --radius-sm: 10px;
-  --shadow: 0 2px 16px rgba(30,20,10,0.08);
-  --shadow-lg: 0 8px 40px rgba(30,20,10,0.13);
+  --forest:#1E4D35;--forest-mid:#2D6A4F;--forest-light:#52B788;
+  --clay:#C0612B;--clay-light:#E8916A;
+  --cream:#FAF8F2;--cream2:#F0ECE2;--parchment:#E8E1D0;
+  --text:#1C1A14;--text2:#5C5648;--surface:#fff;
+  --radius:18px;--radius-sm:10px;
+  --shadow:0 2px 16px rgba(30,20,10,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
 body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
 
-/* ── Header ── */
-.app-header{background:var(--forest);padding:14px 20px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,0.08)}
+.app-header{background:var(--forest);padding:14px 20px;position:sticky;top:0;z-index:200}
 .header-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .header-brand{display:flex;align-items:center;gap:10px}
-.header-quetzal{width:32px;height:32px;background:var(--forest-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header-icon{width:32px;height:32px;background:var(--forest-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .header-text h1{font-family:"Fraunces",serif;font-size:1rem;font-weight:600;color:#fff;line-height:1.2}
-.header-text p{font-size:0.72rem;color:rgba(255,255,255,0.55);margin-top:1px}
-.nav-pills{display:flex;background:rgba(255,255,255,0.1);border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
-.nav-pill{padding:7px 16px;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,0.6);transition:all 0.18s;letter-spacing:0.01em}
+.header-text p{font-size:.72rem;color:rgba(255,255,255,.55);margin-top:1px}
+.nav-pills{display:flex;background:rgba(255,255,255,.1);border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
+.nav-pill{padding:7px 16px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,.6);transition:all .18s}
 .nav-pill.active{background:#fff;color:var(--forest)}
-.nav-pill:hover:not(.active){background:rgba(255,255,255,0.15);color:#fff}
+.nav-pill:hover:not(.active){background:rgba(255,255,255,.15);color:#fff}
 
-/* ── Views ── */
-.view{display:none}
-.view.active{display:block}
+.view{display:none}.view.active{display:block}
 .container{max-width:640px;margin:0 auto;padding:24px 16px 60px}
 
-/* ── Config banner ── */
-.config-banner{background:var(--cream2);border:1.5px dashed var(--parchment);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:0.82rem;color:var(--text2);line-height:1.5}
+.config-banner{background:var(--cream2);border:1.5px dashed var(--parchment);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:.82rem;color:var(--text2);line-height:1.5}
 .config-banner.connected{background:#EBF7F0;border:1.5px solid #A8D9BC;color:var(--forest)}
-.config-link{color:var(--forest-mid);text-decoration:underline;cursor:pointer;font-weight:500}
 .config-row{display:flex;gap:8px;margin-top:10px}
-.config-input{flex:1;padding:9px 12px;border:1.5px solid var(--parchment);border-radius:8px;font-size:0.8rem;font-family:monospace;background:#fff;color:var(--text)}
+.config-input{flex:1;padding:9px 12px;border:1.5px solid var(--parchment);border-radius:8px;font-size:.8rem;font-family:monospace;background:#fff;color:var(--text)}
 .config-input:focus{outline:none;border-color:var(--forest-mid)}
-.btn-xs{padding:9px 14px;font-size:0.8rem;border-radius:8px;border:none;font-weight:600;cursor:pointer;background:var(--forest);color:#fff;white-space:nowrap;font-family:"Plus Jakarta Sans",sans-serif}
+.btn-xs{padding:9px 14px;font-size:.8rem;border-radius:8px;border:none;font-weight:600;cursor:pointer;background:var(--forest);color:#fff;white-space:nowrap;font-family:"Plus Jakarta Sans",sans-serif}
 
-/* ── Progress bar ── */
-.progress-wrap{display:flex;gap:4px;margin-bottom:24px;align-items:center}
-.progress-seg{flex:1;height:3px;border-radius:2px;background:var(--parchment);transition:background 0.3s}
+.progress-wrap{display:flex;gap:4px;margin-bottom:24px}
+.progress-seg{flex:1;height:3px;border-radius:2px;background:var(--parchment);transition:background .3s}
 .progress-seg.done{background:var(--forest-light)}
 .progress-seg.active{background:var(--clay)}
-.progress-label{font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
+.progress-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
 
-/* ── Card ── */
-.card{background:var(--surface);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);margin-bottom:14px;border:1px solid rgba(200,190,170,0.2)}
+.card{background:var(--surface);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);margin-bottom:14px;border:1px solid rgba(200,190,170,.2)}
 .card-title{font-family:"Fraunces",serif;font-size:1.45rem;font-weight:600;color:var(--forest);margin-bottom:6px}
-.card-sub{font-size:0.87rem;color:var(--text2);line-height:1.55;margin-bottom:22px}
+.card-sub{font-size:.87rem;color:var(--text2);line-height:1.55;margin-bottom:22px}
 
-/* ── Fields ── */
 .field{margin-bottom:18px}
-.field label{display:block;font-size:0.83rem;font-weight:600;margin-bottom:6px;color:var(--text)}
-.field label .opt{font-weight:400;color:var(--text2)}
-.field input,.field select,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--parchment);border-radius:var(--radius-sm);font-family:"Plus Jakarta Sans",sans-serif;font-size:0.93rem;color:var(--text);background:var(--cream);transition:border-color 0.2s,background 0.2s;-webkit-appearance:none;appearance:none}
+.field label{display:block;font-size:.83rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.opt{font-weight:400;color:var(--text2)}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--parchment);border-radius:var(--radius-sm);font-family:"Plus Jakarta Sans",sans-serif;font-size:.93rem;color:var(--text);background:var(--cream);transition:border-color .2s;-webkit-appearance:none;appearance:none}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--forest-mid);background:#fff}
 .field textarea{min-height:90px;resize:vertical;line-height:1.55}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C5648' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C5648' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 
-/* ── Amount inputs ── */
 .amounts-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.amount-box{border:2px solid var(--parchment);border-radius:12px;padding:14px 16px;background:var(--cream);transition:border-color 0.2s}
-.amount-box.income-box{border-color:#B8DFCA}
-.amount-box.expense-box{border-color:#F2C5AE}
-.amount-box label{display:block;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text2);margin-bottom:8px}
+.amount-box{border:2px solid var(--parchment);border-radius:12px;padding:14px 16px;background:var(--cream)}
+.amount-box.inc{border-color:#B8DFCA}.amount-box.exp{border-color:#F2C5AE}
+.amount-box label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:8px}
 .amount-box input{border:none;background:transparent;font-size:1.5rem;font-weight:700;padding:0;width:100%;color:var(--forest);font-family:"Fraunces",serif}
-.amount-box input:focus{outline:none;border:none;background:transparent}
+.amount-box input:focus{outline:none}
 .amount-box input::placeholder{color:#C8C0B0;font-weight:400;font-size:1.2rem}
 
-/* ── Net display ── */
 .net-bar{background:var(--forest);color:#fff;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.net-bar-label{font-size:0.78rem;opacity:0.7;letter-spacing:0.03em}
-.net-bar-value{font-family:"Fraunces",serif;font-size:1.35rem;font-weight:600;transition:color 0.3s}
-.net-pos{color:#74C69D}
-.net-neg{color:#FF9A8A}
+.net-bar-label{font-size:.78rem;opacity:.7}
+.net-bar-value{font-family:"Fraunces",serif;font-size:1.35rem;font-weight:600}
+.net-pos{color:#74C69D}.net-neg{color:#FF9A8A}
 
-/* ── Hint box ── */
-.hint-box{background:var(--cream2);border-left:3px solid var(--forest-light);border-radius:0 8px 8px 0;padding:10px 14px;font-size:0.8rem;color:var(--text2);margin:-4px 0 18px;line-height:1.5}
-.hint-box strong{color:var(--forest)}
+.hint-box{background:var(--cream2);border-left:3px solid var(--forest-light);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.8rem;color:var(--text2);margin:-4px 0 18px;line-height:1.5;display:none}
 
-/* ── Buttons ── */
 .btn-row{display:flex;gap:10px;margin-top:4px}
-.btn{padding:13px 22px;border-radius:10px;font-family:"Plus Jakarta Sans",sans-serif;font-size:0.93rem;font-weight:600;cursor:pointer;border:none;transition:all 0.18s;letter-spacing:0.01em}
+.btn{padding:13px 22px;border-radius:10px;font-family:"Plus Jakarta Sans",sans-serif;font-size:.93rem;font-weight:600;cursor:pointer;border:none;transition:all .18s}
 .btn-primary{background:var(--forest);color:#fff;flex:1}
 .btn-primary:hover{background:var(--forest-mid)}
-.btn-primary:disabled{opacity:0.5;cursor:default}
+.btn-primary:disabled{opacity:.5;cursor:default}
 .btn-back{background:var(--cream2);color:var(--text2)}
-.btn-back:hover{background:var(--parchment)}
 
-/* ── Success screen ── */
 .success-wrap{text-align:center;padding:40px 20px}
 .success-ring{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--forest-light),var(--forest));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px}
 .success-title{font-family:"Fraunces",serif;font-size:1.7rem;color:var(--forest);margin-bottom:8px}
-.success-sub{font-size:0.88rem;color:var(--text2);line-height:1.6;margin-bottom:28px;max-width:340px;margin-left:auto;margin-right:auto}
+.success-sub{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:28px;max-width:340px;margin-left:auto;margin-right:auto}
 
-/* ── Dashboard ── */
 .dash-hero{background:linear-gradient(135deg,var(--forest) 0%,var(--forest-mid) 100%);border-radius:var(--radius);padding:22px;margin-bottom:18px;color:#fff}
-.dash-hero h2{font-family:"Fraunces",serif;font-size:1.1rem;opacity:0.85;margin-bottom:14px}
+.dash-hero h2{font-family:"Fraunces",serif;font-size:1.1rem;opacity:.85;margin-bottom:14px}
 .totals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.total-cell{text-align:center;background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 8px}
-.total-label{font-size:0.67rem;text-transform:uppercase;letter-spacing:0.07em;opacity:0.65;margin-bottom:4px}
+.total-cell{text-align:center;background:rgba(255,255,255,.1);border-radius:10px;padding:12px 8px}
+.total-label{font-size:.67rem;text-transform:uppercase;letter-spacing:.07em;opacity:.65;margin-bottom:4px}
 .total-value{font-family:"Fraunces",serif;font-size:1.3rem;font-weight:600}
-.total-value.pos{color:#74C69D}
-.total-value.neg{color:#FF9A8A}
+.total-value.pos{color:#74C69D}.total-value.neg{color:#FF9A8A}
 
-.section-hdr{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);padding:18px 0 8px;border-bottom:1px solid var(--parchment);margin-bottom:6px;display:flex;justify-content:space-between}
+.section-hdr{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);padding:18px 0 8px;border-bottom:1px solid var(--parchment);margin-bottom:6px;display:flex;justify-content:space-between}
 
-.p-card{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 5px rgba(0,0,0,0.05);cursor:pointer;transition:box-shadow 0.18s;border:1px solid transparent}
+.p-card{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 5px rgba(0,0,0,.05);cursor:pointer;transition:box-shadow .18s;border:1px solid transparent}
 .p-card:hover{box-shadow:var(--shadow);border-color:var(--parchment)}
-.p-card.dimmed{opacity:0.38;cursor:default}
-.p-card.dimmed:hover{box-shadow:0 1px 5px rgba(0,0,0,0.05);border-color:transparent}
-
+.p-card.dimmed{opacity:.38;cursor:default;pointer-events:none}
 .tier-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
 .t-essential .tier-dot{background:var(--forest-light)}
 .t-fundraiser .tier-dot{background:var(--clay-light)}
 .t-admin .tier-dot{background:#A8A098}
 .t-tier2 .tier-dot{background:#79AFDC}
 .t-silo .tier-dot{background:#C49FD8}
-
 .p-info{flex:1;min-width:0}
-.p-name{font-size:0.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.p-meta{font-size:0.73rem;color:var(--text2);margin-top:2px;line-height:1.4}
-.p-empty{font-style:italic;color:#A8A098}
-
+.p-name{font-size:.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-size:.73rem;color:var(--text2);margin-top:2px}
 .p-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
-.p-amt{font-size:0.9rem;font-weight:700;color:var(--forest);text-align:right}
-.p-fy26{font-size:0.7rem;color:var(--text2)}
-
-.status-btn{font-size:0.68rem;font-weight:700;padding:3px 9px;border-radius:20px;cursor:pointer;border:none;letter-spacing:0.04em}
+.p-amt{font-size:.9rem;font-weight:700;color:var(--forest)}
+.p-fy26{font-size:.7rem;color:var(--text2)}
+.status-btn{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px;cursor:pointer;border:none;letter-spacing:.04em}
 .s-pending{background:#FFF3CD;color:#8B6914}
 .s-approved{background:#D1EDDB;color:#1A5C32}
 .s-cut{background:#FCE4E4;color:#8C1A1A}
-.s-cut+.p-name{text-decoration:line-through}
 
-/* ── Modal ── */
-.modal-backdrop{position:fixed;inset:0;background:rgba(20,15,8,0.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.empty-dash{text-align:center;padding:48px 20px;color:var(--text2)}
+.empty-dash h3{font-family:"Fraunces",serif;font-size:1.3rem;color:var(--text);margin-bottom:8px}
+.empty-dash p{font-size:.85rem;line-height:1.6}
+.refresh-btn{width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--parchment);background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;color:var(--text2);margin-top:16px;transition:all .18s}
+.refresh-btn:hover{background:var(--cream2)}
+.edit-btn{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px;cursor:pointer;border:1.5px solid var(--parchment);background:#fff;color:var(--text2);margin-top:2px;transition:all .15s}
+.edit-btn:hover{background:var(--cream2);border-color:var(--forest-light)}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(20,15,8,.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-backdrop.open{opacity:1;pointer-events:all}
-.modal-sheet{background:#fff;width:100%;max-width:640px;border-radius:22px 22px 0 0;padding:28px 24px 40px;transform:translateY(100%);transition:transform 0.3s ease;max-height:85vh;overflow-y:auto}
+.modal-sheet{background:#fff;width:100%;max-width:640px;border-radius:22px 22px 0 0;padding:28px 24px 40px;transform:translateY(100%);transition:transform .3s ease;max-height:85vh;overflow-y:auto}
 .modal-backdrop.open .modal-sheet{transform:translateY(0)}
 .modal-pill{width:36px;height:4px;background:var(--parchment);border-radius:2px;margin:0 auto 20px}
 .modal-title{font-family:"Fraunces",serif;font-size:1.2rem;color:var(--forest);margin-bottom:4px}
-.modal-meta{font-size:0.8rem;color:var(--text2);margin-bottom:18px}
+.modal-meta{font-size:.8rem;color:var(--text2);margin-bottom:18px}
 .modal-row{display:flex;gap:12px;margin-bottom:14px}
 .modal-box{flex:1;background:var(--cream);border-radius:10px;padding:12px 14px}
-.modal-box-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text2);margin-bottom:4px}
+.modal-box-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-bottom:4px}
 .modal-box-val{font-family:"Fraunces",serif;font-size:1.25rem;font-weight:600;color:var(--forest)}
 .modal-section{margin-bottom:16px}
-.modal-section-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text2);margin-bottom:6px}
-.modal-section-val{font-size:0.88rem;color:var(--text);line-height:1.6;white-space:pre-wrap}
-.modal-close{width:100%;padding:13px;border-radius:10px;border:none;background:var(--cream2);font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:0.93rem;cursor:pointer;margin-top:8px;color:var(--text2)}
-.modal-close:hover{background:var(--parchment)}
-
-/* ── Empty / Refresh ── */
-.empty-dash{text-align:center;padding:48px 20px;color:var(--text2)}
-.empty-dash h3{font-family:"Fraunces",serif;font-size:1.3rem;color:var(--text);margin-bottom:8px}
-.empty-dash p{font-size:0.85rem;line-height:1.6;max-width:320px;margin:0 auto}
-.refresh-btn{width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--parchment);background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:0.88rem;cursor:pointer;color:var(--text2);margin-top:16px;transition:all 0.18s}
-.refresh-btn:hover{background:var(--cream2);border-color:var(--forest-light)}
+.modal-section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-bottom:6px}
+.modal-section-val{font-size:.88rem;color:var(--text);line-height:1.6;white-space:pre-wrap}
+.modal-close{width:100%;padding:13px;border-radius:10px;border:none;background:var(--cream2);font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:.93rem;cursor:pointer;margin-top:8px;color:var(--text2)}
 
 @media(max-width:460px){
   .amounts-grid{grid-template-columns:1fr}
   .totals-grid{grid-template-columns:1fr 1fr}
   .totals-grid .total-cell:last-child{grid-column:1/-1}
-  .modal-row{flex-direction:column}
   .card{padding:20px}
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="app-header">
   <div class="header-inner">
     <div class="header-brand">
-      <div class="header-quetzal">🦜</div>
+      <div class="header-icon">🦜</div>
       <div class="header-text">
         <h1>HABLA Budget Proposals</h1>
         <p>FY 2026–27 Planning</p>
@@ -205,16 +164,21 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
   </div>
 </header>
 
-<!-- ═══════════════ SUBMIT VIEW ═══════════════ -->
+<!-- SUBMIT VIEW -->
 <div id="view-submit" class="view active">
   <div class="container">
 
     <div class="config-banner" id="configBanner">
-      ⚙️ <strong>Paste your Google Apps Script URL below to connect Google Sheets:</strong>
-      <div class="config-row" style="margin-top:10px">
+      ⚙️ <strong>Paste your Google Apps Script URL to connect Google Sheets:</strong>
+      <div class="config-row">
         <input class="config-input" id="scriptUrlIn" placeholder="https://script.google.com/macros/s/..." />
         <button class="btn-xs" onclick="saveUrl()">Save</button>
       </div>
+    </div>
+
+    <div class="config-banner" id="editBanner" style="display:none;background:#FFF8E7;border:1.5px solid #F0D080;color:#7A5C00;">
+      ✏️ <strong>Editing an existing proposal.</strong> Make your changes and click "Update Proposal" to save.
+      <span class="config-link" style="color:#7A5C00;" onclick="cancelEdit()"> Cancel edit</span>
     </div>
 
     <div class="progress-wrap" id="progressWrap">
@@ -223,10 +187,9 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
       <div class="progress-seg" id="seg2"></div>
     </div>
 
-    <!-- Step 0: Who + Which -->
     <div id="step0">
       <div class="card">
-        <div class="progress-label">Step 1 of 3 — Who & What</div>
+        <div class="progress-label">Step 1 of 3 — Who &amp; What</div>
         <h2 class="card-title">Let's start with you</h2>
         <p class="card-sub">Tell us your name and which budget line you're submitting a proposal for.</p>
         <div class="field">
@@ -235,27 +198,28 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
         </div>
         <div class="field">
           <label>Budget Line Item</label>
-          <select id="fLine" onchange="onLineChange()"><option value="">— Choose a line item —</option></select>
+          <select id="fLine">
+            <option value="">— Choose a line item —</option>
+          </select>
         </div>
-        <div id="hint0" class="hint-box" style="display:none"></div>
+        <div class="hint-box" id="hint0"></div>
         <div class="btn-row">
           <button class="btn btn-primary" onclick="go(1)">Continue →</button>
         </div>
       </div>
     </div>
 
-    <!-- Step 1: Numbers -->
     <div id="step1" style="display:none">
       <div class="card">
         <div class="progress-label">Step 2 of 3 — The Numbers</div>
         <h2 class="card-title">What are you proposing?</h2>
-        <p class="card-sub">Enter your proposed income and/or expense for FY 2026–27. Leave as 0 if not applicable.</p>
+        <p class="card-sub">Enter your proposed income and/or expense. Leave as 0 if not applicable.</p>
         <div class="amounts-grid">
-          <div class="amount-box income-box">
+          <div class="amount-box inc">
             <label>↑ Proposed Income</label>
             <input type="number" id="fInc" placeholder="0" min="0" oninput="calcNet()" />
           </div>
-          <div class="amount-box expense-box">
+          <div class="amount-box exp">
             <label>↓ Proposed Expense</label>
             <input type="number" id="fExp" placeholder="0" min="0" oninput="calcNet()" />
           </div>
@@ -266,7 +230,7 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
         </div>
         <div class="field">
           <label>Breakdown <span class="opt">(optional)</span></label>
-          <textarea id="fBreak" placeholder="e.g. Fall events $4,000 · Spring events $6,000 · Hosting costs $1,200"></textarea>
+          <textarea id="fBreak" placeholder="e.g. Fall events $4,000 · Spring events $6,000"></textarea>
         </div>
         <div class="btn-row">
           <button class="btn btn-back" onclick="go(0)">← Back</button>
@@ -275,23 +239,22 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
       </div>
     </div>
 
-    <!-- Step 2: Context -->
     <div id="step2" style="display:none">
       <div class="card">
         <div class="progress-label">Step 3 of 3 — Context</div>
         <h2 class="card-title">Help the board understand</h2>
-        <p class="card-sub">A sentence or two goes a long way. Why this amount? What's changed?</p>
+        <p class="card-sub">Why this amount? What's changed from last year?</p>
         <div class="field">
           <label>Justification</label>
-          <textarea id="fJust" placeholder="Why are you proposing this amount? What are your plans for the year?" style="min-height:110px"></textarea>
+          <textarea id="fJust" placeholder="Why are you proposing this amount? What are your plans?" style="min-height:110px"></textarea>
         </div>
         <div class="field">
-          <label>Last year's approved budget <span class="opt">(enter 0 if unknown)</span></label>
+          <label>Last year's approved budget <span class="opt">(0 if unknown)</span></label>
           <input type="number" id="fPrior" placeholder="0" min="0" />
         </div>
         <div class="field">
           <label>Notes on last year <span class="opt">(optional)</span></label>
-          <textarea id="fPNotes" placeholder="How did it go? Did you hit your goal? Any surprises?"></textarea>
+          <textarea id="fPNotes" placeholder="How did it go? Hit your goal? Any surprises?"></textarea>
         </div>
         <div class="btn-row">
           <button class="btn btn-back" onclick="go(1)">← Back</button>
@@ -300,12 +263,11 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
       </div>
     </div>
 
-    <!-- Success -->
     <div id="stepDone" style="display:none">
       <div class="card success-wrap">
         <div class="success-ring">🎉</div>
         <h2 class="success-title">Proposal Submitted!</h2>
-        <p class="success-sub" id="doneMsg">Your proposal has been saved. The board will review it at the budget meeting.</p>
+        <p class="success-sub" id="doneMsg">Your proposal has been saved.</p>
         <div class="btn-row" style="justify-content:center">
           <button class="btn btn-primary" style="flex:0 0 auto;padding:13px 28px" onclick="resetForm()">Submit Another</button>
         </div>
@@ -315,10 +277,9 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
   </div>
 </div>
 
-<!-- ═══════════════ DASHBOARD VIEW ═══════════════ -->
+<!-- DASHBOARD VIEW -->
 <div id="view-dashboard" class="view">
   <div class="container">
-
     <div class="dash-hero">
       <h2>FY 2026–27 Budget Overview</h2>
       <div class="totals-grid">
@@ -336,32 +297,21 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
         </div>
       </div>
     </div>
-
     <div id="dashBody"></div>
     <button class="refresh-btn" onclick="loadDash()">↻ Refresh proposals</button>
-
   </div>
 </div>
 
-<!-- ═══════════════ DETAIL MODAL ═══════════════ -->
+<!-- DETAIL MODAL -->
 <div class="modal-backdrop" id="modal" onclick="closeModal(event)">
-  <div class="modal-sheet" id="modalSheet">
+  <div class="modal-sheet">
     <div class="modal-pill"></div>
     <div class="modal-title" id="mTitle"></div>
     <div class="modal-meta" id="mMeta"></div>
     <div class="modal-row">
-      <div class="modal-box">
-        <div class="modal-box-label">↑ Income</div>
-        <div class="modal-box-val" id="mInc">—</div>
-      </div>
-      <div class="modal-box">
-        <div class="modal-box-label">↓ Expense</div>
-        <div class="modal-box-val" id="mExp">—</div>
-      </div>
-      <div class="modal-box">
-        <div class="modal-box-label">Net</div>
-        <div class="modal-box-val" id="mNet">—</div>
-      </div>
+      <div class="modal-box"><div class="modal-box-label">↑ Income</div><div class="modal-box-val" id="mInc">—</div></div>
+      <div class="modal-box"><div class="modal-box-label">↓ Expense</div><div class="modal-box-val" id="mExp">—</div></div>
+      <div class="modal-box"><div class="modal-box-label">Net</div><div class="modal-box-val" id="mNet">—</div></div>
     </div>
     <div class="modal-section" id="mBreakWrap">
       <div class="modal-section-label">Breakdown</div>
@@ -375,265 +325,269 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
       <div class="modal-section-label">Prior Year</div>
       <div class="modal-section-val" id="mPrior"></div>
     </div>
-    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
+    <button class="modal-close" id="modalCloseBtn">Close</button>
   </div>
 </div>
 
 <script>
-// ─────────────────────────────────────────────────
-// DATA
-// ─────────────────────────────────────────────────
 const LINES = [
-  {id:"6010",name:"Art (Art House Studio)",c:"Art",tier:"essential",fy26i:0,fy26e:15900},
-  {id:"6045",name:"Recess Support (Infinity Kids)",c:"Recess Support",tier:"essential",fy26i:0,fy26e:14950},
-  {id:"6050",name:"Music",c:"Music",tier:"essential",fy26i:0,fy26e:1800},
-  {id:"6055",name:"Science (Shmal)",c:"Science",tier:"essential",fy26i:0,fy26e:21000},
-  {id:"6120/4620",name:"Gala (Disco Quetzal)",c:"Gala",tier:"fundraiser",fy26i:30670,fy26e:25980},
-  {id:"6110/4615",name:"Caminata",c:"Caminata",tier:"fundraiser",fy26i:0,fy26e:6620},
-  {id:"6836/4625",name:"Buy-a-Spot",c:"Buy-a-Spot",tier:"fundraiser",fy26i:1667,fy26e:0},
-  {id:"6830/4645",name:"Donation Drive",c:"Donation Drive",tier:"fundraiser",fy26i:7686,fy26e:109},
-  {id:"6350/4640",name:"Quetzal Shop (Merchandise)",c:"President",tier:"fundraiser",fy26i:69,fy26e:200},
-  {id:"4690",name:"Corporate Matching",c:"Treasurer",tier:"fundraiser",fy26i:10751,fy26e:0},
-  {id:"4710",name:"Restaurant Night",c:"President",tier:"fundraiser",fy26i:0,fy26e:0},
-  {id:"6915",name:"Bookkeeper",c:"Treasurer",tier:"admin",fy26i:0,fy26e:0},
-  {id:"6920",name:"QuickBooks Online",c:"Treasurer",tier:"admin",fy26i:0,fy26e:0},
-  {id:"6925",name:"Tax Preparation & Legal",c:"Treasurer",tier:"admin",fy26i:0,fy26e:2000},
-  {id:"6928",name:"Taxes & Fees",c:"Treasurer",tier:"admin",fy26i:0,fy26e:75},
-  {id:"6930",name:"Insurance",c:"Treasurer",tier:"admin",fy26i:0,fy26e:0},
-  {id:"6935",name:"Printing & Supplies",c:"Treasurer",tier:"admin",fy26i:0,fy26e:168},
-  {id:"6940",name:"Bank Charges & Misc",c:"Treasurer",tier:"admin",fy26i:0,fy26e:10},
-  {id:"6250",name:"Website Fees",c:"Tech",tier:"admin",fy26i:0,fy26e:0},
-  {id:"6330",name:"Communications",c:"Communications",tier:"admin",fy26i:0,fy26e:66},
-  {id:"6620",name:"Teacher Grants",c:"Teacher Grants",tier:"tier2",fy26i:0,fy26e:5779},
-  {id:"6670",name:"Middle School",c:"Middle School",tier:"tier2",fy26i:0,fy26e:5338},
-  {id:"6530",name:"Afterschool Enrichment",c:"Afterschool Enrichment",tier:"tier2",fy26i:0,fy26e:6766},
-  {id:"6610",name:"Teacher Appreciation",c:"School Support",tier:"tier2",fy26i:0,fy26e:308},
-  {id:"6745",name:"Math Festival",c:"Math Festival",tier:"tier2",fy26i:0,fy26e:588},
-  {id:"6630",name:"VISA Celebrations",c:"School Support",tier:"tier2",fy26i:0,fy26e:292},
-  {id:"6685",name:"Student Activities & Celebrations",c:"School Support",tier:"tier2",fy26i:0,fy26e:0},
-  {id:"6546",name:"8th Grade Promotion",c:"8th Grade",tier:"tier2",fy26i:0,fy26e:501},
-  {id:"6539",name:"5th Grade Promotion",c:"5th Grade",tier:"tier2",fy26i:0,fy26e:500},
-  {id:"6720",name:"Hospitality",c:"Hospitality",tier:"tier2",fy26i:0,fy26e:43},
-  {id:"6735",name:"Family Sports Night",c:"Family Night",tier:"tier2",fy26i:0,fy26e:272},
-  {id:"6140",name:"All School Playdate",c:"President",tier:"tier2",fy26i:0,fy26e:279},
-  {id:"6715",name:"RG Food Drive",c:"Food Drive",tier:"tier2",fy26i:2810,fy26e:2759},
-  {id:"6710",name:"Childcare (Meetings)",c:"President",tier:"tier2",fy26i:0,fy26e:30},
-  {id:"6310",name:"School Beautification",c:"School Improvement",tier:"tier2",fy26i:0,fy26e:250},
-  {id:"6320",name:"Special Board Approved Projects",c:"HABLA Board",tier:"tier2",fy26i:0,fy26e:0},
-  {id:"6532",name:"4th Grade Gold Rush",c:"4th Grade",tier:"tier2",fy26i:0,fy26e:200},
-  {id:"6725",name:"Children's Appreciation Day",c:"Children's Day",tier:"tier2",fy26i:0,fy26e:220},
-  {id:"6750",name:"Room Parents",c:"Room Parents",tier:"tier2",fy26i:0,fy26e:0},
-  {id:"6051/4065",name:"Yearbook",c:"Yearbook",tier:"silo",fy26i:7000,fy26e:7001},
-  {id:"6415/4650",name:"Baile Día de los Muertos",c:"Baile",tier:"silo",fy26i:6256,fy26e:4130},
-  {id:"6025",name:"Art Show",c:"Art",tier:"silo",fy26i:0,fy26e:0},
+  {id:'6010',name:'Art (Art House Studio)',c:'Art',tier:'essential',fy26i:0,fy26e:15900},
+  {id:'6045',name:'Recess Support (Infinity Kids)',c:'Recess Support',tier:'essential',fy26i:0,fy26e:14950},
+  {id:'6050',name:'Music',c:'Music',tier:'essential',fy26i:0,fy26e:1800},
+  {id:'6055',name:'Science (Shmal)',c:'Science',tier:'essential',fy26i:0,fy26e:21000},
+  {id:'6120/4620',name:'Gala (Disco Quetzal)',c:'Gala',tier:'fundraiser',fy26i:30670,fy26e:25980},
+  {id:'6110/4615',name:'Caminata',c:'Caminata',tier:'fundraiser',fy26i:0,fy26e:6620},
+  {id:'6836/4625',name:'Buy-a-Spot',c:'Buy-a-Spot',tier:'fundraiser',fy26i:1667,fy26e:0},
+  {id:'6830/4645',name:'Donation Drive',c:'Donation Drive',tier:'fundraiser',fy26i:7686,fy26e:109},
+  {id:'6350/4640',name:'Quetzal Shop (Merchandise)',c:'President',tier:'fundraiser',fy26i:69,fy26e:200},
+  {id:'4690',name:'Corporate Matching',c:'Treasurer',tier:'fundraiser',fy26i:10751,fy26e:0},
+  {id:'4710',name:'Restaurant Night',c:'President',tier:'fundraiser',fy26i:0,fy26e:0},
+  {id:'6915',name:'Bookkeeper',c:'Treasurer',tier:'admin',fy26i:0,fy26e:0},
+  {id:'6920',name:'QuickBooks Online',c:'Treasurer',tier:'admin',fy26i:0,fy26e:0},
+  {id:'6925',name:'Tax Preparation & Legal',c:'Treasurer',tier:'admin',fy26i:0,fy26e:2000},
+  {id:'6928',name:'Taxes & Fees',c:'Treasurer',tier:'admin',fy26i:0,fy26e:75},
+  {id:'6930',name:'Insurance',c:'Treasurer',tier:'admin',fy26i:0,fy26e:0},
+  {id:'6935',name:'Printing & Supplies',c:'Treasurer',tier:'admin',fy26i:0,fy26e:168},
+  {id:'6940',name:'Bank Charges & Misc',c:'Treasurer',tier:'admin',fy26i:0,fy26e:10},
+  {id:'6250',name:'Website Fees',c:'Tech',tier:'admin',fy26i:0,fy26e:0},
+  {id:'6330',name:'Communications',c:'Communications',tier:'admin',fy26i:0,fy26e:66},
+  {id:'6620',name:'Teacher Grants',c:'Teacher Grants',tier:'tier2',fy26i:0,fy26e:5779},
+  {id:'6670',name:'Middle School',c:'Middle School',tier:'tier2',fy26i:0,fy26e:5338},
+  {id:'6530',name:'Afterschool Enrichment',c:'Afterschool Enrichment',tier:'tier2',fy26i:0,fy26e:6766},
+  {id:'6610',name:'Teacher Appreciation',c:'School Support',tier:'tier2',fy26i:0,fy26e:308},
+  {id:'6745',name:'Math Festival',c:'Math Festival',tier:'tier2',fy26i:0,fy26e:588},
+  {id:'6630',name:'VISA Celebrations',c:'School Support',tier:'tier2',fy26i:0,fy26e:292},
+  {id:'6685',name:'Student Activities & Celebrations',c:'School Support',tier:'tier2',fy26i:0,fy26e:0},
+  {id:'6546',name:'8th Grade Promotion',c:'8th Grade',tier:'tier2',fy26i:0,fy26e:501},
+  {id:'6539',name:'5th Grade Promotion',c:'5th Grade',tier:'tier2',fy26i:0,fy26e:500},
+  {id:'6720',name:'Hospitality',c:'Hospitality',tier:'tier2',fy26i:0,fy26e:43},
+  {id:'6735',name:'Family Sports Night',c:'Family Night',tier:'tier2',fy26i:0,fy26e:272},
+  {id:'6140',name:'All School Playdate',c:'President',tier:'tier2',fy26i:0,fy26e:279},
+  {id:'6715',name:'RG Food Drive',c:'Food Drive',tier:'tier2',fy26i:2810,fy26e:2759},
+  {id:'6710',name:'Childcare (Meetings)',c:'President',tier:'tier2',fy26i:0,fy26e:30},
+  {id:'6310',name:'School Beautification',c:'School Improvement',tier:'tier2',fy26i:0,fy26e:250},
+  {id:'6320',name:'Special Board Approved Projects',c:'HABLA Board',tier:'tier2',fy26i:0,fy26e:0},
+  {id:'6532',name:'4th Grade Gold Rush',c:'4th Grade',tier:'tier2',fy26i:0,fy26e:200},
+  {id:'6725',name:"Children's Appreciation Day",c:"Children's Day",tier:'tier2',fy26i:0,fy26e:220},
+  {id:'6750',name:'Room Parents',c:'Room Parents',tier:'tier2',fy26i:0,fy26e:0},
+  {id:'6051/4065',name:'Yearbook',c:'Yearbook',tier:'silo',fy26i:7000,fy26e:7001},
+  {id:'6415/4650',name:'Baile Día de los Muertos',c:'Baile',tier:'silo',fy26i:6256,fy26e:4130},
+  {id:'6025',name:'Art Show',c:'Art',tier:'silo',fy26i:0,fy26e:0}
 ];
 
-const TIER_META = {
-  essential: {label:"🌱 Tier 1 — Essential Programs", order:0},
-  fundraiser:{label:"🎉 Tier 1 — Fundraisers", order:1},
-  admin:     {label:"📋 Tier 1 — Admin & Operations", order:2},
-  tier2:     {label:"✨ Tier 2 — Programs & Community", order:3},
-  silo:      {label:"🔄 Self-Funded (Baile, Yearbook)", order:4},
+const TIER_LABELS = {
+  essential:'🌱 Tier 1 — Essential Programs',
+  fundraiser:'🎉 Tier 1 — Fundraisers',
+  admin:'📋 Tier 1 — Admin & Operations',
+  tier2:'✨ Tier 2 — Programs & Community',
+  silo:'🔄 Self-Funded (Baile, Yearbook)'
 };
+const TIER_ORDER = ['essential','fundraiser','admin','tier2','silo'];
 
-// ─────────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────────
 let step = 0;
-let proposals = JSON.parse(localStorage.getItem("habla_props") || "[]");
-let scriptUrl = localStorage.getItem("habla_url") || "";
+let editingId = null;
+let proposals = JSON.parse(localStorage.getItem('habla_props') || '[]');
+let scriptUrl = localStorage.getItem('habla_url') || '';
 
-// ─────────────────────────────────────────────────
-// INIT
-// ─────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────
 function init() {
-  const sel = document.getElementById("fLine");
-  const tiers = ["essential","fundraiser","admin","tier2","silo"];
-  tiers.forEach(t => {
-    const grp = document.createElement("optgroup");
-    grp.label = TIER_META[t].label;
-    LINES.filter(l => l.tier === t).forEach(l => {
-      const o = document.createElement("option");
+  const sel = document.getElementById('fLine');
+  TIER_ORDER.forEach(function(tier) {
+    const grp = document.createElement('optgroup');
+    grp.label = TIER_LABELS[tier];
+    LINES.filter(function(l) { return l.tier === tier; }).forEach(function(l) {
+      const o = document.createElement('option');
       o.value = l.id;
-      o.textContent = l.name + " (" + l.id + ")";
+      o.textContent = l.name + ' (' + l.id + ')';
       grp.appendChild(o);
     });
     sel.appendChild(grp);
   });
-  if (scriptUrl) renderConnected();
-  const hash = location.hash.replace("#","") || "submit";
+
+  sel.addEventListener('change', onLineChange);
+
+  if (scriptUrl) showConnected();
+
+  document.getElementById('modalCloseBtn').onclick = function() {
+    document.getElementById('modal').classList.remove('open');
+  };
+
+  const hash = location.hash.replace('#','') || 'submit';
   showView(hash);
 }
 
-// ─────────────────────────────────────────────────
-// VIEW ROUTING
-// ─────────────────────────────────────────────────
-function showView(name) {
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.querySelectorAll(".nav-pill").forEach((p,i) => p.classList.toggle("active", ["submit","dashboard"][i] === name));
-  document.getElementById("view-" + name).classList.add("active");
-  location.hash = name;
-  if (name === "dashboard") loadDash();
-}
-
-// ─────────────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────────────
-function toggleConfig(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "none" ? "block" : "none";
-}
+// ── Config ────────────────────────────────────────
 function saveUrl() {
-  const v = document.getElementById("scriptUrlIn").value.trim();
+  const v = document.getElementById('scriptUrlIn').value.trim();
+  if (!v) return;
   scriptUrl = v;
-  localStorage.setItem("habla_url", v);
-  renderConnected();
-}
-function renderConnected() {
-  const banner = document.getElementById("configBanner");
-  banner.className = "config-banner connected";
-  banner.innerHTML = "\u2705 <strong>Connected to Google Sheets.</strong> Submissions will be saved automatically.";
-  const changeLink = document.createElement("span");
-  changeLink.className = "config-link";
-  changeLink.style.marginLeft = "6px";
-  changeLink.textContent = " Change URL";
-  changeLink.onclick = function() {
-    const row = document.getElementById("cfgRowEdit");
-    row.style.display = row.style.display === "none" ? "block" : "none";
-  };
-  banner.appendChild(changeLink);
-  const editDiv = document.createElement("div");
-  editDiv.id = "cfgRowEdit";
-  editDiv.style.display = "none";
-  editDiv.innerHTML = "<div class=\'config-row\' style=\'margin-top:10px\'><input class=\'config-input\' id=\'scriptUrlIn2\' placeholder=\'Paste new URL...\' /><button class=\'btn-xs\' onclick=\'saveUrl2()\'>Save</button></div>";
-  banner.appendChild(editDiv);
-}
-function saveUrl2() {
-  const v = document.getElementById("scriptUrlIn2").value.trim();
-  scriptUrl = v; localStorage.setItem("habla_url", v); renderConnected();
+  localStorage.setItem('habla_url', v);
+  showConnected();
 }
 
-// ─────────────────────────────────────────────────
-// FORM WIZARD
-// ─────────────────────────────────────────────────
+function showConnected() {
+  const b = document.getElementById('configBanner');
+  b.className = 'config-banner connected';
+  b.innerHTML = '✅ <strong>Connected to Google Sheets.</strong> Submissions will be saved automatically.';
+}
+
+// ── Views ─────────────────────────────────────────
+function showView(name) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('.nav-pill').forEach(function(p, i) {
+    p.classList.toggle('active', ['submit','dashboard'][i] === name);
+  });
+  document.getElementById('view-' + name).classList.add('active');
+  location.hash = name;
+  if (name === 'dashboard') loadDash();
+}
+
+// ── Wizard ────────────────────────────────────────
 function go(n) {
   if (n > step && !validate(step)) return;
-  document.getElementById("step" + step).style.display = "none";
+  document.getElementById('step' + step).style.display = 'none';
   step = n;
-  document.getElementById("step" + step).style.display = "block";
+  document.getElementById('step' + step).style.display = 'block';
   updateProg();
-  window.scrollTo({top:0, behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function validate(n) {
   if (n === 0) {
-    if (!document.getElementById("fName").value.trim()) { alert("Please enter your name."); return false; }
-    if (!document.getElementById("fLine").value) { alert("Please select a line item."); return false; }
+    if (!document.getElementById('fName').value.trim()) { alert('Please enter your name.'); return false; }
+    if (!document.getElementById('fLine').value) { alert('Please select a line item.'); return false; }
   }
   if (n === 1) {
-    const i = parseFloat(document.getElementById("fInc").value)||0;
-    const e = parseFloat(document.getElementById("fExp").value)||0;
-    if (!i && !e) { alert("Please enter at least one amount."); return false; }
+    const i = parseFloat(document.getElementById('fInc').value) || 0;
+    const e = parseFloat(document.getElementById('fExp').value) || 0;
+    if (!i && !e) { alert('Please enter at least one amount.'); return false; }
   }
   if (n === 2) {
-    if (!document.getElementById("fJust").value.trim()) { alert("Please add a brief justification."); return false; }
+    if (!document.getElementById('fJust').value.trim()) { alert('Please add a brief justification.'); return false; }
   }
   return true;
 }
 
 function updateProg() {
-  for (let i=0;i<3;i++) {
-    const el = document.getElementById("seg"+i);
-    el.className = "progress-seg" + (i < step ? " done" : i === step ? " active" : "");
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('seg' + i);
+    el.className = 'progress-seg' + (i < step ? ' done' : i === step ? ' active' : '');
   }
 }
 
 function onLineChange() {
-  const id = document.getElementById("fLine").value;
-  const l = LINES.find(x => x.id === id);
-  const hint = document.getElementById("hint0");
-  if (!l) { hint.style.display="none"; return; }
+  const id = document.getElementById('fLine').value;
+  const l = LINES.find(function(x) { return x.id === id; });
+  const hint = document.getElementById('hint0');
+  if (!l) { hint.style.display = 'none'; return; }
   const parts = [];
-  if (l.fy26i) parts.push("Income: <strong>$" + l.fy26i.toLocaleString() + "</strong>");
-  if (l.fy26e) parts.push("Expense: <strong>$" + l.fy26e.toLocaleString() + "</strong>");
-  hint.innerHTML = "📊 FY 2026 actual — " + (parts.length ? parts.join(" · ") : "No spending recorded this year.");
-  hint.style.display = "block";
+  if (l.fy26i) parts.push('Income: <strong>$' + l.fy26i.toLocaleString() + '</strong>');
+  if (l.fy26e) parts.push('Expense: <strong>$' + l.fy26e.toLocaleString() + '</strong>');
+  hint.innerHTML = '📊 FY 2026 actual — ' + (parts.length ? parts.join(' · ') : 'No spending recorded.');
+  hint.style.display = 'block';
 }
 
 function calcNet() {
-  const i = parseFloat(document.getElementById("fInc").value)||0;
-  const e = parseFloat(document.getElementById("fExp").value)||0;
+  const i = parseFloat(document.getElementById('fInc').value) || 0;
+  const e = parseFloat(document.getElementById('fExp').value) || 0;
   const net = i - e;
-  const el = document.getElementById("netVal");
-  el.textContent = (net >= 0 ? "+" : "−") + "$" + Math.abs(net).toLocaleString();
-  el.className = "net-bar-value " + (net >= 0 ? "net-pos" : "net-neg");
+  const el = document.getElementById('netVal');
+  el.textContent = (net >= 0 ? '+' : '−') + '$' + Math.abs(net).toLocaleString();
+  el.className = 'net-bar-value ' + (net >= 0 ? 'net-pos' : 'net-neg');
 }
 
 async function submitProposal() {
   if (!validate(2)) return;
-  const btn = document.getElementById("submitBtn");
-  btn.textContent = "Saving…"; btn.disabled = true;
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
 
-  const lid = document.getElementById("fLine").value;
-  const line = LINES.find(l => l.id === lid);
-  const inc = parseFloat(document.getElementById("fInc").value)||0;
-  const exp = parseFloat(document.getElementById("fExp").value)||0;
+  const lid = document.getElementById('fLine').value;
+  const line = LINES.find(function(l) { return l.id === lid; });
+  const inc = parseFloat(document.getElementById('fInc').value) || 0;
+  const exp = parseFloat(document.getElementById('fExp').value) || 0;
 
   const p = {
     id: Date.now().toString(),
     ts: new Date().toISOString(),
-    by: document.getElementById("fName").value.trim(),
+    by: document.getElementById('fName').value.trim(),
     committee: line.c,
     lineId: lid,
     lineName: line.name,
     tier: line.tier,
-    income: inc, expense: exp, net: inc - exp,
-    breakdown: document.getElementById("fBreak").value.trim(),
-    just: document.getElementById("fJust").value.trim(),
-    priorAmt: parseFloat(document.getElementById("fPrior").value)||0,
-    priorNotes: document.getElementById("fPNotes").value.trim(),
-    status: "Pending"
+    income: inc,
+    expense: exp,
+    net: inc - exp,
+    breakdown: document.getElementById('fBreak').value.trim(),
+    just: document.getElementById('fJust').value.trim(),
+    priorAmt: parseFloat(document.getElementById('fPrior').value) || 0,
+    priorNotes: document.getElementById('fPNotes').value.trim(),
+    status: 'Pending'
   };
 
-  proposals.push(p);
-  localStorage.setItem("habla_props", JSON.stringify(proposals));
+  if (editingId) {
+    // Replace existing proposal
+    const idx = proposals.findIndex(function(x) { return x.id === editingId; });
+    if (idx !== -1) {
+      p.id = editingId; // keep same id
+      p.status = proposals[idx].status; // preserve status
+      proposals[idx] = p;
+    } else {
+      proposals.push(p);
+    }
+    editingId = null;
+    document.getElementById('submitBtn').textContent = 'Submit Proposal ✓';
+    document.getElementById('editBanner').style.display = 'none';
+  } else {
+    proposals.push(p);
+  }
+  localStorage.setItem('habla_props', JSON.stringify(proposals));
 
-  let extra = "";
+  let extra = '';
   if (scriptUrl) {
     try {
-      await fetch(scriptUrl, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify(p)});
-      extra = " It's been saved to Google Sheets too.";
-    } catch(e) { extra = " (Google Sheets sync failed — saved locally.)"; }
+      await fetch(scriptUrl, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(p)
+      });
+      extra = ' Also saved to Google Sheets.';
+    } catch(e) {
+      extra = ' (Google Sheets sync failed — saved locally.)';
+    }
   }
 
-  document.getElementById("step2").style.display = "none";
-  document.getElementById("progressWrap").style.display = "none";
-  document.getElementById("doneMsg").textContent = "Your proposal for "" + line.name + "" was saved." + (extra || " The board will review it at the meeting.");
-  document.getElementById("stepDone").style.display = "block";
-  btn.textContent = "Submit Proposal ✓"; btn.disabled = false;
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('doneMsg').textContent =
+    'Your proposal for "' + line.name + '" was saved.' + (extra || ' The board will review it at the meeting.');
+  document.getElementById('stepDone').style.display = 'block';
+  btn.textContent = 'Submit Proposal ✓'; btn.disabled = false;
 }
 
 function resetForm() {
-  ["fName","fInc","fExp","fBreak","fJust","fPrior","fPNotes"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("fLine").value = "";
-  document.getElementById("hint0").style.display = "none";
-  document.getElementById("netVal").textContent = "$0";
-  document.getElementById("netVal").className = "net-bar-value";
-  document.getElementById("stepDone").style.display = "none";
-  document.getElementById("progressWrap").style.display = "flex";
+  ['fName','fInc','fExp','fBreak','fJust','fPrior','fPNotes'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('fLine').value = '';
+  document.getElementById('hint0').style.display = 'none';
+  document.getElementById('netVal').textContent = '$0';
+  document.getElementById('netVal').className = 'net-bar-value';
+  document.getElementById('stepDone').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'flex';
   step = 0;
-  document.getElementById("step0").style.display = "block";
+  document.getElementById('step0').style.display = 'block';
+  document.getElementById('submitBtn').textContent = 'Submit Proposal ✓';
+  document.getElementById('editBanner').style.display = 'none';
+  editingId = null;
   updateProg();
 }
 
-// ─────────────────────────────────────────────────
-// DASHBOARD
-// ─────────────────────────────────────────────────
+// ── Dashboard ─────────────────────────────────────
 async function loadDash() {
-  let data = [...proposals];
+  let data = proposals.slice();
   if (scriptUrl) {
     try {
-      const r = await fetch(scriptUrl, {headers:{"Accept":"application/json"}});
+      const r = await fetch(scriptUrl);
       const json = await r.json();
       if (Array.isArray(json) && json.length) data = json;
     } catch(e) {}
@@ -641,102 +595,191 @@ async function loadDash() {
   renderDash(data);
 }
 
+function fmt(n) { return '$' + Math.abs(n).toLocaleString(); }
+
 function renderDash(data) {
-  const active = data.filter(p => p.status !== "Cut");
-  const totI = active.reduce((s,p) => s + (p.income||0), 0);
-  const totE = active.reduce((s,p) => s + (p.expense||0), 0);
+  const active = data.filter(function(p) { return p.status !== 'Cut'; });
+  const totI = active.reduce(function(s,p) { return s + (p.income||0); }, 0);
+  const totE = active.reduce(function(s,p) { return s + (p.expense||0); }, 0);
   const net = totI - totE;
 
-  document.getElementById("dtInc").textContent = totI ? "$" + totI.toLocaleString() : "—";
-  document.getElementById("dtExp").textContent = totE ? "$" + totE.toLocaleString() : "—";
-  const ne = document.getElementById("dtNet");
-  ne.textContent = net ? (net>=0?"+":"−") + "$" + Math.abs(net).toLocaleString() : "—";
-  ne.className = "total-value " + (net >= 0 ? "pos" : "neg");
+  document.getElementById('dtInc').textContent = totI ? fmt(totI) : '—';
+  document.getElementById('dtExp').textContent = totE ? fmt(totE) : '—';
+  const ne = document.getElementById('dtNet');
+  ne.textContent = net ? (net >= 0 ? '+' : '−') + fmt(net) : '—';
+  ne.className = 'total-value ' + (net >= 0 ? 'pos' : 'neg');
+
+  const body = document.getElementById('dashBody');
 
   if (!data.length) {
-    document.getElementById("dashBody").innerHTML =
-      "<div class='empty-dash'><h3>No proposals yet</h3><p>Share the Submit tab with committee chairs. Proposals appear here once submitted.</p></div>";
+    body.innerHTML = '<div class="empty-dash"><h3>No proposals yet</h3><p>Share the Submit tab with committee chairs. Their proposals appear here once submitted.</p></div>';
     return;
   }
 
-  const tiers = ["essential","fundraiser","admin","tier2","silo"];
-  let html = "";
-  tiers.forEach(tier => {
-    const linesInTier = LINES.filter(l => l.tier === tier);
-    const subsInTier = data.filter(p => p.tier === tier);
-    if (!subsInTier.length && !linesInTier.some(l => data.find(p => p.lineId === l.id))) return;
-    
-    html += "<div class='section-hdr'><span>" + TIER_META[tier].label + "</span><span>" + subsInTier.length + " submitted</span></div>";
+  body.innerHTML = '';
 
-    linesInTier.forEach(line => {
-      const sub = data.find(p => p.lineId === line.id);
-      if (!sub) {
-        html += "<div class='p-card t-" + tier + " dimmed'>" +
-          "<div class='tier-dot'></div>" +
-          "<div class='p-info'><div class='p-name p-empty'>" + line.name + "</div>" +
-          "<div class='p-meta'>No proposal submitted</div></div>" +
-          "<div class='p-right'><div class='p-fy26'>" + fy26str(line) + "</div></div></div>";
-        return;
+  TIER_ORDER.forEach(function(tier) {
+    const tierLines = LINES.filter(function(l) { return l.tier === tier; });
+    const tierSubs = data.filter(function(p) { return p.tier === tier; });
+
+    const hdr = document.createElement('div');
+    hdr.className = 'section-hdr';
+    hdr.innerHTML = '<span>' + TIER_LABELS[tier] + '</span><span>' + tierSubs.length + ' submitted</span>';
+    body.appendChild(hdr);
+
+    tierLines.forEach(function(line) {
+      const sub = data.find(function(p) { return p.lineId === line.id; });
+      const card = document.createElement('div');
+      card.className = 'p-card t-' + tier + (sub ? '' : ' dimmed');
+
+      const dot = document.createElement('div');
+      dot.className = 'tier-dot';
+      card.appendChild(dot);
+
+      const info = document.createElement('div');
+      info.className = 'p-info';
+
+      const name = document.createElement('div');
+      name.className = 'p-name';
+      name.textContent = line.name;
+      info.appendChild(name);
+
+      const meta = document.createElement('div');
+      meta.className = 'p-meta';
+      const fy26parts = [];
+      if (line.fy26i) fy26parts.push('↑' + fmt(line.fy26i));
+      if (line.fy26e) fy26parts.push('↓' + fmt(line.fy26e));
+      meta.textContent = sub
+        ? sub.by + ' · FY26: ' + (fy26parts.length ? fy26parts.join(' ') : '—')
+        : 'No proposal submitted · FY26: ' + (fy26parts.length ? fy26parts.join(' ') : '—');
+      info.appendChild(meta);
+      card.appendChild(info);
+
+      if (sub) {
+        const right = document.createElement('div');
+        right.className = 'p-right';
+
+        const amt = document.createElement('div');
+        amt.className = 'p-amt';
+        if (sub.income && sub.expense) {
+          amt.textContent = '↑' + fmt(sub.income) + ' / ↓' + fmt(sub.expense);
+        } else if (sub.income) {
+          amt.textContent = '↑ ' + fmt(sub.income);
+        } else {
+          amt.textContent = '↓ ' + fmt(sub.expense);
+        }
+        right.appendChild(amt);
+
+        const sbtn = document.createElement('button');
+        const st = sub.status || 'Pending';
+        sbtn.className = 'status-btn s-' + st.toLowerCase();
+        sbtn.textContent = st;
+        sbtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          cycleStatus(sub.id, sbtn);
+        });
+        right.appendChild(sbtn);
+
+        const ebtn = document.createElement('button');
+        ebtn.className = 'edit-btn';
+        ebtn.textContent = '✏️ Edit';
+        ebtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          loadForEdit(sub.id);
+        });
+        right.appendChild(ebtn);
+        card.appendChild(right);
+
+        card.addEventListener('click', function() { openModal(sub.id); });
       }
-      const sc = "s-" + (sub.status||"Pending").toLowerCase();
-      const amtStr = sub.income && sub.expense
-        ? "↑$" + sub.income.toLocaleString() + " / ↓$" + sub.expense.toLocaleString()
-        : sub.income ? "↑ $" + sub.income.toLocaleString() : "↓ $" + sub.expense.toLocaleString();
-      html += "<div class='p-card t-" + tier + "' onclick='openModal("" + sub.id + "")'>"+
-        "<div class='tier-dot'></div>" +
-        "<div class='p-info'><div class='p-name'>" + line.name + "</div>" +
-        "<div class='p-meta'>" + sub.by + " · " + fy26str(line) + "</div></div>" +
-        "<div class='p-right'>" +
-        "<div class='p-amt'>" + amtStr + "</div>" +
-        "<button class='status-btn " + sc + "' onclick='event.stopPropagation();cycleStatus("" + sub.id + "",this)'>" +
-        (sub.status||"Pending") + "</button></div></div>";
+
+      body.appendChild(card);
     });
   });
-
-  document.getElementById("dashBody").innerHTML = html;
-}
-
-function fy26str(line) {
-  const parts = [];
-  if (line.fy26i) parts.push("↑$" + line.fy26i.toLocaleString());
-  if (line.fy26e) parts.push("↓$" + line.fy26e.toLocaleString());
-  return "FY26: " + (parts.length ? parts.join(" ") : "—");
 }
 
 function cycleStatus(id, btn) {
-  const order = ["Pending","Approved","Cut"];
-  const p = proposals.find(p => p.id === id);
+  const order = ['Pending','Approved','Cut'];
+  const p = proposals.find(function(p) { return p.id === id; });
   if (!p) return;
-  const next = order[(order.indexOf(p.status||"Pending")+1)%3];
+  const next = order[(order.indexOf(p.status || 'Pending') + 1) % 3];
   p.status = next;
-  localStorage.setItem("habla_props", JSON.stringify(proposals));
+  localStorage.setItem('habla_props', JSON.stringify(proposals));
   btn.textContent = next;
-  btn.className = "status-btn s-" + next.toLowerCase();
-  loadDash();
+  btn.className = 'status-btn s-' + next.toLowerCase();
+  // Refresh totals
+  renderDash(proposals);
 }
 
 function openModal(id) {
-  const p = proposals.find(p => p.id === id);
+  const p = proposals.find(function(p) { return p.id === id; });
   if (!p) return;
-  document.getElementById("mTitle").textContent = p.lineName;
-  document.getElementById("mMeta").textContent = "Submitted by " + p.by + " · " + new Date(p.ts).toLocaleDateString();
-  document.getElementById("mInc").textContent = p.income ? "$" + p.income.toLocaleString() : "—";
-  document.getElementById("mExp").textContent = p.expense ? "$" + p.expense.toLocaleString() : "—";
-  const n = (p.income||0) - (p.expense||0);
-  document.getElementById("mNet").textContent = n ? (n>=0?"+":"−")+"$"+Math.abs(n).toLocaleString() : "—";
-  document.getElementById("mBreakWrap").style.display = p.breakdown ? "block" : "none";
-  document.getElementById("mBreak").textContent = p.breakdown;
-  document.getElementById("mJust").textContent = p.just || "No justification provided.";
-  let priorTxt = "";
-  if (p.priorAmt) priorTxt += "Budget approved: $" + p.priorAmt.toLocaleString() + "\n";
+  document.getElementById('mTitle').textContent = p.lineName;
+  document.getElementById('mMeta').textContent =
+    'Submitted by ' + p.by + ' · ' + new Date(p.ts).toLocaleDateString();
+  document.getElementById('mInc').textContent = p.income ? fmt(p.income) : '—';
+  document.getElementById('mExp').textContent = p.expense ? fmt(p.expense) : '—';
+  const n = (p.income || 0) - (p.expense || 0);
+  document.getElementById('mNet').textContent = n ? (n >= 0 ? '+' : '−') + fmt(n) : '—';
+  document.getElementById('mBreakWrap').style.display = p.breakdown ? 'block' : 'none';
+  document.getElementById('mBreak').textContent = p.breakdown;
+  document.getElementById('mJust').textContent = p.just || 'No justification provided.';
+  let priorTxt = '';
+  if (p.priorAmt) priorTxt += 'Budget approved: ' + fmt(p.priorAmt) + '\n';
   if (p.priorNotes) priorTxt += p.priorNotes;
-  document.getElementById("mPriorWrap").style.display = priorTxt ? "block" : "none";
-  document.getElementById("mPrior").textContent = priorTxt;
-  document.getElementById("modal").classList.add("open");
+  document.getElementById('mPriorWrap').style.display = priorTxt ? 'block' : 'none';
+  document.getElementById('mPrior').textContent = priorTxt;
+  document.getElementById('modal').classList.add('open');
 }
 
 function closeModal(e) {
-  if (e.target === document.getElementById("modal")) document.getElementById("modal").classList.remove("open");
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+function cancelEdit() {
+  editingId = null;
+  resetForm();
+}
+
+function loadForEdit(id) {
+  const p = proposals.find(function(p) { return p.id === id; });
+  if (!p) return;
+
+  // Switch to submit view
+  showView('submit');
+
+  // Mark as editing
+  editingId = id;
+
+  // Pre-fill form
+  document.getElementById('fName').value = p.by || '';
+  document.getElementById('fLine').value = p.lineId || '';
+  document.getElementById('fInc').value = p.income || '';
+  document.getElementById('fExp').value = p.expense || '';
+  document.getElementById('fBreak').value = p.breakdown || '';
+  document.getElementById('fJust').value = p.just || '';
+  document.getElementById('fPrior').value = p.priorAmt || '';
+  document.getElementById('fPNotes').value = p.priorNotes || '';
+
+  // Trigger hint and net calc
+  onLineChange();
+  calcNet();
+
+  // Jump straight to step 1 (numbers) so they see everything
+  document.getElementById('step0').style.display = 'none';
+  step = 1;
+  document.getElementById('step1').style.display = 'block';
+  updateProg();
+
+  // Change submit button label
+  document.getElementById('submitBtn').textContent = 'Update Proposal ✓';
+
+  // Show editing banner
+  document.getElementById('editBanner').style.display = 'block';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 init();
