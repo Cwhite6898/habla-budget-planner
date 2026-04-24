@@ -210,13 +210,10 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--cream);color:va
   <div class="container">
 
     <div class="config-banner" id="configBanner">
-      ⚙️ <strong>Setup needed:</strong> Add your Google Apps Script URL to save submissions to Google Sheets.
-      <span class="config-link" onclick="toggleConfig('cfgRow')">Add URL →</span>
-      <div id="cfgRow" style="display:none">
-        <div class="config-row" style="margin-top:10px">
-          <input class="config-input" id="scriptUrlIn" placeholder="https://script.google.com/macros/s/..." />
-          <button class="btn-xs" onclick="saveUrl()">Save</button>
-        </div>
+      ⚙️ <strong>Paste your Google Apps Script URL below to connect Google Sheets:</strong>
+      <div class="config-row" style="margin-top:10px">
+        <input class="config-input" id="scriptUrlIn" placeholder="https://script.google.com/macros/s/..." />
+        <button class="btn-xs" onclick="saveUrl()">Save</button>
       </div>
     </div>
 
@@ -493,13 +490,23 @@ function saveUrl() {
   renderConnected();
 }
 function renderConnected() {
-  document.getElementById("configBanner").className = "config-banner connected";
-  document.getElementById("configBanner").innerHTML = 
-    "✅ <strong>Connected to Google Sheets.</strong> Submissions will be saved automatically. " +
-    "<span class='config-link' onclick='toggleConfig("cfgRowEdit")'>Change URL</span>" +
-    "<div id='cfgRowEdit' style='display:none'><div class='config-row' style='margin-top:10px'>" +
-    "<input class='config-input' id='scriptUrlIn2' placeholder='Paste new URL...' />" +
-    "<button class='btn-xs' onclick='saveUrl2()'>Save</button></div></div>";
+  const banner = document.getElementById("configBanner");
+  banner.className = "config-banner connected";
+  banner.innerHTML = "\u2705 <strong>Connected to Google Sheets.</strong> Submissions will be saved automatically.";
+  const changeLink = document.createElement("span");
+  changeLink.className = "config-link";
+  changeLink.style.marginLeft = "6px";
+  changeLink.textContent = " Change URL";
+  changeLink.onclick = function() {
+    const row = document.getElementById("cfgRowEdit");
+    row.style.display = row.style.display === "none" ? "block" : "none";
+  };
+  banner.appendChild(changeLink);
+  const editDiv = document.createElement("div");
+  editDiv.id = "cfgRowEdit";
+  editDiv.style.display = "none";
+  editDiv.innerHTML = "<div class=\'config-row\' style=\'margin-top:10px\'><input class=\'config-input\' id=\'scriptUrlIn2\' placeholder=\'Paste new URL...\' /><button class=\'btn-xs\' onclick=\'saveUrl2()\'>Save</button></div>";
+  banner.appendChild(editDiv);
 }
 function saveUrl2() {
   const v = document.getElementById("scriptUrlIn2").value.trim();
