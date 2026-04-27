@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABLA FY2026 Budget vs Actuals</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Lora:wght@600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#0f6e56; --teal-lt:#e1f5ee; --teal-mid:#1d9e75;
+  --coral:#c4461e; --coral-lt:#faece7;
+  --amber:#a8650b; --amber-lt:#faeeda;
+  --blue:#185fa5; --blue-lt:#deeaf7;
+  --red:#a32d2d; --red-lt:#fcebeb;
+  --green:#267319; --green-lt:#eaf3de;
+  --sand:#f4efe6; --sand-dk:#e5ddd0;
+  --ink:#1e1c18; --muted:#706e66; --hint:#a5a29a; --faint:#ddd8ce;
+  --white:#fff; --page:#faf7f2;
+  --r:12px; --r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--page);color:var(--ink);font-size:15px;line-height:1.5;max-width:680px;margin:0 auto}
+
+/* HEADER */
+.hdr{background:var(--ink);padding:20px 16px 18px}
+.hdr-title{font-family:'Lora',serif;font-size:22px;color:#fff;font-weight:600;line-height:1.2}
+.hdr-sub{font-size:12px;color:#a09e96;margin-top:4px}
+.hdr-alert{background:rgba(255,215,80,.12);border:1px solid rgba(255,215,80,.3);border-radius:8px;padding:10px 13px;font-size:12px;color:#f7e08a;margin-top:14px;line-height:1.6}
+.hdr-alert b{color:#fdd96a}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 12px;background:var(--sand);border-bottom:2px solid var(--sand-dk)}
+.hc{background:var(--white);border-radius:10px;padding:12px 14px;border:1px solid var(--sand-dk)}
+.hc-val{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--ink)}
+.hc-lbl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
+.hc.teal .hc-val{color:var(--teal)}
+.hc.red  .hc-val{color:var(--red)}
+.hc.amber .hc-val{color:var(--amber)}
+
+/* TABS */
+.tabs{display:flex;background:var(--sand);position:sticky;top:0;z-index:20;border-bottom:2px solid var(--sand-dk)}
+.tab{flex:1;padding:11px 6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* PANELS */
+.panel{display:none;padding:14px 12px 80px}
+.panel.on{display:block}
+
+/* CALLOUT */
+.callout{border-radius:var(--r-sm);padding:11px 14px;font-size:13px;line-height:1.6;margin-bottom:16px}
+.callout b{font-weight:600}
+.callout.amber{background:var(--amber-lt);color:#5c3806}
+.callout.teal {background:var(--teal-lt); color:#0a4535}
+.callout.blue {background:var(--blue-lt); color:#0c3568}
+.callout.red  {background:var(--red-lt);  color:#6b1c1c}
+
+/* SECTION LABEL */
+.sec{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:20px 0 8px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--faint)}
+
+/* LINE ITEM CARD */
+.item{background:var(--white);border:1px solid var(--faint);border-radius:var(--r);padding:12px 14px;margin-bottom:7px}
+.item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:7px}
+.item-name{font-size:14px;font-weight:500;color:var(--ink);flex:1;line-height:1.3}
+.item-acct{font-size:11px;color:var(--hint);display:block;margin-top:1px;font-weight:400}
+.item-note{font-size:11px;color:var(--muted);font-style:italic;margin-top:2px;display:block}
+.item-nums{text-align:right;flex-shrink:0}
+.item-actual{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
+.item-budget{font-size:11px;color:var(--hint);white-space:nowrap;margin-top:1px}
+.bar-row{display:flex;align-items:center;gap:8px}
+.bar-track{flex:1;height:7px;background:var(--faint);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;min-width:2px}
+.bar-fill.teal  {background:var(--teal-mid)}
+.bar-fill.green {background:var(--green)}
+.bar-fill.amber {background:var(--amber)}
+.bar-fill.blue  {background:#378add}
+.bar-fill.coral {background:var(--coral)}
+.bar-fill.gray  {background:var(--hint)}
+.bar-fill.stripe{background:repeating-linear-gradient(90deg,#c8c2b4 0,#c8c2b4 5px,var(--faint) 5px,var(--faint) 10px)}
+.bar-pct{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;min-width:40px;text-align:right}
+.bar-pct.over{color:var(--coral)}
+.bar-pct.done{color:var(--teal)}
+.bar-pct.low {color:var(--hint)}
+.bar-pct.coming{color:var(--amber);font-style:italic}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;margin-left:5px;vertical-align:middle;white-space:nowrap}
+.badge.coming{background:var(--amber-lt);color:#7a4708}
+.badge.done  {background:var(--teal-lt); color:var(--teal)}
+.badge.over  {background:var(--red-lt);  color:var(--red)}
+.badge.warn  {background:var(--coral-lt);color:var(--coral)}
+.badge.gray  {background:var(--faint);   color:var(--muted)}
+
+/* SUBTOTAL / TOTAL */
+.subtotal{background:var(--sand);border:1px solid var(--sand-dk);border-radius:var(--r);padding:11px 14px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+.subtotal-name{font-size:13px;font-weight:600;color:var(--ink)}
+.subtotal-nums{text-align:right}
+.subtotal-actual{font-size:15px;font-weight:600;color:var(--ink)}
+.subtotal-pct{font-size:11px;color:var(--muted);margin-top:1px}
+.subtotal.dark{background:var(--ink);border-color:var(--ink)}
+.subtotal.dark .subtotal-name{color:#fff}
+.subtotal.dark .subtotal-actual{color:#fff}
+.subtotal.dark .subtotal-pct{color:#a09e96}
+.grandtotal{background:var(--ink);border-radius:var(--r);padding:14px;margin-top:4px}
+.grandtotal-row{display:flex;justify-content:space-between;align-items:center}
+.grandtotal-name{font-size:14px;font-weight:600;color:#fff}
+.grandtotal-nums{text-align:right}
+.grandtotal-actual{font-family:'Lora',serif;font-size:20px;font-weight:600;color:#fff}
+.grandtotal-pct{font-size:12px;color:#a09e96;margin-top:2px}
+
+/* GROUP TOGGLE */
+.group-hdr{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:10px 14px;background:var(--sand);border-radius:var(--r);border:1px solid var(--sand-dk);margin-bottom:7px;user-select:none;-webkit-user-select:none}
+.group-hdr-name{font-size:13px;font-weight:600;color:var(--ink)}
+.group-hdr-right{display:flex;align-items:center;gap:10px}
+.group-hdr-pct{font-size:12px;color:var(--muted)}
+.chevron{font-size:12px;color:var(--hint);transition:transform .2s;display:inline-block}
+.group-hdr.open .chevron{transform:rotate(180deg)}
+.group-body{display:none}
+.group-body.open{display:block}
+
+/* SUMMARY GRID */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.sum-card{background:var(--white);border:1px solid var(--faint);border-radius:var(--r);padding:14px}
+.sum-card h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+.sum-card .big{font-family:'Lora',serif;font-size:22px;font-weight:600;color:var(--ink)}
+.sum-card .sm{font-size:12px;color:var(--muted);margin-top:3px}
+.sum-card.teal .big{color:var(--teal)}
+.sum-card.red  .big{color:var(--red)}
+.sum-card.amber .big{color:var(--amber)}
+
+/* SPOTS */
+.spots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spot{border-radius:var(--r-sm);padding:11px 13px;font-size:12px;line-height:1.5}
+.spot b{font-weight:600;display:block;margin-bottom:2px}
+.spot.bright{background:var(--teal-lt);color:#0a4535}
+.spot.watch {background:var(--amber-lt);color:#5c3806}
+.spot.alert {background:var(--red-lt);  color:#6b1c1c}
+
+.neg{color:var(--coral)}
+.pos{color:var(--teal)}
+.footnote{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-title">HABLA Friends of River Glen</div>
+  <div class="hdr-sub">FY 2026 Budget vs. Actuals · Jul 2025 – Jun 2026 · As of April 26, 2026</div>
+  <div class="hdr-alert">
+    <b>Board note:</b> Caminata is not yet complete and Gala income has not fully come in — both are spring events still wrapping up. The current deficit is normal and expected at this stage of the year.
+  </div>
+</div>
+
+<!-- HERO STATS -->
+<div class="hero">
+  <div class="hc teal">
+    <div class="hc-val">$80,059</div>
+    <div class="hc-lbl">Income received<br>54% of $148,750</div>
+  </div>
+  <div class="hc amber">
+    <div class="hc-val">$107,727</div>
+    <div class="hc-lbl">Expenses to date<br>67% of $161,445</div>
+  </div>
+  <div class="hc red">
+    <div class="hc-val">−$27,666</div>
+    <div class="hc-lbl">Current net<br>(normal at this stage)</div>
+  </div>
+  <div class="hc">
+    <div class="hc-val">217%</div>
+    <div class="hc-lbl">Corp. matching<br>$10,851 vs $5,000 goal</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="show('income',this)">📥 Income</button>
+  <button class="tab"    onclick="show('expenses',this)">📤 Expenses</button>
+  <button class="tab"    onclick="show('bigpic',this)">🔭 Big Picture</button>
+</div>
+
+
+<!-- ═══════════════════════════════
+     INCOME PANEL
+═══════════════════════════════ -->
+<div id="income" class="panel on">
+
+  <div class="callout amber">
+    <b>Why is income at 54%?</b> Gala (84% collected) and Caminata (16% collected) together are budgeted at $93,800 — our two biggest fundraisers. Both are still wrapping up. Everything else is largely on track or ahead of goal.
+  </div>
+
+  <div class="sec">Restricted Income</div>
+
+  <div class="item">
+    <div class="item-top">
+      <div>
+        <span class="item-name">RG Food Drive Donations<span class="badge done">Goal met ✓</span></span>
+        <span class="item-acct">4300</span>
+      </div>
+      <div class="item-nums">
+        <div class="item-actual pos">$2,810</div>
+        <div class="item-budget">of $2,700</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div>
+      <div class="bar-pct over">104%</div>
+    </div>
+  </div>
+
+  <div class="subtotal">
+    <div class="subtotal-name">Total Restricted Income</div>
+    <div class="subtotal-nums">
+      <div class="subtotal-actual">$2,810</div>
+      <div class="subtotal-pct">104% of $2,700</div>
+    </div>
+  </div>
+
+  <div class="sec">Unrestricted Income</div>
+
+  <div class="item">
+    <div class="item-top">
+      <div>
+        <span class="item-name">Yearbook Sales<span class="badge gray">Not yet collected</span></span>
+        <span class="item-acct">4065</span>
+      </div>
+      <div class="item-nums">
+        <div class="item-actual">$0</div>
+        <div class="item-budget">of $7,000</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div>
+      <div class="bar-pct low">0%</div>
+    </div>
+  </div>
+
+  <!-- 4610 Cultural & Fundraising Events -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">4610 · Cultural &amp; Fundraising Events</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$64,059 / $117,800</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Caminata<span class="badge coming">In progress</span></span>
+          <span class="item-acct">4615</span>
+          <span class="item-note">Event still wrapping up — $35,683 still to come in</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$6,717</div>
+          <div class="item-budget">of $42,400</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill stripe" style="width:16%"></div></div>
+        <div class="bar-pct coming">16%*</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Gala Night (Disco Quetzal)<span class="badge coming">In progress</span></span>
+          <span class="item-acct">4620</span>
+          <span class="item-note">Strong showing — $8,000 still to come in</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$43,400</div>
+          <div class="item-budget">of $51,400</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill stripe" style="width:84%"></div></div>
+        <div class="bar-pct coming">84%*</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Donation Drive (Fall)</span>
+          <span class="item-acct">4645</span>
+          <span class="item-note">Fall campaign closed</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$7,686</div>
+          <div class="item-budget">of $20,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill blue" style="width:38%"></div></div>
+        <div class="bar-pct low">38%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Baile de los Muertos<span class="badge over">156% !</span></span>
+          <span class="item-acct">4650</span>
+          <span class="item-note">Exceeded income goal by $2,256 🎉</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual pos">$6,256</div>
+          <div class="item-budget">of $4,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div>
+        <div class="bar-pct over">156%</div>
+      </div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Cultural &amp; Fundraising Events</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$64,059</div>
+        <div class="subtotal-pct">54% of $117,800</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4665 Ongoing Fundraising -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">4665 · Ongoing Fundraising</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$12,734 / $21,250</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Buy-a-Spot<span class="badge gray">Active</span></span>
+          <span class="item-acct">4625</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$1,667</div>
+          <div class="item-budget">of $12,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill blue" style="width:14%"></div></div>
+        <div class="bar-pct low">14%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Merchandise Sales</span>
+          <span class="item-acct">4640</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$69</div>
+          <div class="item-budget">of $4,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill blue" style="width:2%"></div></div>
+        <div class="bar-pct low">2%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">General Donations</span>
+          <span class="item-acct">4660</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$148</div>
+          <div class="item-budget">of $250</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:59%"></div></div>
+        <div class="bar-pct">59%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Corporate Matching<span class="badge over">217% !</span></span>
+          <span class="item-acct">4690</span>
+          <span class="item-note">Standout — more than doubled the goal 🎉</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual pos">$10,851</div>
+          <div class="item-budget">of $5,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div>
+        <div class="bar-pct over">217%</div>
+      </div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Ongoing Fundraising</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$12,734</div>
+        <div class="subtotal-pct">60% of $21,250</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interest / Other -->
+  <div class="item">
+    <div class="item-top">
+      <div>
+        <span class="item-name">Interest Income</span>
+        <span class="item-acct">4800</span>
+      </div>
+      <div class="item-nums">
+        <div class="item-actual">$5</div>
+        <div class="item-budget">no budget set</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+      <div class="bar-pct low">—</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-top">
+      <div>
+        <span class="item-name">Uncategorized Income</span>
+        <span class="item-note">Misc. deposit + savings interest</span>
+      </div>
+      <div class="item-nums">
+        <div class="item-actual">$450</div>
+        <div class="item-budget">no budget set</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+      <div class="bar-pct low">—</div>
+    </div>
+  </div>
+
+  <div class="subtotal">
+    <div class="subtotal-name">Total Unrestricted Income</div>
+    <div class="subtotal-nums">
+      <div class="subtotal-actual">$76,799</div>
+      <div class="subtotal-pct">53% of $146,050</div>
+    </div>
+  </div>
+
+  <div class="sec">Other Revenue</div>
+
+  <div class="item">
+    <div class="item-top">
+      <div>
+        <span class="item-name">Interest Earned (savings)</span>
+        <span class="item-acct">8000</span>
+      </div>
+      <div class="item-nums">
+        <div class="item-actual">$2</div>
+        <div class="item-budget">no budget set</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+      <div class="bar-pct low">—</div>
+    </div>
+  </div>
+
+  <div class="grandtotal">
+    <div class="grandtotal-row">
+      <div class="grandtotal-name">TOTAL REVENUE</div>
+      <div class="grandtotal-nums">
+        <div class="grandtotal-actual">$80,059</div>
+        <div class="grandtotal-pct">53.8% of $148,750 budget</div>
+      </div>
+    </div>
+  </div>
+  <p class="footnote">* Gala &amp; Caminata are spring events still wrapping up — low % is expected and normal</p>
+
+</div><!-- /income -->
+
+
+<!-- ═══════════════════════════════
+     EXPENSES PANEL
+═══════════════════════════════ -->
+<div id="expenses" class="panel">
+
+  <div class="callout teal">
+    <b>Expenses are at 67%.</b> Core school programs (Art, Recess, Music, Science) were paid in full upfront at the start of the year — that's by design and on budget. Note: Gala Night costs are slightly over budget; flagged below.
+  </div>
+
+  <div class="sec">6000 · School Support Programs</div>
+
+  <!-- 6040 Essential Programs -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6040 · Essential Programs</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$32,650 / $32,650 · 100%</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Art Program (K–8)<span class="badge done">Fully paid</span></span>
+          <span class="item-acct">6010</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$15,900</div>
+          <div class="item-budget">of $15,900</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+        <div class="bar-pct done">100%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Recess Support (K–8)<span class="badge done">Fully paid</span></span>
+          <span class="item-acct">6045</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$14,950</div>
+          <div class="item-budget">of $14,950</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+        <div class="bar-pct done">100%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Music Program<span class="badge done">Fully paid</span></span>
+          <span class="item-acct">6050</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$1,800</div>
+          <div class="item-budget">of $1,800</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+        <div class="bar-pct done">100%</div>
+      </div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Essential Programs</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$32,650</div>
+        <div class="subtotal-pct">100% of $32,650</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6070 Academic Enrichment -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6070 · Academic Enrichment</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$51,748 / $65,874 · 79%</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Science Workshops<span class="badge done">Fully paid</span></span>
+          <span class="item-acct">6055</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$21,000</div>
+          <div class="item-budget">of $21,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+        <div class="bar-pct done">100%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Student Enrichment Scholarships</span>
+          <span class="item-acct">6530</span>
+          <span class="item-note">Soccer, theater, garden programs</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$6,766</div>
+          <div class="item-budget">of $8,300</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill amber" style="width:82%"></div></div>
+        <div class="bar-pct">82%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Field Trips<span class="badge done">Fully paid</span></span>
+          <span class="item-acct">6531</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$4,500</div>
+          <div class="item-budget">of $4,500</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div>
+        <div class="bar-pct done">100%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Teacher Reimbursement Grants</span>
+          <span class="item-acct">6620</span>
+          <span class="item-note">More grants still to be issued</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$12,779</div>
+          <div class="item-budget">of $20,650</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill amber" style="width:62%"></div></div>
+        <div class="bar-pct">62%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Middle School Learning Opportunities</span>
+          <span class="item-acct">6670</span>
+          <span class="item-note">Books, clubs, technology, enrichment</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$6,115</div>
+          <div class="item-budget">of $9,624</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill amber" style="width:64%"></div></div>
+        <div class="bar-pct">64%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Math Festival</span>
+          <span class="item-acct">6745</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$588</div>
+          <div class="item-budget">of $1,800</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill blue" style="width:33%"></div></div>
+        <div class="bar-pct low">33%</div>
+      </div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Academic Enrichment</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$51,748</div>
+        <div class="subtotal-pct">79% of $65,874</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6100 Community Events -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6100 · Community Events</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$4,680 / $4,650 · 101%</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">All School Playdate</span>
+          <span class="item-acct">6140</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$279</div>
+          <div class="item-budget">of $300</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:93%"></div></div>
+        <div class="bar-pct">93%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Baile de los Muertos<span class="badge warn">Slightly over</span></span>
+          <span class="item-acct">6415</span>
+          <span class="item-note">$130 over budget — T-shirts, decor &amp; supplies</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$4,130</div>
+          <div class="item-budget">of $4,000</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div>
+        <div class="bar-pct over">103%</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Family Sports Night</span>
+          <span class="item-acct">6735</span>
+        </div>
+        <div class="item-nums">
+          <div class="item-actual">$272</div>
+          <div class="item-budget">of $350</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-track"><div class="bar-fill teal" style="width:78%"></div></div>
+        <div class="bar-pct">78%</div>
+      </div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Community Events</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$4,680</div>
+        <div class="subtotal-pct">101% of $4,650</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6600 School & Community Support -->
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6600 · School &amp; Community Support</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$4,153 / $16,051 · 26%</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Yearbook<span class="badge gray">Not yet</span></span><span class="item-acct">6051</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $7,001</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">School Beautification<span class="badge gray">Not yet</span></span><span class="item-acct">6310</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $250</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Board Approved Special Project Fund</span><span class="item-acct">6320</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">$0 budgeted</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">—</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">4th Grade Gold Rush<span class="badge gray">Not yet</span></span><span class="item-acct">6532</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">5th Grade Science Camp / Promotion<span class="badge gray">Not yet</span></span><span class="item-acct">6539</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $500</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">8th Grade Camp / Promotion<span class="badge done">Done</span></span><span class="item-acct">6546</span></div>
+        <div class="item-nums"><div class="item-actual">$501</div><div class="item-budget">of $500</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill teal" style="width:100%"></div></div><div class="bar-pct done">100%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Teacher &amp; Staff Appreciation</span><span class="item-acct">6610</span><span class="item-note">Breakfasts and appreciation events</span></div>
+        <div class="item-nums"><div class="item-actual">$308</div><div class="item-budget">of $2,000</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:15%"></div></div><div class="bar-pct low">15%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">VISA Program</span><span class="item-acct">6630</span><span class="item-note">Monthly ice cream celebrations</span></div>
+        <div class="item-nums"><div class="item-actual">$292</div><div class="item-budget">of $800</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:37%"></div></div><div class="bar-pct low">37%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Student Activities &amp; Celebrations<span class="badge gray">Not yet</span></span><span class="item-acct">6685</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $700</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Child Care — Meetings &amp; Events</span><span class="item-acct">6710</span></div>
+        <div class="item-nums"><div class="item-actual">$30</div><div class="item-budget">of $150</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:20%"></div></div><div class="bar-pct low">20%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">RG Food Drive (distributions)</span><span class="item-acct">6715</span><span class="item-note">Gift cards and food for families</span></div>
+        <div class="item-nums"><div class="item-actual">$2,759</div><div class="item-budget">of $3,200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill teal" style="width:86%"></div></div><div class="bar-pct">86%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Hospitality</span><span class="item-acct">6720</span></div>
+        <div class="item-nums"><div class="item-actual">$43</div><div class="item-budget">of $550</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:8%"></div></div><div class="bar-pct low">8%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Children's Appreciation Day<span class="badge warn">Slightly over</span></span><span class="item-acct">6725</span><span class="item-note">$20 over budget — Field Day supplies</span></div>
+        <div class="item-nums"><div class="item-actual">$220</div><div class="item-budget">of $200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div><div class="bar-pct over">110%</div></div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total School &amp; Community Support</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$4,153</div>
+        <div class="subtotal-pct">26% of $16,051</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subtotal dark">
+    <div class="subtotal-name">Total 6000 · School Support Programs</div>
+    <div class="subtotal-nums">
+      <div class="subtotal-actual">$93,231</div>
+      <div class="subtotal-pct">78% of $119,225</div>
+    </div>
+  </div>
+
+  <!-- 6800 Fundraising Expenses -->
+  <div class="sec">6800 · Fundraising Expenses</div>
+
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6800 · Fundraising Expenses</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">$33,177 / $35,961 · 92%</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Caminata (event costs)<span class="badge coming">In progress</span></span><span class="item-acct">6110</span><span class="item-note">Event still running — more costs expected</span></div>
+        <div class="item-nums"><div class="item-actual">$7,087</div><div class="item-budget">of $11,411</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill stripe" style="width:62%"></div></div><div class="bar-pct coming">62%*</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Gala Night (event costs)<span class="badge over">Over budget ⚠️</span></span><span class="item-acct">6120</span><span class="item-note">$3,030 over $22,950 budget — board should review</span></div>
+        <div class="item-nums"><div class="item-actual neg">$25,980</div><div class="item-budget">of $22,950</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill coral" style="width:100%"></div></div><div class="bar-pct over">113%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Merchandise<span class="badge gray">Not yet</span></span><span class="item-acct">6350</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Parent Donation Campaign</span><span class="item-acct">6830</span><span class="item-note">Printing for donation letters</span></div>
+        <div class="item-nums"><div class="item-actual">$109</div><div class="item-budget">of $200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill amber" style="width:55%"></div></div><div class="bar-pct">55%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Buy-a-Spot (expense)<span class="badge gray">Not yet</span></span><span class="item-acct">6835</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $1,200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total Fundraising Expenses</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual">$33,177</div>
+        <div class="subtotal-pct">92% of $35,961</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6900 G&A -->
+  <div class="sec">6900 · General &amp; Administrative</div>
+
+  <div class="callout blue">
+    <b>Why does the G&amp;A total show −$18,681?</b> This is an accounting entry, not missing money. A $21,000 "Prepaid Expenses" reversal (6960) offsets the Science Workshop prepayment made in a prior period. Actual cash spent on admin is normal and small.
+  </div>
+
+  <div class="group-hdr open" onclick="toggle(this)">
+    <div class="group-hdr-name">6900 · General &amp; Administrative</div>
+    <div class="group-hdr-right">
+      <span class="group-hdr-pct">See note above</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+  <div class="group-body open">
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Website Fees<span class="badge gray">Not yet</span></span><span class="item-acct">6250</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $60</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Communications</span><span class="item-acct">6330</span></div>
+        <div class="item-nums"><div class="item-actual">$66</div><div class="item-budget">of $1,549</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:4%"></div></div><div class="bar-pct low">4%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Bookkeeper Fees<span class="badge gray">Not yet</span></span><span class="item-acct">6915</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $900</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">QuickBooks Online Annual Fee<span class="badge gray">Not yet</span></span><span class="item-acct">6920</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $100</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Tax Preparation &amp; Legal Fees</span><span class="item-acct">6925</span></div>
+        <div class="item-nums"><div class="item-actual">$2,000</div><div class="item-budget">of $2,200</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill amber" style="width:91%"></div></div><div class="bar-pct">91%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Taxes and Fees</span><span class="item-acct">6928</span></div>
+        <div class="item-nums"><div class="item-actual">$75</div><div class="item-budget">of $100</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill amber" style="width:75%"></div></div><div class="bar-pct">75%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Insurance<span class="badge gray">Not yet</span></span><span class="item-acct">6930</span></div>
+        <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $800</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Printing and Supplies</span><span class="item-acct">6935</span></div>
+        <div class="item-nums"><div class="item-actual">$168</div><div class="item-budget">of $500</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:34%"></div></div><div class="bar-pct low">34%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div><span class="item-name">Bank Charges</span><span class="item-acct">6940</span></div>
+        <div class="item-nums"><div class="item-actual">$10</div><div class="item-budget">of $50</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:20%"></div></div><div class="bar-pct low">20%</div></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <span class="item-name">Prepaid Expenses (accounting reversal)</span>
+          <span class="item-acct">6960</span>
+          <span class="item-note">−$21,000 reversal of Science Workshop prepayment — not a cash outflow, accounting only</span>
+        </div>
+        <div class="item-nums"><div class="item-actual neg">−$21,000</div><div class="item-budget">no budget</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">—</div></div>
+    </div>
+
+    <div class="subtotal">
+      <div class="subtotal-name">Total G&amp;A (incl. reversal)</div>
+      <div class="subtotal-nums">
+        <div class="subtotal-actual neg">−$18,681</div>
+        <div class="subtotal-pct">See accounting note above</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grandtotal">
+    <div class="grandtotal-row">
+      <div class="grandtotal-name">TOTAL EXPENDITURES</div>
+      <div class="grandtotal-nums">
+        <div class="grandtotal-actual">$107,727</div>
+        <div class="grandtotal-pct">66.7% of $161,445 budget</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /expenses -->
+
+
+<!-- ═══════════════════════════════
+     BIG PICTURE PANEL
+═══════════════════════════════ -->
+<div id="bigpic" class="panel">
+
+  <div class="sum-grid">
+    <div class="sum-card red">
+      <h4>Current net</h4>
+      <div class="big">−$27,666</div>
+      <div class="sm">Normal — spring income arriving</div>
+    </div>
+    <div class="sum-card amber">
+      <h4>Budgeted year-end</h4>
+      <div class="big">−$12,695</div>
+      <div class="sm">If spring targets are hit</div>
+    </div>
+    <div class="sum-card teal">
+      <h4>Income collected</h4>
+      <div class="big">$80,059</div>
+      <div class="sm">54% of $148,750 budget</div>
+    </div>
+    <div class="sum-card">
+      <h4>Expenses to date</h4>
+      <div class="big">$107,727</div>
+      <div class="sm">67% of $161,445 budget</div>
+    </div>
+  </div>
+
+  <div class="callout teal">
+    <b>HABLA's financial health is strong.</b> Core school programs (Art, Recess, Science, Music = $67,650) were paid upfront in the fall — that's why expenses run ahead of income at this point. The budget was designed this way, with Gala and Caminata closing the gap in spring. We have a healthy reserve in the bank.
+  </div>
+
+  <div class="sec">Spring income still to come</div>
+
+  <div class="item">
+    <div class="item-top">
+      <div><span class="item-name">Caminata<span class="badge coming">In progress</span></span><span class="item-note">$35,683 still to come in</span></div>
+      <div class="item-nums"><div class="item-actual">$6,717</div><div class="item-budget">of $42,400</div></div>
+    </div>
+    <div class="bar-row"><div class="bar-track"><div class="bar-fill stripe" style="width:16%"></div></div><div class="bar-pct coming">16%</div></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top">
+      <div><span class="item-name">Gala Night<span class="badge coming">In progress</span></span><span class="item-note">$8,000 still to come in — nearly there</span></div>
+      <div class="item-nums"><div class="item-actual">$43,400</div><div class="item-budget">of $51,400</div></div>
+    </div>
+    <div class="bar-row"><div class="bar-track"><div class="bar-fill stripe" style="width:84%"></div></div><div class="bar-pct coming">84%</div></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top">
+      <div><span class="item-name">Buy-a-Spot</span><span class="item-note">$10,333 still to raise</span></div>
+      <div class="item-nums"><div class="item-actual">$1,667</div><div class="item-budget">of $12,000</div></div>
+    </div>
+    <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:14%"></div></div><div class="bar-pct low">14%</div></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top">
+      <div><span class="item-name">Yearbook Sales<span class="badge gray">Not yet collected</span></span></div>
+      <div class="item-nums"><div class="item-actual">$0</div><div class="item-budget">of $7,000</div></div>
+    </div>
+    <div class="bar-row"><div class="bar-track"><div class="bar-fill gray" style="width:0%"></div></div><div class="bar-pct low">0%</div></div>
+  </div>
+
+  <div class="item">
+    <div class="item-top">
+      <div><span class="item-name">Merchandise Sales</span></div>
+      <div class="item-nums"><div class="item-actual">$69</div><div class="item-budget">of $4,000</div></div>
+    </div>
+    <div class="bar-row"><div class="bar-track"><div class="bar-fill blue" style="width:2%"></div></div><div class="bar-pct low">2%</div></div>
+  </div>
+
+  <div class="sec">Bright spots 🎉</div>
+  <div class="spots">
+    <div class="spot bright"><b>Corp. matching at 217%</b>$10,851 raised vs. $5,000 goal — extraordinary community support.</div>
+    <div class="spot bright"><b>Baile exceeded income</b>156% of goal — $2,256 over budget on income.</div>
+    <div class="spot bright"><b>Food Drive over goal</b>$2,810 raised vs. $2,700 budgeted (104%).</div>
+    <div class="spot bright"><b>Gala nearly in</b>84% collected — only $8K still to close.</div>
+  </div>
+
+  <div class="sec" style="margin-top:20px">Things to watch</div>
+  <div class="spots">
+    <div class="spot alert"><b>⚠️ Gala expenses over</b>$25,980 spent vs. $22,950 budget (113%). Board should discuss.</div>
+    <div class="spot watch"><b>Caminata income at 16%</b>$35,683 still expected — largest remaining gap.</div>
+    <div class="spot watch"><b>Buy-a-Spot at 14%</b>$10,333 still to raise — needs a push.</div>
+    <div class="spot watch"><b>Yearbook &amp; Merch</b>$11,000 combined still ahead — timing dependent.</div>
+  </div>
+
+</div><!-- /bigpic -->
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+function toggle(hdr) {
+  hdr.classList.toggle('open');
+  hdr.nextElementSibling.classList.toggle('open');
+}
+</script>
+</body>
+</html>
