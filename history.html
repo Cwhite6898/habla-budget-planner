@@ -762,6 +762,216 @@
     .cover-stats { gap: 28px; }
   }
 </style>
+
+<style id="mobile-overrides">
+/* ════════════════════════════════════
+   MOBILE-FIRST OVERRIDES
+   Comprehensive mobile optimization
+   ════════════════════════════════════ */
+
+/* ── TABLE: replace with horizontal scroll + year cards on mobile ── */
+.mobile-table-note {
+  display: none;
+  background: rgba(200,134,10,0.1);
+  border: 1px solid rgba(200,134,10,0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* ── YEAR SUMMARY CARDS (mobile only) ── */
+.year-cards {
+  display: none;
+}
+.year-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.yc-header {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+.yc-fy {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+.yc-net {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+}
+.yc-chevron {
+  font-size: 12px;
+  color: var(--ink-faint);
+  transition: transform 0.2s;
+}
+.yc-body {
+  display: none;
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+}
+.yc-body.open { display: block; }
+.yc-chevron.open { transform: rotate(180deg); }
+.yc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(28,26,23,0.05);
+  font-size: 13px;
+}
+.yc-row:last-child { border-bottom: none; }
+.yc-label { color: var(--ink-muted); }
+.yc-val { font-family: 'DM Mono', monospace; font-size: 13px; }
+.yc-section-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  padding: 10px 0 4px;
+  font-weight: 600;
+}
+.yc-covid-banner {
+  background: rgba(139,26,26,0.08);
+  border-left: 3px solid var(--covid-red);
+  padding: 8px 12px;
+  margin: 10px 0;
+  font-size: 12px;
+  color: var(--covid-red);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  border-radius: 0 4px 4px 0;
+}
+.yc-balance {
+  background: rgba(27,94,74,0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.yc-balance-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.yc-balance-row:last-child { margin-bottom: 0; }
+.yc-balance-label { color: var(--ink-muted); font-size: 11px; letter-spacing: 0.5px; }
+.yc-balance-val { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: var(--green); }
+
+@media (max-width: 767px) {
+  /* ── BASE ── */
+  body { font-size: 15px; }
+
+  /* ── COVER ── */
+  .cover { padding: 36px 20px 44px; }
+  .cover::before { font-size: 120px; right: -10px; top: -10px; }
+  .cover-title { font-size: 28px; }
+  .cover-sub { font-size: 16px; margin-bottom: 32px; }
+  .cover-stats { gap: 20px; display: grid; grid-template-columns: 1fr 1fr; }
+  .cover-stat-val { font-size: 24px; }
+  .cover-stat-lbl { font-size: 11px; }
+
+  /* ── SECTIONS ── */
+  .section { padding: 36px 18px; }
+  .section-title { font-size: 24px; }
+  .section-lead { font-size: 15px; margin-bottom: 24px; }
+
+  /* ── TABLE: hide on mobile, show year cards ── */
+  .master-table-wrap { display: none; }
+  .mobile-table-note { display: block; }
+  .year-cards { display: block; }
+
+  /* ── CHARTS: single column, shorter ── */
+  .chart-grid { grid-template-columns: 1fr; gap: 16px; }
+  .chart-card.full { grid-column: 1; }
+  canvas { max-height: 200px !important; }
+  .chart-card { padding: 16px; }
+  .chart-title { font-size: 14px; }
+  .chart-sub { font-size: 12px; }
+
+  /* ── GALA VENUE CARDS: 2-col grid ── */
+  .gala-venue-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .venue-art { height: 80px; font-size: 32px; }
+  .venue-info { padding: 10px 12px; }
+  .venue-year { font-size: 9px; }
+  .venue-name { font-size: 13px; }
+  .venue-income { font-size: 11px; }
+
+  /* ── CAMINATA CARDS: 2-col grid ── */
+  .caminata-themes { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .theme-card { padding: 14px 10px; }
+  .theme-icon { width: 48px; height: 48px; font-size: 22px; margin-bottom: 8px; }
+  .theme-year { font-size: 9px; }
+  .theme-name { font-size: 13px; }
+  .theme-amount { font-size: 13px; }
+  .theme-note { font-size: 11px; }
+
+  /* ── COVID SECTION ── */
+  .covid-inner { padding: 36px 18px; }
+  .covid-title { font-size: 22px; }
+  .covid-sub { font-size: 14px; margin-bottom: 24px; }
+  /* Stack the 2-col covid layout */
+  .covid-inner > div[style*="grid-template-columns"] {
+    display: block !important;
+  }
+  .covid-impact-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+  .covid-number { font-size: 22px; }
+  /* Timeline: compress */
+  .timeline-line { left: 72px; }
+  .timeline-date { width: 60px; font-size: 9px; }
+  .timeline-event { gap: 12px; margin-bottom: 20px; }
+  .timeline-title { font-size: 14px; }
+  .timeline-body { font-size: 12px; }
+
+  /* ── VENDOR TIMELINE ── */
+  .vendor-timeline { grid-template-columns: 1fr; gap: 20px; }
+  .vt-body { padding: 16px; }
+  .vt-era-name { font-size: 14px; }
+  .vt-era-desc { font-size: 12px; }
+
+  /* ── BUDGET SECTION ── */
+  .budget-inner { padding: 36px 18px; }
+  .budget-title { font-size: 22px; }
+  .budget-lead { font-size: 14px; margin-bottom: 28px; }
+  .budget-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 20px; }
+  .budget-card { padding: 18px; }
+  .bc-name { font-size: 16px; }
+  .bc-rec-val { font-size: 18px; }
+  .budget-total-row { flex-direction: column; gap: 6px; padding: 16px 18px; }
+  .bt-label { font-size: 16px; }
+  .bt-val { font-size: 24px; }
+  .watchlist { padding: 16px; }
+  .watch-body { font-size: 13px; }
+
+  /* ── ERA CARDS (program spending section) ── */
+  .chart-card.full + div[style*="grid-template-columns"] { 
+    grid-template-columns: 1fr !important; 
+  }
+
+  /* ── FOOTNOTES ── */
+  .footnotes { padding: 24px 18px; }
+  .footnote { font-size: 12px; }
+
+  /* ── THREE-COL PROGRAM CARDS ── */
+  div[style*="grid-template-columns:1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -800,7 +1010,238 @@
   <div class="section-label">Historical Overview</div>
   <h2 class="section-title">Income & Expense Summary</h2>
   <p class="section-lead">All figures in USD. FY17–FY19 Buy-a-Spot is parsed from Caminata deposits; FY20 onward is a dedicated line item. Baile and Yearbook excluded (breakeven). FY26 is year-to-date through April 2026.</p>
-  <div class="master-table-wrap">
+  
+  <!-- Mobile year cards (hidden on desktop) -->
+  <div class="mobile-table-note">📱 Tap any year below to expand details</div>
+  <div class="year-cards" id="yearCards">
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY17 · Jul 2016–Jun 2017</div><div style="font-size:12px;color:var(--ink-faint);">Library remodel year</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net neg">-$50,461</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala</span><span class="yc-val">$26,884</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🎃</span><span class="yc-val">$51,180</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">~$220</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$5,088</span></div>
+        <div class="yc-row"><span class="yc-label">Other</span><span class="yc-val">$9,584</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$108,999</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$159,460</span></div>
+        <div class="yc-row" style="font-size:11px;color:var(--ink-faint)"><span class="yc-label">incl. Library $25,399</span><span class="yc-val">+ Music Theater $15,631</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val" style="color:var(--terra)">-$50,461</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$84,338</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY18 · Jul 2017–Jun 2018</div><div style="font-size:12px;color:var(--ink-faint);">Library remodel continued</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net neg">-$2,487</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala</span><span class="yc-val">$24,725</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🎃 Halloween</span><span class="yc-val">$54,436</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">~$4,055</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$985</span></div>
+        <div class="yc-row"><span class="yc-label">Other</span><span class="yc-val">$8,823</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$123,654</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$126,141</span></div>
+        <div class="yc-row" style="font-size:11px;color:var(--ink-faint)"><span class="yc-label">incl. Library $36,000</span><span></span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val" style="color:var(--terra)">-$2,487</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$81,851</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY19 · Jul 2018–Jun 2019</div><div style="font-size:12px;color:var(--ink-faint);">Strong surplus year</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$33,603</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala</span><span class="yc-val">$29,394</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🎨 Chalk</span><span class="yc-val">$50,574</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">~$7,484</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$3,702</span></div>
+        <div class="yc-row"><span class="yc-label">Other</span><span class="yc-val">$3,262</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$97,733</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$64,130</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$33,603</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$115,454</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card" style="border-color:rgba(139,26,26,0.3);">
+      <div class="yc-header" onclick="toggleCard(this)" style="background:rgba(139,26,26,0.04);">
+        <div><div class="yc-fy" style="color:var(--covid-red)">FY20 ☣ COVID · Jul 2019–Jun 2020</div><div style="font-size:12px;color:var(--covid-red)">Schools closed March 2020</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$3,759</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-covid-banner">☣ Schools closed mid-March 2020 after the Gala. Caminata cancelled.</div>
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala ✓ Valid benchmark</span><span class="yc-val">$40,805</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata (pre-sales only)</span><span class="yc-val">$1,200</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">$5,366</span></div>
+        <div class="yc-row"><span class="yc-label">Corp. Matching (elevated)</span><span class="yc-val">$21,100</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$76,639</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$72,880</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$3,759</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$119,213</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card" style="border-color:rgba(139,26,26,0.3);">
+      <div class="yc-header" onclick="toggleCard(this)" style="background:rgba(139,26,26,0.04);">
+        <div><div class="yc-fy" style="color:var(--covid-red)">FY21 ☣ COVID · Jul 2020–Jun 2021</div><div style="font-size:12px;color:var(--covid-red)">Full remote — opened last 6 weeks</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$23,196</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-covid-banner">☣ No Gala. No Caminata. Read-a-thon was the main fundraiser.</div>
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Read-a-thon 📚</span><span class="yc-val">$19,771</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">$6,031</span></div>
+        <div class="yc-row"><span class="yc-label">General Donations</span><span class="yc-val">$5,937</span></div>
+        <div class="yc-row"><span class="yc-label">Other</span><span class="yc-val">~$11K</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$47,658</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Teacher Grants</span><span class="yc-val">$8,508</span></div>
+        <div class="yc-row"><span class="yc-label">Clubs & Activities</span><span class="yc-val">$3,438</span></div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$24,462</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$23,196</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$142,409</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY22 · Jul 2021–Jun 2022</div><div style="font-size:12px;color:var(--gold)">Gala returns — record year 🏎️</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$52,635</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala — Fast & Furious 🏎️</span><span class="yc-val">$74,302</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🔍 Scavenger Hunt</span><span class="yc-val">$14,418</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">$5,879</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$5,499</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$130,415</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$77,780</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$52,635</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance (✓ Tax)</span><span class="yc-balance-val">$195,044</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY23 · Jul 2022–Jun 2023</div><div style="font-size:12px;color:var(--gold)">Best income year ever 🎸</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$50,678</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala — La Bamba 🎸</span><span class="yc-val">$71,731</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🎨 Chalk</span><span class="yc-val">$49,475</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">$13,477</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$5,060</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$169,683</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$119,005</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$50,678</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance (✓ Tax)</span><span class="yc-balance-val">$245,005</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY24 · Jul 2023–Jun 2024</div><div style="font-size:12px;color:var(--ink-faint)">Science workshops added 🌺</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$21,198</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala — Encanto 🌺</span><span class="yc-val">$68,654</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata 🎨 Chalk</span><span class="yc-val">$50,816</span></div>
+        <div class="yc-row"><span class="yc-label">Buy-a-Spot</span><span class="yc-val">$5,986</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$7,098</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$167,167</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Science Workshops (new)</span><span class="yc-val">$21,420</span></div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$145,969</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$21,198</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance (✓ Tax)</span><span class="yc-balance-val">~$266,203</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card">
+      <div class="yc-header" onclick="toggleCard(this)">
+        <div><div class="yc-fy">FY25 · Jul 2024–Jun 2025</div><div style="font-size:12px;color:var(--ink-faint)">School co-funded art & music 🤠</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net pos">+$4,894</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div class="yc-section-head">Income</div>
+        <div class="yc-row"><span class="yc-label">Gala — Rodeo 🤠</span><span class="yc-val">$46,706</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata (lighter year)</span><span class="yc-val">$29,728</span></div>
+        <div class="yc-row"><span class="yc-label">Donation Drive</span><span class="yc-val">$16,152</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$7,309</span></div>
+        <div class="yc-row" style="font-weight:600"><span class="yc-label">Total Income</span><span class="yc-val">$120,427</span></div>
+        <div class="yc-section-head">Expenses</div>
+        <div class="yc-row"><span class="yc-label">Art & Music (school paid)</span><span class="yc-val">$175</span></div>
+        <div class="yc-row"><span class="yc-label">Teacher Grants (all-time high)</span><span class="yc-val">$18,909</span></div>
+        <div class="yc-row"><span class="yc-label">Total Expenses</span><span class="yc-val">$115,533</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Net</span><span class="yc-balance-val">+$4,894</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Year-End Balance</span><span class="yc-balance-val">~$271,097</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-card" style="border-color:var(--gold); box-shadow:0 0 0 1px rgba(200,134,10,0.2);">
+      <div class="yc-header" onclick="toggleCard(this)" style="background:rgba(200,134,10,0.05);">
+        <div><div class="yc-fy" style="color:var(--gold)">FY26 ◆ YTD · Jul 2025–Apr 2026</div><div style="font-size:12px;color:var(--gold)">Year in progress — Disco Quetzal 🪩</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="yc-net neg">~-$30K proj.</span><span class="yc-chevron">▼</span></div>
+      </div>
+      <div class="yc-body">
+        <div style="background:rgba(200,134,10,0.08);border-left:3px solid var(--gold);padding:8px 12px;margin:10px 0;font-size:12px;color:var(--gold);border-radius:0 4px 4px 0;">◆ Year in progress — Caminata still upcoming</div>
+        <div class="yc-section-head">Income (YTD)</div>
+        <div class="yc-row"><span class="yc-label">Gala — Disco Quetzal 🪩</span><span class="yc-val">~$50K exp.</span></div>
+        <div class="yc-row"><span class="yc-label">Caminata</span><span class="yc-val">upcoming</span></div>
+        <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$10,751</span></div>
+        <div class="yc-row"><span class="yc-label">Total YTD Income</span><span class="yc-val">$65,531</span></div>
+        <div class="yc-section-head">Key Notes</div>
+        <div class="yc-row"><span class="yc-label">Art House (HABLA half)</span><span class="yc-val">$15,900</span></div>
+        <div class="yc-row"><span class="yc-label">Individuo (content creation)</span><span class="yc-val">$1,800</span></div>
+        <div class="yc-row"><span class="yc-label">Musical Theatre subsidy 🎭</span><span class="yc-val">$5,000</span></div>
+        <div class="yc-balance">
+          <div class="yc-balance-row"><span class="yc-balance-label">Proj. Full Year Net</span><span class="yc-balance-val" style="color:var(--terra)">~-$30,000</span></div>
+          <div class="yc-balance-row"><span class="yc-balance-label">Proj. Ending Balance</span><span class="yc-balance-val">~$241,000</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end year-cards -->
+
+<div class="master-table-wrap">
     <table class="master-table">
       <thead>
         <tr>
@@ -1847,5 +2288,15 @@ new Chart(document.getElementById('netChart'), {
   }
 });
 </script>
+
+<script>
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.yc-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+</script>
+
 </body>
 </html>
