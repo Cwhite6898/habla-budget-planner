@@ -150,6 +150,25 @@
     font-weight: 400;
     letter-spacing: 0.5px;
     white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .master-table th.covid-col {
+    background: rgba(100,20,20,0.85) !important;
+  }
+  .master-table th.covid-col2 {
+    background: rgba(80,15,15,0.75) !important;
+  }
+  .master-table th.ytd-col {
+    background: rgba(120,80,0,0.85) !important;
+  }
+  .master-table th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: var(--green);
+    text-align: left;
   }
   .master-table th:first-child { text-align: left; }
   .master-table td {
@@ -157,6 +176,8 @@
     text-align: right;
     border-bottom: 1px solid rgba(28,26,23,0.06);
     white-space: nowrap;
+    position: relative;
+    z-index: 0;
   }
   .master-table td:first-child {
     text-align: left;
@@ -164,6 +185,25 @@
     font-size: 14px;
     color: var(--ink-muted);
     padding-left: 18px;
+    position: sticky;
+    left: 0;
+    background: white;
+    z-index: 1;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.06);
+  }
+  .master-table tr:hover td:first-child { background: #fdfaf5; }
+  .master-table .row-total td:first-child { background: var(--cream); }
+  .master-table .row-net td:first-child { background: #f6f9f8; }
+  .master-table .row-section td:first-child { background: #f1f5f4; color: var(--green); }
+  .master-table tr[style*="rgba(27,94,74,0.03)"] td:first-child { background: #f8fafa !important; }
+  .master-table tr[style*="rgba(27,94,74,0.06)"] td:first-child { background: #f1f5f4 !important; }
+  /* Ensure all inline-styled tds don't float above sticky elements */
+  .master-table td[style]:not(:first-child) { position: relative; z-index: 0; }
+  /* Net row label needs solid background */
+  .master-table .row-net td:first-child {
+    background: #f6f9f8 !important;
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
   }
   .master-table tr:hover td { background: rgba(200,134,10,0.04); }
   .master-table .row-total td {
@@ -1234,6 +1274,7 @@
         <div class="yc-section-head">Income (YTD)</div>
         <div class="yc-row"><span class="yc-label">Gala — Disco Quetzal 🪩</span><span class="yc-val">~$50K exp.</span></div>
         <div class="yc-row"><span class="yc-label">Caminata</span><span class="yc-val">upcoming</span></div>
+        <div class="yc-row"><span class="yc-label">Donation Drive</span><span class="yc-val">$7,686</span></div>
         <div class="yc-row"><span class="yc-label">Corporate Matching</span><span class="yc-val">$10,751</span></div>
         <div class="yc-row"><span class="yc-label">Total YTD Income</span><span class="yc-val">$65,531</span></div>
         <div class="yc-section-head">Key Notes</div>
@@ -1253,7 +1294,7 @@
     <table class="master-table">
       <thead>
         <tr>
-          <th style="text-align:left; min-width:190px">Line Item</th>
+          <th style="text-align:left; min-width:210px">Line Item</th>
           <th class="fy-header"><span class="fy-year">Jul16–Jun17</span>FY17</th>
           <th class="fy-header"><span class="fy-year">Jul17–Jun18</span>FY18</th>
           <th class="fy-header"><span class="fy-year">Jul18–Jun19</span>FY19</th>
@@ -1269,69 +1310,46 @@
       <tbody>
         <tr class="row-section"><td colspan="11">INCOME</td></tr>
         <tr>
-          <td>Gala Night</td>
+          <td>🎭 Gala Night</td>
           <td>$26,884</td><td>$24,725</td><td>$29,394</td>
           <td class="covid-col">$40,805</td><td class="covid-col2">—</td>
           <td>$74,302</td><td>$71,731</td><td>$68,654</td><td>$46,706</td>
-          <td class="ytd-col">$30,670</td>
+          <td class="ytd-col">~$50,000</td>
         </tr>
         <tr>
-          <td>Caminata <em>(excl. Buy-a-Spot)</em></td>
+          <td>🚶 La Caminata — Walk-a-thon</td>
           <td>$51,180</td><td>$54,436</td><td>$50,574</td>
           <td class="covid-col">$1,200</td><td class="covid-col2">$195</td>
           <td>$14,418</td><td>$49,475</td><td>$50,816</td><td>$29,728</td>
           <td class="ytd-col">$5,020</td>
         </tr>
         <tr>
-          <td>Buy-a-Spot <span class="note-badge">see note</span></td>
-          <td>$11,846 <span style="font-size:9px;color:var(--ink-faint)">†</span></td>
-          <td>$11,500 <span style="font-size:9px;color:var(--ink-faint)">†</span></td>
-          <td>~$7,484</td>
+          <td>📍 Buy-a-Spot <span class="note-badge">†</span></td>
+          <td>$11,846</td><td>$11,500</td><td>$7,484</td>
           <td class="covid-col">$5,366</td><td class="covid-col2">$6,031</td>
           <td>$5,879</td><td>$13,477</td><td>$5,986</td><td>$3,965</td>
           <td class="ytd-col">$1,667</td>
         </tr>
         <tr>
-          <td>Donation Drive</td>
-          <td>—</td><td>—</td><td>—</td>
-          <td class="covid-col">—</td><td class="covid-col2">—</td>
-          <td>—</td><td>—</td><td>—</td><td>$16,152</td>
-          <td class="ytd-col">$7,686</td>
-        </tr>
-        <tr>
-          <td>Corporate Matching</td>
-          <td>$5,088</td><td>$985</td><td>$3,702</td>
-          <td class="covid-col">$21,100</td><td class="covid-col2">$3,994</td>
-          <td>$5,499</td><td>$5,060</td><td>$7,098</td><td>$7,309</td>
-          <td class="ytd-col">$10,751</td>
-        </tr>
-        <tr>
-          <td>Read-a-thon 📚</td>
+          <td>📚 Campaigns &amp; Drives <span style="font-size:11px;color:var(--ink-faint)">(Read-a-thon / Donation Drive)</span></td>
           <td>—</td><td>—</td><td>—</td>
           <td class="covid-col">—</td><td class="covid-col2">$19,771</td>
-          <td>$18,146</td><td>$16,508</td><td>—</td><td>—</td>
-          <td class="ytd-col">—</td>
-        </tr>
-        <tr>
-          <td>Donation Drive <span class="note-badge">from FY24</span></td>
-          <td>—</td><td>—</td><td>—</td>
-          <td class="covid-col">—</td><td class="covid-col2">—</td>
-          <td>—</td><td>—</td><td>$21,304</td><td>$16,152</td>
+          <td>$18,146</td><td>$16,508</td><td>$21,304</td><td>$16,152</td>
           <td class="ytd-col">$7,686</td>
         </tr>
         <tr>
-          <td>General Donations / Other</td>
-          <td>$9,584</td><td>$8,823</td><td>$3,262</td>
-          <td class="covid-col">$1,407</td><td class="covid-col2">$5,937</td>
-          <td>$1,084</td><td>$957</td><td>—</td><td>$3,331</td>
-          <td class="ytd-col">$902</td>
+          <td>🏢 Matching &amp; Donations <span style="font-size:11px;color:var(--ink-faint)">(Corporate + General)</span></td>
+          <td>$14,672</td><td>$9,808</td><td>$6,964</td>
+          <td class="covid-col">$22,507</td><td class="covid-col2">$9,931</td>
+          <td>$6,583</td><td>$6,017</td><td>$7,098</td><td>$10,640</td>
+          <td class="ytd-col">$12,653</td>
         </tr>
         <tr>
-          <td>Library Remodel Fundraiser <span class="note-badge">one-time</span></td>
-          <td>—</td><td>$14,857</td><td>—</td>
-          <td class="covid-col">—</td><td class="covid-col2">—</td>
-          <td>—</td><td>—</td><td>—</td><td>—</td>
-          <td class="ytd-col">—</td>
+          <td style="color:var(--ink-faint); font-style:italic;">Other ◈ <span style="font-size:11px">(Baile / Yearbook / Merch / Interest)</span></td>
+          <td style="color:var(--ink-faint)">$4,417</td><td style="color:var(--ink-faint)">$23,185</td><td style="color:var(--ink-faint)">$3,317</td>
+          <td class="covid-col" style="color:var(--ink-faint)">$6,761</td><td class="covid-col2" style="color:var(--ink-faint)">$11,730</td>
+          <td style="color:var(--ink-faint)">$11,087</td><td style="color:var(--ink-faint)">$12,475</td><td style="color:var(--ink-faint)">$13,309</td><td style="color:var(--ink-faint)">$13,236</td>
+          <td class="ytd-col" style="color:var(--ink-faint)">$7,835</td>
         </tr>
         <tr class="row-total">
           <td><strong>Total Income</strong></td>
@@ -1341,50 +1359,35 @@
           <td class="ytd-col"><strong>$65,531</strong></td>
         </tr>
 
-        <tr class="row-section"><td colspan="11">EXPENSES — PROGRAMS</td></tr>
+        <tr class="row-section"><td colspan="11">EXPENSES</td></tr>
         <tr>
-          <td>Art Program</td>
-          <td>$13,487</td><td>$9,284</td><td>$12,997</td>
-          <td class="covid-col">$12,462</td><td class="covid-col2">—</td>
-          <td>$6,910</td><td>$13,500</td><td>$14,790</td><td>—</td>
-          <td class="ytd-col">$15,900</td>
+          <td>🎨 Arts Programs <span style="font-size:11px;color:var(--ink-faint)">(Art + Music)</span></td>
+          <td>$41,597</td><td>$23,098</td><td>$26,780</td>
+          <td class="covid-col">$27,862</td><td class="covid-col2">—</td>
+          <td>$13,377</td><td>$33,079</td><td>$45,310</td>
+          <td><span style="color:var(--ink-faint);font-style:italic">$175 †</span></td>
+          <td class="ytd-col">$17,700</td>
         </tr>
         <tr>
-          <td>Music Program</td>
-          <td>$28,110</td><td>$13,814</td><td>$13,783</td>
-          <td class="covid-col">$15,400</td><td class="covid-col2">—</td>
-          <td>$6,467</td><td>$19,579</td><td>$30,520</td><td>$175</td>
-          <td class="ytd-col">$1,800</td>
-        </tr>
-        <tr>
-          <td>Recess Support</td>
+          <td>🏫 School Support <span style="font-size:11px;color:var(--ink-faint)">(Recess + Science)</span></td>
           <td>$12,750</td><td>$12,367</td><td>—</td>
           <td class="covid-col">$4,000</td><td class="covid-col2">—</td>
-          <td>$12,000</td><td>$12,000</td><td>$12,000</td><td>$14,650</td>
-          <td class="ytd-col">$14,950</td>
+          <td>$12,000</td><td>$12,000</td><td>$33,420</td><td>$32,500</td>
+          <td class="ytd-col">$35,950</td>
         </tr>
         <tr>
-          <td>Science Workshops</td>
-          <td>—</td><td>—</td><td>—</td>
-          <td class="covid-col">—</td><td class="covid-col2">—</td>
-          <td>—</td><td>—</td><td>$21,420</td><td>$17,850</td>
-          <td class="ytd-col">$21,000</td>
-        </tr>
-
-        <tr class="row-section"><td colspan="11">EXPENSES — FUNDRAISERS</td></tr>
-        <tr>
-          <td>Caminata Expenses</td>
-          <td>$4,973</td><td>$6,490</td><td>$7,679</td>
-          <td class="covid-col">$1,585</td><td class="covid-col2">—</td>
-          <td>$837</td><td>$14,189</td><td>$7,716</td><td>$9,304</td>
-          <td class="ytd-col">$6,620</td>
+          <td>🌱 Enrichment &amp; Grants <span style="font-size:11px;color:var(--ink-faint)">(Teacher Grants + Appreciation + Scholarships)</span></td>
+          <td>$23,484</td><td>$14,130</td><td>$10,389</td>
+          <td class="covid-col">$12,089</td><td class="covid-col2">$11,018</td>
+          <td>$18,388</td><td>$17,689</td><td>$21,393</td><td>$33,949</td>
+          <td class="ytd-col">$15,000</td>
         </tr>
         <tr>
-          <td>Gala Expenses</td>
-          <td>$11,710</td><td>$9,166</td><td>$9,554</td>
-          <td class="covid-col">$12,852</td><td class="covid-col2">—</td>
-          <td>$18,573</td><td>$21,992</td><td>$17,992</td><td>$15,057</td>
-          <td class="ytd-col">$25,980</td>
+          <td>📋 Fundraiser &amp; Admin <span style="font-size:11px;color:var(--ink-faint)">(Event costs + Admin) ‡</span></td>
+          <td>$81,629</td><td>$76,546</td><td>$26,961</td>
+          <td class="covid-col">$28,929</td><td class="covid-col2">$13,444</td>
+          <td>$34,015</td><td>$56,237</td><td>$45,846</td><td>$48,909</td>
+          <td class="ytd-col">$26,332</td>
         </tr>
         <tr class="row-total">
           <td><strong>Total Expenses</strong></td>
