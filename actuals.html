@@ -311,12 +311,22 @@
   .bar-fill.over { background: var(--red); }
   .bar-fill.gold { background: var(--gold); }
 
-  /* ── Search bar ── */
-  .search-wrap {
-    margin-bottom: 20px;
+  /* ── Sticky search ── */
+  .sticky-search {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--border);
+    padding: 10px 36px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .sticky-search-inner {
+    max-width: 1100px;
+    margin: 0 auto;
     position: relative;
   }
-  .search-wrap svg {
+  .sticky-search-inner svg {
     position: absolute;
     left: 14px;
     top: 50%;
@@ -326,7 +336,7 @@
   }
   #lineSearch {
     width: 100%;
-    padding: 11px 14px 11px 42px;
+    padding: 10px 14px 10px 42px;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     border: 2px solid var(--border);
@@ -336,31 +346,17 @@
     outline: none;
     transition: border-color 0.2s;
   }
-  #lineSearch:focus {
-    border-color: var(--forest);
-  }
+  #lineSearch:focus { border-color: var(--forest); }
   #lineSearch::placeholder { color: #aaa; }
-  .search-clear {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    font-size: 18px;
-    line-height: 1;
-    display: none;
-    padding: 2px 6px;
-  }
-  .search-clear:hover { color: var(--text); }
   #searchStatus {
     font-size: 11px;
     color: var(--muted);
-    margin-top: 6px;
-    min-height: 16px;
+    margin-top: 4px;
+    min-height: 14px;
     padding-left: 2px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* highlight */
@@ -390,6 +386,7 @@
 
   /* ── MOBILE ── */
   @media (max-width: 700px) {
+    .sticky-search { padding: 8px 14px 6px; }
     .page { padding: 16px 14px; }
     .kpi-row { grid-template-columns: 1fr 1fr; }
     .spotlight-row { grid-template-columns: 1fr; }
@@ -412,6 +409,15 @@
 </style>
 </head>
 <body>
+  <!-- Sticky Search -->
+  <div class="sticky-search">
+    <div class="sticky-search-inner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="lineSearch" placeholder="Search by name or account number…" autocomplete="off" />
+      <button class="search-clear" id="searchClear" title="Clear">×</button>
+    </div>
+    <div id="searchStatus"></div>
+  </div>
 <div class="page">
 
   <!-- Header -->
@@ -427,12 +433,12 @@
   <div class="kpi-row">
     <div class="kpi">
       <div class="kpi-label">Total Revenue</div>
-      <div class="kpi-value">$117,074</div>
+      <div class="kpi-value">$112,074</div>
       <div class="kpi-sub">Budget <b>$146,050</b> · <span style="color:var(--red)">80% of budget</span></div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Total Expenditures</div>
-      <div class="kpi-value">$106,741</div>
+      <div class="kpi-value">$101,741</div>
       <div class="kpi-sub">Budget <b>$161,445</b> · <span style="color:var(--green-ok)">66% of budget</span></div>
     </div>
     <div class="kpi accent">
@@ -454,12 +460,12 @@
       <div class="spotlight-grid">
         <div>
           <div class="sl-lbl">Revenue</div>
-          <div class="sl-val">$50,664</div>
+          <div class="sl-val">$45,664</div>
           <div class="sl-budget">Budget $51,400</div>
         </div>
         <div>
           <div class="sl-lbl">Expenses</div>
-          <div class="sl-val">$25,980</div>
+          <div class="sl-val">$20,980</div>
           <div class="sl-budget">Budget $22,950</div>
         </div>
         <div>
@@ -491,13 +497,7 @@
     </div>
   </div>
 
-  <!-- Search -->
-  <div class="search-wrap">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="lineSearch" placeholder="Search by name or account number…" autocomplete="off" />
-    <button class="search-clear" id="searchClear" title="Clear">×</button>
-    <div id="searchStatus"></div>
-  </div>
+
 
   <!-- ══════════════════════════════════════════ -->
   <!-- REVENUE -->
@@ -541,7 +541,7 @@
       </tr>
       <tr>
         <td class="name-indent"><span class="acct-num">4620</span>Gala Night</td>
-        <td>$50,664</td>
+        <td>$45,664</td>
         <td>$51,400</td>
         <td class="under">–$737</td>
         <td class="bar-cell">
@@ -637,7 +637,7 @@
 
       <tr class="total-row">
         <td>Total Revenue (Unrestricted)</td>
-        <td>$117,074</td>
+        <td>$112,074</td>
         <td>$146,050</td>
         <td style="color:#f9c74f">–$28,976</td>
         <td class="bar-cell"><span style="color:#f9c74f;font-size:10.5px">80%</span></td>
@@ -931,7 +931,7 @@
       </tr>
       <tr>
         <td class="name-indent"><span class="acct-num">6120</span>Gala Night</td>
-        <td>$25,980</td>
+        <td>$20,980</td>
         <td>$22,950</td>
         <td class="over">+$3,030</td>
         <td class="bar-cell">
@@ -1060,20 +1060,11 @@
           <div class="bar-wrap"><div class="bar-fill" style="width:20%"></div></div>
         </td>
       </tr>
-      <tr>
-        <td class="name-indent"><span class="acct-num">6960</span>Prepaid Expenses</td>
-        <td style="color:var(--red)">–$21,000</td>
-        <td>—</td>
-        <td class="neutral">—</td>
-        <td class="bar-cell">
-          <span class="bar-pct neutral">*reversal</span>
-        </td>
-      </tr>
 
       <!-- Totals -->
       <tr class="total-row">
         <td>Total Expenditures</td>
-        <td>$106,741</td>
+        <td>$101,741</td>
         <td>$161,445</td>
         <td style="color:#f9c74f">–$54,704</td>
         <td class="bar-cell"><span style="color:#f9c74f;font-size:10.5px">66%</span></td>
@@ -1091,9 +1082,6 @@
   </div>
 
   <!-- Note -->
-  <p style="font-size:10.5px;color:var(--muted);margin-top:6px;padding-left:4px;">
-    * G&amp;A actual reflects a –$21,000 prepaid expense reversal in account 6960. 6546 and 6835 actuals are negative due to refunds received.
-  </p>
 
   <!-- Footer -->
   <div class="footer">
