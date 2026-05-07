@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABLA Friends of River Glen — FY 2026 Budget vs. Actuals</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1e4d3b;
+    --forest-light: #2d6b53;
+    --gold: #c9a84c;
+    --gold-light: #f0d98a;
+    --cream: #faf7f2;
+    --warm-white: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5ddd0;
+    --red: #c0392b;
+    --green-ok: #1e7d52;
+    --light-green: #e8f5ef;
+    --light-red: #fdf0ee;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 36px;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 3px solid var(--forest);
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--forest);
+    letter-spacing: -0.3px;
+  }
+  .header-left p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: var(--forest);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── KPI Row ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .kpi {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--forest);
+  }
+  .kpi.accent::before { background: var(--gold); }
+  .kpi-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(17px, 2.5vw, 22px);
+    color: var(--forest);
+    line-height: 1.1;
+  }
+  .kpi-value.positive { color: var(--green-ok); }
+  .kpi-sub {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .kpi-sub b { color: var(--text); }
+
+  /* ── Fundraiser Spotlight ── */
+  .spotlight-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .spotlight {
+    background: var(--forest);
+    color: #fff;
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .spotlight h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--gold-light);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .spotlight h3 span {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .spotlight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .sl-lbl {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+  }
+  .sl-val {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(15px, 2vw, 18px);
+    color: #fff;
+    line-height: 1.2;
+  }
+  .sl-val.net { color: var(--gold-light); }
+  .sl-budget {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 1px;
+  }
+
+  /* ── Section titles ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--forest);
+    border-bottom: 2px solid var(--forest);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+
+  /* ── Tables ── */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 520px;
+    background: var(--warm-white);
+  }
+
+  thead th {
+    text-align: right;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    padding: 8px 10px 7px;
+    background: #f5f0e8;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; min-width: 220px; }
+  thead th.acct { min-width: 52px; }
+
+  tbody tr:hover { background: rgba(30,77,59,0.03); }
+
+  td {
+    padding: 5px 10px;
+    text-align: right;
+    border-bottom: 1px solid #f0ebe4;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  td:first-child {
+    text-align: left;
+    white-space: normal;
+  }
+
+  /* Row types */
+  tr.group-header td {
+    background: #eee8de;
+    font-weight: 600;
+    font-size: 11.5px;
+    color: var(--forest);
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  tr.group-header td:first-child { padding-left: 10px; }
+
+  tr.subtotal td {
+    font-weight: 600;
+    background: #f4f0ea;
+    border-top: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    font-size: 12px;
+  }
+
+  tr.total-row td {
+    font-weight: 700;
+    font-size: 12.5px;
+    background: var(--forest);
+    color: #fff;
+    border-bottom: none;
+  }
+
+  tr.net-row td {
+    font-weight: 700;
+    font-size: 13px;
+    background: #1a3d2e;
+    color: #fff;
+    border-bottom: none;
+  }
+
+  /* Name cells */
+  .acct-num {
+    display: inline-block;
+    font-size: 9.5px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 6px;
+    min-width: 36px;
+    font-family: monospace;
+  }
+  tr.group-header .acct-num { color: var(--forest-light); }
+  tr.subtotal .acct-num { color: var(--muted); }
+
+  td.name-indent { padding-left: 22px; }
+  td.name-l2 { padding-left: 38px; }
+
+  /* Values */
+  .over { color: var(--red); }
+  .under { color: var(--green-ok); }
+  .neutral { color: var(--muted); }
+
+  /* Bar */
+  .bar-cell { min-width: 80px; padding: 5px 10px; }
+  .bar-pct {
+    font-size: 10.5px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .bar-pct.over { color: var(--red); }
+  .bar-pct.under { color: var(--green-ok); }
+  .bar-wrap {
+    background: #e8e2d9;
+    border-radius: 3px;
+    height: 5px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--forest-light);
+  }
+  .bar-fill.over { background: var(--red); }
+  .bar-fill.gold { background: var(--gold); }
+
+  /* ── Search bar ── */
+  .search-wrap {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+  #lineSearch {
+    width: 100%;
+    padding: 11px 14px 11px 42px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--warm-white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #lineSearch:focus {
+    border-color: var(--forest);
+  }
+  #lineSearch::placeholder { color: #aaa; }
+  .search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    display: none;
+    padding: 2px 6px;
+  }
+  .search-clear:hover { color: var(--text); }
+  #searchStatus {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    min-height: 16px;
+    padding-left: 2px;
+  }
+
+  /* highlight */
+  mark {
+    background: var(--gold-light);
+    color: var(--text);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* hidden rows during search */
+  tr.search-hidden { display: none; }
+  tr.search-match td:first-child { background: #fffbee; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 700px) {
+    .page { padding: 16px 14px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .spotlight-row { grid-template-columns: 1fr; }
+    .spotlight-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .sl-val { font-size: 14px; }
+    table { min-width: 480px; font-size: 11.5px; }
+  }
+
+  @media (max-width: 420px) {
+    .kpi-row { grid-template-columns: 1fr; }
+    .spotlight-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  @media print {
+    body { background: white; font-size: 11px; }
+    .page { padding: 10px 16px; }
+    .table-wrap { overflow: visible; border: 1px solid #ccc; }
+    table { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>HABLA Friends of River Glen — FY 2026 Budget vs. Actuals</h1>
+      <p>July 2025 – June 2026 &nbsp;·&nbsp; Unrestricted Funds &nbsp;·&nbsp; Cash Basis</p>
+    </div>
+    <div class="header-badge">Board Report</div>
+  </div>
+
+  <!-- KPI Summary -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value">$117,074</div>
+      <div class="kpi-sub">Budget <b>$146,050</b> · <span style="color:var(--red)">80% of budget</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Expenditures</div>
+      <div class="kpi-value">$106,741</div>
+      <div class="kpi-sub">Budget <b>$161,445</b> · <span style="color:var(--green-ok)">66% of budget</span></div>
+    </div>
+    <div class="kpi accent">
+      <div class="kpi-label">Net Revenue</div>
+      <div class="kpi-value positive">$10,335</div>
+      <div class="kpi-sub">Budget <b>–$15,395</b> · <span style="color:var(--green-ok)">$25,730 ahead</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Top Fundraiser Net</div>
+      <div class="kpi-value">$50,127</div>
+      <div class="kpi-sub">Gala + Caminata combined</div>
+    </div>
+  </div>
+
+  <!-- Fundraiser Spotlight -->
+  <div class="spotlight-row">
+    <div class="spotlight">
+      <h3>🎉 Gala Night <span>Fundraiser Spotlight</span></h3>
+      <div class="spotlight-grid">
+        <div>
+          <div class="sl-lbl">Revenue</div>
+          <div class="sl-val">$50,664</div>
+          <div class="sl-budget">Budget $51,400</div>
+        </div>
+        <div>
+          <div class="sl-lbl">Expenses</div>
+          <div class="sl-val">$25,980</div>
+          <div class="sl-budget">Budget $22,950</div>
+        </div>
+        <div>
+          <div class="sl-lbl">Net Proceeds</div>
+          <div class="sl-val net">$24,684</div>
+          <div class="sl-budget">Budget $28,450</div>
+        </div>
+      </div>
+    </div>
+    <div class="spotlight">
+      <h3>🚶 Caminata <span>Fundraiser Spotlight</span></h3>
+      <div class="spotlight-grid">
+        <div>
+          <div class="sl-lbl">Revenue</div>
+          <div class="sl-val">$33,138</div>
+          <div class="sl-budget">Budget $42,400</div>
+        </div>
+        <div>
+          <div class="sl-lbl">Expenses</div>
+          <div class="sl-val">$7,695</div>
+          <div class="sl-budget">Budget $11,411</div>
+        </div>
+        <div>
+          <div class="sl-lbl">Net Proceeds</div>
+          <div class="sl-val net">$25,444</div>
+          <div class="sl-budget">Budget $30,989</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="lineSearch" placeholder="Search by name or account number…" autocomplete="off" />
+    <button class="search-clear" id="searchClear" title="Clear">×</button>
+    <div id="searchStatus"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- REVENUE -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-title">Revenue — Unrestricted</div>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Actual</th>
+        <th>Budget</th>
+        <th>vs. Budget</th>
+        <th class="bar-cell">% of Bgt</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- Yearbook -->
+      <tr>
+        <td><span class="acct-num">4065</span>Yearbook</td>
+        <td>$6,162</td>
+        <td>$7,000</td>
+        <td class="under">–$838</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">88%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div>
+        </td>
+      </tr>
+
+      <!-- Cultural & Fundraising Events -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">4615</span>Caminata</td>
+        <td>$33,138</td>
+        <td>$42,400</td>
+        <td class="under">–$9,262</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">78%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:78%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4620</span>Gala Night</td>
+        <td>$50,664</td>
+        <td>$51,400</td>
+        <td class="under">–$737</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">99%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:99%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4645</span>Donation Drive</td>
+        <td>$7,686</td>
+        <td>$20,000</td>
+        <td class="under">–$12,314</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">38%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:38%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4650</span>Baile de los Muertos</td>
+        <td>$5,856</td>
+        <td>$4,000</td>
+        <td class="over">+$1,856</td>
+        <td class="bar-cell">
+          <span class="bar-pct over">146%</span>
+          <div class="bar-wrap"><div class="bar-fill over" style="width:100%"></div></div>
+        </td>
+      </tr>
+
+      <!-- Ongoing Fundraising -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">4625</span>Buy-a-spot</td>
+        <td>$2,045</td>
+        <td>$12,000</td>
+        <td class="under">–$9,955</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">17%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:17%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4640</span>Merchandise Sales</td>
+        <td>$69</td>
+        <td>$4,000</td>
+        <td class="under">–$3,931</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">2%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:2%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4660</span>General Donations</td>
+        <td>$148</td>
+        <td>$250</td>
+        <td class="under">–$102</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">59%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:59%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">4690</span>Corporate Matching</td>
+        <td>$10,851</td>
+        <td>$5,000</td>
+        <td class="over">+$5,851</td>
+        <td class="bar-cell">
+          <span class="bar-pct over">217%</span>
+          <div class="bar-wrap"><div class="bar-fill over" style="width:100%"></div></div>
+        </td>
+      </tr>
+
+      <!-- Interest / Other -->
+      <tr>
+        <td><span class="acct-num">4800</span>Interest Income</td>
+        <td>$6</td>
+        <td>—</td>
+        <td class="neutral">—</td>
+        <td class="bar-cell"><span class="bar-pct">—</span></td>
+      </tr>
+      <tr>
+        <td><span class="acct-num">—</span>Uncategorized Income</td>
+        <td>$450</td>
+        <td>—</td>
+        <td class="neutral">—</td>
+        <td class="bar-cell"><span class="bar-pct">—</span></td>
+      </tr>
+      <tr>
+        <td><span class="acct-num">8000</span>Interest Earned (Other Revenue)</td>
+        <td>$2</td>
+        <td>—</td>
+        <td class="neutral">—</td>
+        <td class="bar-cell"><span class="bar-pct">—</span></td>
+      </tr>
+
+      <tr class="total-row">
+        <td>Total Revenue (Unrestricted)</td>
+        <td>$117,074</td>
+        <td>$146,050</td>
+        <td style="color:#f9c74f">–$28,976</td>
+        <td class="bar-cell"><span style="color:#f9c74f;font-size:10.5px">80%</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- EXPENDITURES -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-title">Expenditures</div>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Actual</th>
+        <th>Budget</th>
+        <th>vs. Budget</th>
+        <th class="bar-cell">% of Bgt</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 6040 Essential Programs -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6010</span>Art Program</td>
+        <td>$15,900</td>
+        <td>$15,900</td>
+        <td>$0</td>
+        <td class="bar-cell">
+          <span class="bar-pct">100%</span>
+          <div class="bar-wrap"><div class="bar-fill gold" style="width:100%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6045</span>Recess Support</td>
+        <td>$14,950</td>
+        <td>$14,950</td>
+        <td>$0</td>
+        <td class="bar-cell">
+          <span class="bar-pct">100%</span>
+          <div class="bar-wrap"><div class="bar-fill gold" style="width:100%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6050</span>Music Program</td>
+        <td>$1,800</td>
+        <td>$1,800</td>
+        <td>$0</td>
+        <td class="bar-cell">
+          <span class="bar-pct">100%</span>
+          <div class="bar-wrap"><div class="bar-fill gold" style="width:100%"></div></div>
+        </td>
+      </tr>
+
+      <!-- 6070 Academic Enrichment -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6055</span>Science Workshops</td>
+        <td>$21,000</td>
+        <td>$21,000</td>
+        <td>$0</td>
+        <td class="bar-cell">
+          <span class="bar-pct">100%</span>
+          <div class="bar-wrap"><div class="bar-fill gold" style="width:100%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6530</span>Student Enrichment Scholarships</td>
+        <td>$6,766</td>
+        <td>$8,300</td>
+        <td class="under">–$1,534</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">82%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:82%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6531</span>Field Trips</td>
+        <td>$4,500</td>
+        <td>$4,500</td>
+        <td>$0</td>
+        <td class="bar-cell">
+          <span class="bar-pct">100%</span>
+          <div class="bar-wrap"><div class="bar-fill gold" style="width:100%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6620</span>Teacher Reimbursement Grants</td>
+        <td>$12,779</td>
+        <td>$20,650</td>
+        <td class="under">–$7,871</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">62%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:62%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6670</span>Middle School Learning Opportunities</td>
+        <td>$6,115</td>
+        <td>$9,624</td>
+        <td class="under">–$3,509</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">64%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:64%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6745</span>Math Festival</td>
+        <td>$588</td>
+        <td>$1,800</td>
+        <td class="under">–$1,212</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">33%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:33%"></div></div>
+        </td>
+      </tr>
+
+      <!-- 6100 Community Events -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6140</span>All School Playdate</td>
+        <td>$279</td>
+        <td>$300</td>
+        <td class="under">–$21</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">93%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:93%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6415</span>Baile de los Muertos</td>
+        <td>$3,730</td>
+        <td>$4,000</td>
+        <td class="under">–$270</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">93%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:93%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6735</span>Family Sports Night</td>
+        <td>$272</td>
+        <td>$350</td>
+        <td class="under">–$78</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">78%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:78%"></div></div>
+        </td>
+      </tr>
+
+      <!-- 6600 School and Community Support -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6051</span>Yearbook</td>
+        <td>—</td>
+        <td>$7,001</td>
+        <td class="under">–$7,001</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6310</span>School Beautification</td>
+        <td>—</td>
+        <td>$250</td>
+        <td class="under">–$250</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6320</span>Board Approved Special Project Fund</td>
+        <td>—</td>
+        <td>$0</td>
+        <td>$0</td>
+        <td class="bar-cell"><span class="bar-pct">—</span></td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6532</span>4th Grade Gold Rush</td>
+        <td>—</td>
+        <td>$200</td>
+        <td class="under">–$200</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6539</span>5th Grade Science Camp/Promotion</td>
+        <td>—</td>
+        <td>$500</td>
+        <td class="under">–$500</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6546</span>8th Grade Camp/Promotion</td>
+        <td style="color:var(--red)">–$522</td>
+        <td>$500</td>
+        <td class="under">–$1,022</td>
+        <td class="bar-cell">
+          <span class="bar-pct neutral">*refund</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6610</span>Teacher &amp; Staff Appreciation</td>
+        <td>$323</td>
+        <td>$2,000</td>
+        <td class="under">–$1,677</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">16%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:16%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6630</span>VISA</td>
+        <td>$292</td>
+        <td>$800</td>
+        <td class="under">–$508</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">37%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:37%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6685</span>Student Activities &amp; Celebrations</td>
+        <td>—</td>
+        <td>$700</td>
+        <td class="under">–$700</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6710</span>Child Care – Meetings &amp; Events</td>
+        <td>$30</td>
+        <td>$150</td>
+        <td class="under">–$120</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">20%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:20%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6715</span>RG Food Drive</td>
+        <td>$2,759</td>
+        <td>$3,200</td>
+        <td class="under">–$441</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">86%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:86%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6720</span>Hospitality</td>
+        <td>$43</td>
+        <td>$550</td>
+        <td class="under">–$507</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">8%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:8%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6725</span>Children's Appreciation Day</td>
+        <td>$220</td>
+        <td>$200</td>
+        <td class="over">+$20</td>
+        <td class="bar-cell">
+          <span class="bar-pct over">110%</span>
+          <div class="bar-wrap"><div class="bar-fill over" style="width:100%"></div></div>
+        </td>
+      </tr>
+
+      <!-- 6800 Fundraising Expenses -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6110</span>Caminata</td>
+        <td>$7,695</td>
+        <td>$11,411</td>
+        <td class="under">–$3,716</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">67%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:67%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6120</span>Gala Night</td>
+        <td>$25,980</td>
+        <td>$22,950</td>
+        <td class="over">+$3,030</td>
+        <td class="bar-cell">
+          <span class="bar-pct over">113%</span>
+          <div class="bar-wrap"><div class="bar-fill over" style="width:100%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6350</span>Merchandise</td>
+        <td>—</td>
+        <td>$200</td>
+        <td class="under">–$200</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6830</span>Parent Donation Campaign</td>
+        <td>$109</td>
+        <td>$200</td>
+        <td class="under">–$91</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">55%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:55%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6835</span>Buy-a-spot</td>
+        <td style="color:var(--red)">–$185</td>
+        <td>$1,200</td>
+        <td class="under">–$1,385</td>
+        <td class="bar-cell">
+          <span class="bar-pct neutral">*refund</span>
+        </td>
+      </tr>
+
+      <!-- 6900 G&A -->
+      <tr>
+        <td class="name-indent"><span class="acct-num">6250</span>Website Fees</td>
+        <td>—</td>
+        <td>$60</td>
+        <td class="under">–$60</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6330</span>Communications</td>
+        <td>$66</td>
+        <td>$1,549</td>
+        <td class="under">–$1,483</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">4%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:4%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6915</span>Bookkeeper Fees</td>
+        <td>—</td>
+        <td>$900</td>
+        <td class="under">–$900</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6920</span>QuickBooks Online Annual Fee</td>
+        <td>—</td>
+        <td>$100</td>
+        <td class="under">–$100</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6925</span>Tax Preparation &amp; Legal Fees</td>
+        <td>$2,000</td>
+        <td>$2,200</td>
+        <td class="under">–$200</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">91%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:91%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6928</span>Taxes and Fees</td>
+        <td>$75</td>
+        <td>$100</td>
+        <td class="under">–$25</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">75%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:75%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6930</span>Insurance</td>
+        <td>—</td>
+        <td>$800</td>
+        <td class="under">–$800</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">0%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6935</span>Printing &amp; Supplies</td>
+        <td>$168</td>
+        <td>$500</td>
+        <td class="under">–$332</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">34%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:34%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6940</span>Bank Charges</td>
+        <td>$10</td>
+        <td>$50</td>
+        <td class="under">–$40</td>
+        <td class="bar-cell">
+          <span class="bar-pct under">20%</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:20%"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name-indent"><span class="acct-num">6960</span>Prepaid Expenses</td>
+        <td style="color:var(--red)">–$21,000</td>
+        <td>—</td>
+        <td class="neutral">—</td>
+        <td class="bar-cell">
+          <span class="bar-pct neutral">*reversal</span>
+        </td>
+      </tr>
+
+      <!-- Totals -->
+      <tr class="total-row">
+        <td>Total Expenditures</td>
+        <td>$106,741</td>
+        <td>$161,445</td>
+        <td style="color:#f9c74f">–$54,704</td>
+        <td class="bar-cell"><span style="color:#f9c74f;font-size:10.5px">66%</span></td>
+      </tr>
+      <tr class="net-row">
+        <td>Net Revenue</td>
+        <td style="color:#a3f0c5">$10,335</td>
+        <td style="color:#fca5a5">(–$15,395)</td>
+        <td style="color:#a3f0c5">+$25,730</td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+
+  <!-- Note -->
+  <p style="font-size:10.5px;color:var(--muted);margin-top:6px;padding-left:4px;">
+    * G&amp;A actual reflects a –$21,000 prepaid expense reversal in account 6960. 6546 and 6835 actuals are negative due to refunds received.
+  </p>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>HABLA Friends of River Glen &nbsp;·&nbsp; FY 2026 (Jul 2025 – Jun 2026) &nbsp;·&nbsp; Cash Basis &nbsp;·&nbsp; Unrestricted Funds Only</span>
+    <span>Generated May 7, 2026</span>
+  </div>
+
+</div>
+<script>
+(function () {
+  const input   = document.getElementById('lineSearch');
+  const clearBtn = document.getElementById('searchClear');
+  const status  = document.getElementById('searchStatus');
+
+  // Collect all data rows and group headers once
+  // Each entry: { tr, acct, name, originalHTML, isGroup, isSubtotal, isTotal }
+  const allRows = [];
+  document.querySelectorAll('table tbody tr').forEach(tr => {
+    const isGroup    = tr.classList.contains('group-header');
+    const isSubtotal = tr.classList.contains('subtotal');
+    const isTotal    = tr.classList.contains('total-row') || tr.classList.contains('net-row');
+    const firstTd    = tr.querySelector('td');
+    if (!firstTd) return;
+
+    const acctEl  = firstTd.querySelector('.acct-num');
+    const acct    = acctEl ? acctEl.textContent.trim() : '';
+    // Full text of the cell minus the acct number span
+    const nameRaw = firstTd.textContent.replace(acct, '').trim();
+
+    allRows.push({
+      tr, acct, name: nameRaw,
+      firstTd,
+      originalHTML: firstTd.innerHTML,
+      isGroup, isSubtotal, isTotal
+    });
+  });
+
+  function escapeRe(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlight(text, term) {
+    if (!term) return text;
+    const re = new RegExp('(' + escapeRe(term) + ')', 'gi');
+    return text.replace(re, '<mark>$1</mark>');
+  }
+
+  function run() {
+    const q = input.value.trim().toLowerCase();
+    clearBtn.style.display = q ? 'block' : 'none';
+
+    if (!q) {
+      // Restore everything
+      allRows.forEach(r => {
+        r.tr.classList.remove('search-hidden', 'search-match');
+        r.firstTd.innerHTML = r.originalHTML;
+      });
+      status.textContent = '';
+      return;
+    }
+
+    // Pass 1: mark line items that match (not groups/subtotals/totals)
+    let matchCount = 0;
+    const matchedGroups = new Set();
+
+    allRows.forEach((r, idx) => {
+      if (r.isGroup || r.isSubtotal || r.isTotal) return;
+
+      const haystack = (r.acct + ' ' + r.name).toLowerCase();
+      if (haystack.includes(q)) {
+        r.tr.classList.remove('search-hidden');
+        r.tr.classList.add('search-match');
+        matchCount++;
+
+        // Find the nearest group-header above this row
+        for (let i = idx - 1; i >= 0; i--) {
+          if (allRows[i].isGroup) {
+            matchedGroups.add(allRows[i].tr);
+            break;
+          }
+        }
+
+        // Highlight the name cell
+        const acctSpan = r.acct
+          ? `<span class="acct-num">${highlight(r.acct, q)}</span>`
+          : '';
+        // rebuild inner html: acct span + highlighted name text
+        // We need to preserve other markup in the cell (indentation classes are on td, not inside)
+        const plainName = r.name;
+        r.firstTd.innerHTML = acctSpan + highlight(plainName, q);
+      } else {
+        r.tr.classList.add('search-hidden');
+        r.tr.classList.remove('search-match');
+        r.firstTd.innerHTML = r.originalHTML;
+      }
+    });
+
+    // Pass 2: show/hide group headers & subtotals/totals
+    allRows.forEach(r => {
+      if (r.isGroup) {
+        if (matchedGroups.has(r.tr)) {
+          r.tr.classList.remove('search-hidden');
+          // highlight group name too
+          const acctSpan = r.acct
+            ? `<span class="acct-num">${highlight(r.acct, q)}</span>`
+            : '';
+          r.firstTd.innerHTML = acctSpan + highlight(r.name, q);
+        } else {
+          r.tr.classList.add('search-hidden');
+          r.firstTd.innerHTML = r.originalHTML;
+        }
+      }
+      if (r.isSubtotal || r.isTotal) {
+        r.tr.classList.add('search-hidden');
+      }
+    });
+
+    // Auto-scroll to first match
+    const first = document.querySelector('tr.search-match');
+    if (first) {
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    status.textContent = matchCount === 0
+      ? 'No line items found.'
+      : matchCount === 1
+        ? '1 line item found.'
+        : `${matchCount} line items found.`;
+  }
+
+  input.addEventListener('input', run);
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    run();
+    input.focus();
+  });
+})();
+</script>
+</body>
+</html>
