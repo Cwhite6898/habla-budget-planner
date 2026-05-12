@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HABLA Budget Meeting Tracker 25/26</title>
+<title>HABLA Budget Meeting Tracker 26/27</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -261,6 +261,8 @@
     --p9: #f4f0fd; --p9t: #5a2a9a;
     --p10: #f0faf8; --p10t: #1a6a60;
     --p11: #fdf8f0; --p11t: #8a5a00;
+    --p12: #f5f0ff; --p12t: #5b21b6;
+    --p13: #fff0f5; --p13t: #9d174d;
   }
 
   .net-events {
@@ -322,7 +324,7 @@
 <body class="presenter-colors">
 
 <header>
-  <h1>HABLA Budget Meeting &mdash; 25/26</h1>
+  <h1>HABLA Budget Meeting &mdash; 26/27</h1>
   <span id="live-date"></span>
 </header>
 
@@ -408,11 +410,10 @@
 <script>
 const PRESENTERS = ["Katie","Hillary","Cathy","Jasmine","Jessica","Raquel","Marc","Martha","Eric","Andrea","Dana","Barbara","Kitty","Lizzie"];
 const P_COLOR = {};
-PRESENTERS.forEach((p,i) => { P_COLOR[p] = i % 12; });
+PRESENTERS.forEach((p,i) => { P_COLOR[p] = i % 14; });
 
 const incItems = [
   { code:"4645", name:"Donation Drive",      presenter:"Katie",   value:14000 },
-  { code:"4690", name:"Corporate matching",  presenter:"Katie",   value:5000  },
   { code:"4625", name:"Buy-a-Spot",          presenter:"Jessica", value:8000  },
   { code:"4640", name:"Quetzal Shop",        presenter:"Jessica", value:2100  },
   { code:"4710", name:"Restaurant Nights",   presenter:"Jessica", value:600   },
@@ -445,7 +446,6 @@ const expItems = [
   { code:"6120", name:"Gala",                                presenter:"Raquel",   value:21000 },
   { code:"6110", name:"Caminata",                            presenter:"Marc",     value:10500 },
   { code:"6415", name:"Baile",                               presenter:"Martha",   value:4000  },
-  { code:"6750", name:"Room Parents",                        presenter:"Martha",   value:200   },
   { code:"6725", name:"Children's Day",                      presenter:"Martha",   value:0     },
   { code:"6735", name:"Family Night",                        presenter:"Eric",     value:100   },
   { code:"6685", name:"Student activities & celebrations",   presenter:"Andrea",   value:700   },
@@ -508,7 +508,7 @@ function recalc() {
 
   const balEl = document.getElementById('balance');
   const statEl = document.getElementById('bal-status');
-  balEl.textContent = fmt(bal);
+  balEl.textContent = (bal < 0 ? '-' : '') + fmt(bal);
 
   function getValByCode(items, prefix, code) {
     const i = items.findIndex(x => x.code === code);
