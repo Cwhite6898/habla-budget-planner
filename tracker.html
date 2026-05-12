@@ -160,6 +160,7 @@
 
   .section-body { overflow: hidden; }
 
+  /* ── DESKTOP TABLE ── */
   .table-wrap {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -219,6 +220,16 @@
     background: var(--accent-light);
     color: var(--accent);
   }
+
+  td.actual-cell {
+    text-align: right;
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  td.actual-cell .actual-val { }
+  td.actual-cell .actual-none { color: var(--text-muted); font-size: 11px; }
 
   td.amt-cell { text-align: right; width: 130px; }
 
@@ -319,6 +330,88 @@
     font-size: 11px;
     color: var(--text-muted);
   }
+
+  /* ── MOBILE CARD LAYOUT ── */
+  .card-list { display: none; flex-direction: column; gap: 6px; }
+
+  .line-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+  }
+  .line-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .line-card-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  .line-card-meta {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    margin-top: 2px;
+  }
+  .line-card-amounts {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 8px;
+  }
+  .amt-block {
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 6px 8px;
+  }
+  .amt-block-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .amt-block-value {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .amt-block-value.none {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .amt-block input {
+    width: 100%;
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .amt-block input::-webkit-outer-spin-button,
+  .amt-block input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .amt-block input:focus { border-color: var(--accent); background: var(--surface); }
+  .amt-block input.has-value { background: var(--surface); font-weight: 500; }
+
+  @media (max-width: 620px) {
+    body { padding: 1rem; }
+    header h1 { font-size: 17px; }
+    .summary-bar { grid-template-columns: 1fr 1fr; }
+    .summary-bar .metric:last-child { grid-column: 1 / -1; }
+    .metric-value { font-size: 22px; }
+    .net-cards { grid-template-columns: 1fr; gap: 6px; }
+    .net-card { flex-wrap: wrap; }
+    /* hide table, show cards */
+    .table-wrap { display: none; }
+    .card-list { display: flex; }
+  }
 </style>
 </head>
 <body class="presenter-colors">
@@ -379,11 +472,14 @@
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th>Code</th><th>Description</th><th>Presenter</th><th class="amt">Proposed amount</th>
+          <th>Code</th><th>Description</th><th>Presenter</th>
+          <th class="amt">25/26 actual</th>
+          <th class="amt">26/27 proposed</th>
         </tr></thead>
         <tbody id="inc-tbody"></tbody>
       </table>
     </div>
+    <div class="card-list" id="inc-cards"></div>
   </div>
 </div>
 
@@ -397,11 +493,14 @@
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th>Code</th><th>Description</th><th>Presenter</th><th class="amt">Proposed amount</th>
+          <th>Code</th><th>Description</th><th>Presenter</th>
+          <th class="amt">25/26 actual</th>
+          <th class="amt">26/27 proposed</th>
         </tr></thead>
         <tbody id="exp-tbody"></tbody>
       </table>
     </div>
+    <div class="card-list" id="exp-cards"></div>
   </div>
 </div>
 
@@ -413,61 +512,66 @@ const P_COLOR = {};
 PRESENTERS.forEach((p,i) => { P_COLOR[p] = i % 14; });
 
 const incItems = [
-  { code:"4645", name:"Donation Drive",      presenter:"Katie",   value:14000 },
-  { code:"4625", name:"Buy-a-Spot",          presenter:"Jessica", value:8000  },
-  { code:"4640", name:"Quetzal Shop",        presenter:"Jessica", value:2100  },
-  { code:"4710", name:"Restaurant Nights",   presenter:"Jessica", value:600   },
-  { code:"4620", name:"Gala",                presenter:"Raquel",  value:51000 },
-  { code:"4615", name:"Caminata",            presenter:"Marc",    value:38000 },
-  { code:"4650", name:"Baile",               presenter:"Martha",  value:4000  },
-  { code:"4660", name:"Yearbook",            presenter:"Hillary", value:7000  },
+  { code:"4645", name:"Donation Drive",    presenter:"Katie",   value:14000, actual:7686   },
+  { code:"4625", name:"Buy-a-Spot",        presenter:"Jessica", value:8000,  actual:2784   },
+  { code:"4640", name:"Quetzal Shop",      presenter:"Jessica", value:2100,  actual:69     },
+  { code:"4710", name:"Restaurant Nights", presenter:"Jessica", value:600,   actual:null   },
+  { code:"4620", name:"Gala",              presenter:"Raquel",  value:51000, actual:45664  },
+  { code:"4615", name:"Caminata",          presenter:"Marc",    value:38000, actual:33587  },
+  { code:"4650", name:"Baile",             presenter:"Martha",  value:4000,  actual:5856   },
+  { code:"4660", name:"Yearbook",          presenter:"Hillary", value:7000,  actual:7402   },
 ];
 
 const expItems = [
-  { code:"6830", name:"Donation Drive",                      presenter:"Katie",    value:0     },
-  { code:"6930", name:"Insurance",                           presenter:"Katie",    value:800   },
-  { code:"6715", name:"Food Drive",                          presenter:"Katie",    value:500   },
-  { code:"6710", name:"Childcare",                           presenter:"Katie",    value:150   },
-  { code:"6530", name:"Afterschool Enrichment",              presenter:"Katie",    value:7220  },
-  { code:"6140", name:"All School Playdate",                 presenter:"Katie",    value:100   },
-  { code:"6745", name:"Math Festival",                       presenter:"Hillary",  value:1600  },
-  { code:"6720", name:"Hospitality",                         presenter:"Hillary",  value:550   },
-  { code:"6940", name:"Bank charges & misc",                 presenter:"Cathy",    value:50    },
-  { code:"6935", name:"Printing & supplies",                 presenter:"Cathy",    value:200   },
-  { code:"6928", name:"Taxes & fees",                        presenter:"Cathy",    value:90    },
-  { code:"6925", name:"Tax prep & legal fees",               presenter:"Cathy",    value:2000  },
-  { code:"6920", name:"QuickBooks annual fee",               presenter:"Cathy",    value:80    },
-  { code:"6915", name:"Bookkeeper",                          presenter:"Cathy",    value:900   },
-  { code:"6330", name:"Communications",                      presenter:"Cathy",    value:668   },
-  { code:"6250", name:"Website fees",                        presenter:"Cathy",    value:260   },
-  { code:"6539", name:"5th Grade",                           presenter:"Jasmine",  value:500   },
-  { code:"6836", name:"Buy-a-Spot",                          presenter:"Jessica",  value:1200  },
-  { code:"6350", name:"Quetzal Shop",                        presenter:"Jessica",  value:200   },
-  { code:"6120", name:"Gala",                                presenter:"Raquel",   value:21000 },
-  { code:"6110", name:"Caminata",                            presenter:"Marc",     value:10500 },
-  { code:"6415", name:"Baile",                               presenter:"Martha",   value:4000  },
-  { code:"6725", name:"Children's Day",                      presenter:"Martha",   value:0     },
-  { code:"6735", name:"Family Night",                        presenter:"Eric",     value:100   },
-  { code:"6685", name:"Student activities & celebrations",   presenter:"Andrea",   value:700   },
-  { code:"6630", name:"Visa",                                presenter:"Andrea",   value:800   },
-  { code:"6610", name:"Teacher Appreciation",                presenter:"Andrea",   value:2000  },
-  { code:"6532", name:"Gold Rush",                           presenter:"Andrea",   value:200   },
-  { code:"6670", name:"Middle School",                       presenter:"Dana",     value:5716  },
-  { code:"6531", name:"Field Trips",                         presenter:"Dana",     value:2250  },
-  { code:"6045", name:"Recess Support",                      presenter:"Dana",     value:13475 },
-  { code:"6546", name:"8th Grade",                           presenter:"Dana",     value:500   },
-  { code:"6620", name:"Teacher Grants",                      presenter:"Barbara",  value:12000 },
-  { code:"6621", name:"Support Staff Grants",                presenter:"Barbara",  value:1650  },
-  { code:"6310", name:"School Improvement",                  presenter:"Kitty",    value:375   },
-  { code:"6055", name:"Science",                             presenter:"Kitty",    value:17600 },
-  { code:"6050", name:"Music",                               presenter:"Lizzie",   value:16200 },
-  { code:"6010", name:"Art",                                 presenter:"Lizzie",   value:11200 },
-  { code:"6025", name:"Art Show",                            presenter:"Lizzie",   value:0     },
-  { code:"6660", name:"Yearbook",                            presenter:"Hillary",  value:7001  },
+  { code:"6830", name:"Donation Drive",                    presenter:"Katie",   value:0,     actual:109    },
+  { code:"6930", name:"Insurance",                         presenter:"Katie",   value:800,   actual:null   },
+  { code:"6715", name:"Food Drive",                        presenter:"Katie",   value:500,   actual:2070   },
+  { code:"6710", name:"Childcare",                         presenter:"Katie",   value:150,   actual:30     },
+  { code:"6530", name:"Afterschool Enrichment",            presenter:"Katie",   value:7220,  actual:6766   },
+  { code:"6140", name:"All School Playdate",               presenter:"Katie",   value:100,   actual:279    },
+  { code:"6745", name:"Math Festival",                     presenter:"Hillary", value:1600,  actual:588    },
+  { code:"6720", name:"Hospitality",                       presenter:"Hillary", value:550,   actual:43     },
+  { code:"6940", name:"Bank charges & misc",               presenter:"Cathy",   value:50,    actual:10     },
+  { code:"6935", name:"Printing & supplies",               presenter:"Cathy",   value:200,   actual:168    },
+  { code:"6928", name:"Taxes & fees",                      presenter:"Cathy",   value:90,    actual:75     },
+  { code:"6925", name:"Tax prep & legal fees",             presenter:"Cathy",   value:2000,  actual:2000   },
+  { code:"6920", name:"QuickBooks annual fee",             presenter:"Cathy",   value:80,    actual:80     },
+  { code:"6915", name:"Bookkeeper",                        presenter:"Cathy",   value:900,   actual:null   },
+  { code:"6330", name:"Communications",                    presenter:"Cathy",   value:668,   actual:66     },
+  { code:"6250", name:"Website fees",                      presenter:"Cathy",   value:260,   actual:null   },
+  { code:"6539", name:"5th Grade",                         presenter:"Jasmine", value:500,   actual:null   },
+  { code:"6836", name:"Buy-a-Spot",                        presenter:"Jessica", value:1200,  actual:0      },
+  { code:"6350", name:"Quetzal Shop",                      presenter:"Jessica", value:200,   actual:null   },
+  { code:"6120", name:"Gala",                              presenter:"Raquel",  value:21000, actual:20980  },
+  { code:"6110", name:"Caminata",                          presenter:"Marc",    value:10500, actual:7746   },
+  { code:"6415", name:"Baile",                             presenter:"Martha",  value:4000,  actual:3730   },
+  { code:"6725", name:"Children's Day",                    presenter:"Martha",  value:0,     actual:220    },
+  { code:"6735", name:"Family Night",                      presenter:"Eric",    value:100,   actual:272    },
+  { code:"6685", name:"Student activities & celebrations", presenter:"Andrea",  value:700,   actual:null   },
+  { code:"6630", name:"Visa",                              presenter:"Andrea",  value:800,   actual:292    },
+  { code:"6610", name:"Teacher Appreciation",              presenter:"Andrea",  value:2000,  actual:323    },
+  { code:"6532", name:"Gold Rush",                         presenter:"Andrea",  value:200,   actual:null   },
+  { code:"6670", name:"Middle School",                     presenter:"Dana",    value:5716,  actual:6804   },
+  { code:"6531", name:"Field Trips",                       presenter:"Dana",    value:2250,  actual:4500   },
+  { code:"6045", name:"Recess Support",                    presenter:"Dana",    value:13475, actual:14950  },
+  { code:"6546", name:"8th Grade",                         presenter:"Dana",    value:500,   actual:null   },
+  { code:"6620", name:"Teacher Grants",                    presenter:"Barbara", value:12000, actual:12779  },
+  { code:"6621", name:"Support Staff Grants",              presenter:"Barbara", value:1650,  actual:null   },
+  { code:"6310", name:"School Improvement",                presenter:"Kitty",   value:375,   actual:null   },
+  { code:"6055", name:"Science",                           presenter:"Kitty",   value:17600, actual:21000  },
+  { code:"6050", name:"Music",                             presenter:"Lizzie",  value:16200, actual:1800   },
+  { code:"6010", name:"Art",                               presenter:"Lizzie",  value:11200, actual:15900  },
+  { code:"6025", name:"Art Show",                          presenter:"Lizzie",  value:0,     actual:null   },
+  { code:"6660", name:"Yearbook",                          presenter:"Hillary", value:7001,  actual:7198   },
 ];
 
 function fmt(n) {
   return '$' + Math.round(Math.abs(n)).toLocaleString('en-US');
+}
+
+function fmtActual(actual) {
+  if (actual === null || actual === undefined) return '<span class="actual-none">—</span>';
+  return '<span class="actual-val">' + fmt(actual) + '</span>';
 }
 
 function presenterBadge(name) {
@@ -475,7 +579,8 @@ function presenterBadge(name) {
   return `<span class="presenter-badge" style="background:var(--p${ci});color:var(--p${ci}t)">${name}</span>`;
 }
 
-function buildTable(items, tbodyId, prefix) {
+function buildTable(items, tbodyId, cardsId, prefix) {
+  // Desktop table rows
   const tbody = document.getElementById(tbodyId);
   items.forEach((item, i) => {
     const val = item.value || 0;
@@ -484,14 +589,58 @@ function buildTable(items, tbodyId, prefix) {
       <td class="code">${item.code}</td>
       <td class="name">${item.name}</td>
       <td class="presenter">${presenterBadge(item.presenter)}</td>
+      <td class="actual-cell">${fmtActual(item.actual)}</td>
       <td class="amt-cell"><input type="number" id="${prefix}-${i}" min="0" step="100" placeholder="0" value="${val > 0 ? val : ''}" class="${val > 0 ? 'has-value' : ''}" oninput="onInput(this)" /></td>
     `;
     tbody.appendChild(tr);
+  });
+
+  // Mobile cards
+  const cardList = document.getElementById(cardsId);
+  items.forEach((item, i) => {
+    const val = item.value || 0;
+    const ci = P_COLOR[item.presenter] !== undefined ? P_COLOR[item.presenter] : 0;
+    const div = document.createElement('div');
+    div.className = 'line-card';
+    div.innerHTML = `
+      <div class="line-card-top">
+        <div>
+          <div class="line-card-name">${item.name}</div>
+          <div class="line-card-meta">${item.code} &middot; <span class="presenter-badge" style="background:var(--p${ci});color:var(--p${ci}t);font-size:10px;padding:1px 6px">${item.presenter}</span></div>
+        </div>
+      </div>
+      <div class="line-card-amounts">
+        <div class="amt-block">
+          <div class="amt-block-label">25/26 actual</div>
+          <div class="amt-block-value ${item.actual === null ? 'none' : ''}">${item.actual !== null && item.actual !== undefined ? fmt(item.actual) : '—'}</div>
+        </div>
+        <div class="amt-block">
+          <div class="amt-block-label">26/27 proposed</div>
+          <input type="number" id="m-${prefix}-${i}" min="0" step="100" placeholder="0"
+            value="${val > 0 ? val : ''}"
+            class="${val > 0 ? 'has-value' : ''}"
+            oninput="onMobileInput(this, '${prefix}', ${i})" />
+        </div>
+      </div>
+    `;
+    cardList.appendChild(div);
   });
 }
 
 function onInput(el) {
   el.classList.toggle('has-value', el.value !== '' && parseFloat(el.value) > 0);
+  // Sync to mobile counterpart
+  const id = el.id; // e.g. "inc-3"
+  const mEl = document.getElementById('m-' + id);
+  if (mEl) { mEl.value = el.value; mEl.classList.toggle('has-value', el.value !== '' && parseFloat(el.value) > 0); }
+  recalc();
+}
+
+function onMobileInput(el, prefix, i) {
+  el.classList.toggle('has-value', el.value !== '' && parseFloat(el.value) > 0);
+  // Sync to desktop counterpart
+  const dEl = document.getElementById(prefix + '-' + i);
+  if (dEl) { dEl.value = el.value; dEl.classList.toggle('has-value', el.value !== '' && parseFloat(el.value) > 0); }
   recalc();
 }
 
@@ -553,8 +702,12 @@ function recalc() {
 
 function resetAll() {
   if (!confirm('Reset all amounts to zero?')) return;
-  incItems.forEach((_, i) => { const el = document.getElementById('inc-' + i); el.value = ''; el.classList.remove('has-value'); });
-  expItems.forEach((_, i) => { const el = document.getElementById('exp-' + i); el.value = ''; el.classList.remove('has-value'); });
+  incItems.forEach((_, i) => {
+    ['inc-','m-inc-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value='';el.classList.remove('has-value');} });
+  });
+  expItems.forEach((_, i) => {
+    ['exp-','m-exp-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value='';el.classList.remove('has-value');} });
+  });
   recalc();
 }
 
@@ -569,8 +722,8 @@ function toggleSection(id) {
 
 document.getElementById('live-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-buildTable(incItems, 'inc-tbody', 'inc');
-buildTable(expItems, 'exp-tbody', 'exp');
+buildTable(incItems, 'inc-tbody', 'inc-cards', 'inc');
+buildTable(expItems, 'exp-tbody', 'exp-cards', 'exp');
 recalc();
 </script>
 </body>
