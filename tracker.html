@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABLA Budget Meeting Tracker 25/26</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --border: #e2dfd8;
+    --border-light: #ede9e4;
+    --text-primary: #1a1917;
+    --text-secondary: #6b6760;
+    --text-muted: #9b9892;
+    --green: #2a7a4b;
+    --green-bg: #edf7f1;
+    --green-border: #b6dfc8;
+    --red: #c0392b;
+    --red-bg: #fdf0ee;
+    --red-border: #f0b8b2;
+    --amber: #9a6200;
+    --amber-bg: #fdf6e3;
+    --accent: #2a5298;
+    --accent-light: #eef2fb;
+    --font-display: 'Georgia', 'Times New Roman', serif;
+    --font-body: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+  }
+
+  header {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--text-primary);
+    padding-bottom: 1rem;
+  }
+
+  header h1 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: -0.01em;
+  }
+
+  header span {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .summary-bar {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    transition: color 0.2s;
+  }
+
+  .metric-value.pos { color: var(--green); }
+  .metric-value.neg { color: var(--red); }
+
+  .metric-status {
+    font-size: 11px;
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .metric-status.pos { color: var(--green); }
+  .metric-status.neg { color: var(--red); }
+
+  .controls {
+    max-width: 900px;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  button.reset {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: background 0.15s;
+  }
+  button.reset:hover { background: var(--bg); }
+
+  .section {
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .section-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .section-toggle:hover { background: var(--bg); }
+  .section-toggle.inc { color: var(--green); }
+  .section-toggle.exp { color: var(--red); }
+  .section-toggle .arrow { font-size: 10px; margin-left: 4px; transition: transform 0.2s; }
+  .section-toggle .stotal { margin-left: auto; font-size: 15px; letter-spacing: -0.01em; }
+
+  .section-body { overflow: hidden; }
+
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  thead tr {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    padding: 8px 14px;
+    text-align: left;
+  }
+  thead th.amt { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafaf8; }
+
+  tbody td {
+    padding: 7px 14px;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+
+  td.code {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+  }
+
+  td.name { color: var(--text-primary); }
+
+  td.presenter {
+    color: var(--text-secondary);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .presenter-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  td.amt-cell { text-align: right; width: 130px; }
+
+  td.amt-cell input {
+    width: 100%;
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    -moz-appearance: textfield;
+  }
+  td.amt-cell input::-webkit-outer-spin-button,
+  td.amt-cell input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  td.amt-cell input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+  td.amt-cell input.has-value {
+    background: var(--surface);
+    border-color: var(--border);
+    font-weight: 500;
+  }
+
+  .presenter-colors {
+    --p0: #e8f0fb; --p0t: #2a5298;
+    --p1: #edf7f1; --p1t: #2a7a4b;
+    --p2: #fdf0fb; --p2t: #8b2a7a;
+    --p3: #fff7ed; --p3t: #9a4f00;
+    --p4: #f0f7fd; --p4t: #1a6a9a;
+    --p5: #fdf6e3; --p5t: #8a6000;
+    --p6: #fdf0ee; --p6t: #a03020;
+    --p7: #f0fdf4; --p7t: #1a6a3a;
+    --p8: #fdf4f0; --p8t: #9a4020;
+    --p9: #f4f0fd; --p9t: #5a2a9a;
+    --p10: #f0faf8; --p10t: #1a6a60;
+    --p11: #fdf8f0; --p11t: #8a5a00;
+  }
+
+  .net-events {
+    max-width: 900px;
+    margin: 0 auto 1.25rem;
+  }
+  .net-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .net-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .net-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .net-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  .net-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--text-muted);
+    margin-left: auto;
+    transition: color 0.2s;
+  }
+  .net-value.pos { color: var(--green); }
+  .net-value.neg { color: var(--red); }
+  .net-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  footer {
+    max-width: 900px;
+    margin: 2rem auto 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body class="presenter-colors">
+
+<header>
+  <h1>HABLA Budget Meeting &mdash; 25/26</h1>
+  <span id="live-date"></span>
+</header>
+
+<div class="summary-bar">
+  <div class="metric">
+    <div class="metric-label">Total income</div>
+    <div class="metric-value pos" id="total-income">$0</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total expenses</div>
+    <div class="metric-value neg" id="total-expenses">$0</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Balance</div>
+    <div class="metric-value" id="balance">$0</div>
+    <div class="metric-status" id="bal-status">Enter amounts to begin</div>
+  </div>
+</div>
+
+<div class="net-events">
+  <div class="net-label">Event net income</div>
+  <div class="net-cards">
+    <div class="net-card">
+      <div class="net-name">Buy-a-Spot</div>
+      <div class="net-value" id="net-buyaspot">—</div>
+      <div class="net-sub" id="net-buyaspot-sub"></div>
+    </div>
+    <div class="net-card">
+      <div class="net-name">Gala</div>
+      <div class="net-value" id="net-gala">—</div>
+      <div class="net-sub" id="net-gala-sub"></div>
+    </div>
+    <div class="net-card">
+      <div class="net-name">Caminata</div>
+      <div class="net-value" id="net-caminata">—</div>
+      <div class="net-sub" id="net-caminata-sub"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="reset" onclick="resetAll()">&#8635; Reset all</button>
+</div>
+
+<div class="section">
+  <button class="section-toggle inc" onclick="toggleSection('inc')">
+    &#8679; Income
+    <span class="arrow" id="inc-arrow">&#9660;</span>
+    <span class="stotal" id="inc-total">$0</span>
+  </button>
+  <div class="section-body" id="inc-body">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Code</th><th>Description</th><th>Presenter</th><th class="amt">Proposed amount</th>
+        </tr></thead>
+        <tbody id="inc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <button class="section-toggle exp" onclick="toggleSection('exp')">
+    &#8681; Expenses
+    <span class="arrow" id="exp-arrow">&#9660;</span>
+    <span class="stotal" id="exp-total">$0</span>
+  </button>
+  <div class="section-body" id="exp-body">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Code</th><th>Description</th><th>Presenter</th><th class="amt">Proposed amount</th>
+        </tr></thead>
+        <tbody id="exp-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>HABLA Friends of River Glen &mdash; Budget Meeting Tracker</footer>
+
+<script>
+const PRESENTERS = ["Katie","Hillary","Cathy","Jasmine","Jessica","Raquel","Marc","Martha","Eric","Andrea","Dana","Barbara","Kitty","Lizzie"];
+const P_COLOR = {};
+PRESENTERS.forEach((p,i) => { P_COLOR[p] = i % 12; });
+
+const incItems = [
+  { code:"4645", name:"Donation Drive",      presenter:"Katie",   value:14000 },
+  { code:"4690", name:"Corporate matching",  presenter:"Katie",   value:5000  },
+  { code:"4625", name:"Buy-a-Spot",          presenter:"Jessica", value:8000  },
+  { code:"4640", name:"Quetzal Shop",        presenter:"Jessica", value:2100  },
+  { code:"4710", name:"Restaurant Nights",   presenter:"Jessica", value:600   },
+  { code:"4620", name:"Gala",                presenter:"Raquel",  value:51000 },
+  { code:"4615", name:"Caminata",            presenter:"Marc",    value:38000 },
+  { code:"4650", name:"Baile",               presenter:"Martha",  value:4000  },
+];
+
+const expItems = [
+  { code:"6830", name:"Donation Drive",                      presenter:"Katie",    value:0     },
+  { code:"6930", name:"Insurance",                           presenter:"Katie",    value:800   },
+  { code:"6715", name:"Food Drive",                          presenter:"Katie",    value:500   },
+  { code:"6710", name:"Childcare",                           presenter:"Katie",    value:150   },
+  { code:"6530", name:"Afterschool Enrichment",              presenter:"Katie",    value:7220  },
+  { code:"6140", name:"All School Playdate",                 presenter:"Katie",    value:100   },
+  { code:"6745", name:"Math Festival",                       presenter:"Hillary",  value:1600  },
+  { code:"6720", name:"Hospitality",                         presenter:"Hillary",  value:550   },
+  { code:"6940", name:"Bank charges & misc",                 presenter:"Cathy",    value:50    },
+  { code:"6935", name:"Printing & supplies",                 presenter:"Cathy",    value:200   },
+  { code:"6928", name:"Taxes & fees",                        presenter:"Cathy",    value:90    },
+  { code:"6925", name:"Tax prep & legal fees",               presenter:"Cathy",    value:2000  },
+  { code:"6920", name:"QuickBooks annual fee",               presenter:"Cathy",    value:80    },
+  { code:"6915", name:"Bookkeeper",                          presenter:"Cathy",    value:900   },
+  { code:"6330", name:"Communications",                      presenter:"Cathy",    value:668   },
+  { code:"6250", name:"Website fees",                        presenter:"Cathy",    value:260   },
+  { code:"6539", name:"5th Grade",                           presenter:"Jasmine",  value:500   },
+  { code:"6836", name:"Buy-a-Spot",                          presenter:"Jessica",  value:1200  },
+  { code:"6350", name:"Quetzal Shop",                        presenter:"Jessica",  value:200   },
+  { code:"6120", name:"Gala",                                presenter:"Raquel",   value:21000 },
+  { code:"6110", name:"Caminata",                            presenter:"Marc",     value:10500 },
+  { code:"6415", name:"Baile",                               presenter:"Martha",   value:4000  },
+  { code:"6750", name:"Room Parents",                        presenter:"Martha",   value:200   },
+  { code:"6725", name:"Children's Day",                      presenter:"Martha",   value:0     },
+  { code:"6735", name:"Family Night",                        presenter:"Eric",     value:100   },
+  { code:"6685", name:"Student activities & celebrations",   presenter:"Andrea",   value:700   },
+  { code:"6630", name:"Visa",                                presenter:"Andrea",   value:800   },
+  { code:"6610", name:"Teacher Appreciation",                presenter:"Andrea",   value:2000  },
+  { code:"6532", name:"Gold Rush",                           presenter:"Andrea",   value:200   },
+  { code:"6670", name:"Middle School",                       presenter:"Dana",     value:5716  },
+  { code:"6531", name:"Field Trips",                         presenter:"Dana",     value:2250  },
+  { code:"6045", name:"Recess Support",                      presenter:"Dana",     value:13475 },
+  { code:"6546", name:"8th Grade",                           presenter:"Dana",     value:500   },
+  { code:"6620", name:"Teacher Grants",                      presenter:"Barbara",  value:13650 },
+  { code:"6310", name:"School Improvement",                  presenter:"Kitty",    value:375   },
+  { code:"6055", name:"Science",                             presenter:"Kitty",    value:17600 },
+  { code:"6050", name:"Music",                               presenter:"Lizzie",   value:16200 },
+  { code:"6010", name:"Art",                                 presenter:"Lizzie",   value:11200 },
+  { code:"6025", name:"Art Show",                            presenter:"Lizzie",   value:0     },
+];
+
+function fmt(n) {
+  return '$' + Math.round(Math.abs(n)).toLocaleString('en-US');
+}
+
+function presenterBadge(name) {
+  const ci = P_COLOR[name] !== undefined ? P_COLOR[name] : 0;
+  return `<span class="presenter-badge" style="background:var(--p${ci});color:var(--p${ci}t)">${name}</span>`;
+}
+
+function buildTable(items, tbodyId, prefix) {
+  const tbody = document.getElementById(tbodyId);
+  items.forEach((item, i) => {
+    const val = item.value || 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="code">${item.code}</td>
+      <td class="name">${item.name}</td>
+      <td class="presenter">${presenterBadge(item.presenter)}</td>
+      <td class="amt-cell"><input type="number" id="${prefix}-${i}" min="0" step="100" placeholder="0" value="${val > 0 ? val : ''}" class="${val > 0 ? 'has-value' : ''}" oninput="onInput(this)" /></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function onInput(el) {
+  el.classList.toggle('has-value', el.value !== '' && parseFloat(el.value) > 0);
+  recalc();
+}
+
+function recalc() {
+  let inc = 0, exp = 0;
+  incItems.forEach((_, i) => { inc += parseFloat(document.getElementById('inc-' + i).value) || 0; });
+  expItems.forEach((_, i) => { exp += parseFloat(document.getElementById('exp-' + i).value) || 0; });
+  const bal = inc - exp;
+
+  document.getElementById('total-income').textContent = fmt(inc);
+  document.getElementById('total-expenses').textContent = fmt(exp);
+  document.getElementById('inc-total').textContent = fmt(inc);
+  document.getElementById('exp-total').textContent = fmt(exp);
+
+  const balEl = document.getElementById('balance');
+  const statEl = document.getElementById('bal-status');
+  balEl.textContent = fmt(bal);
+
+  function getValByCode(items, prefix, code) {
+    const i = items.findIndex(x => x.code === code);
+    return i >= 0 ? (parseFloat(document.getElementById(prefix + '-' + i).value) || 0) : 0;
+  }
+
+  function updateNetCard(id, incVal, expVal) {
+    const el = document.getElementById('net-' + id);
+    const sub = document.getElementById('net-' + id + '-sub');
+    if (incVal === 0 && expVal === 0) {
+      el.textContent = '—'; el.className = 'net-value'; sub.textContent = '';
+    } else {
+      const net = incVal - expVal;
+      el.textContent = (net >= 0 ? '' : '-') + fmt(net);
+      el.className = 'net-value ' + (net >= 0 ? 'pos' : 'neg');
+      sub.textContent = fmt(incVal) + ' in / ' + fmt(expVal) + ' out';
+    }
+  }
+
+  updateNetCard('buyaspot', getValByCode(incItems, 'inc', '4625'), getValByCode(expItems, 'exp', '6836'));
+  updateNetCard('gala',     getValByCode(incItems, 'inc', '4620'), getValByCode(expItems, 'exp', '6120'));
+  updateNetCard('caminata', getValByCode(incItems, 'inc', '4615'), getValByCode(expItems, 'exp', '6110'));
+
+  if (inc === 0 && exp === 0) {
+    balEl.className = 'metric-value';
+    statEl.textContent = 'Enter amounts to begin';
+    statEl.className = 'metric-status';
+  } else if (bal > 0) {
+    balEl.className = 'metric-value pos';
+    statEl.textContent = 'Surplus of ' + fmt(bal);
+    statEl.className = 'metric-status pos';
+  } else if (bal < 0) {
+    balEl.className = 'metric-value neg';
+    statEl.textContent = 'Over budget by ' + fmt(bal);
+    statEl.className = 'metric-status neg';
+  } else {
+    balEl.className = 'metric-value pos';
+    statEl.textContent = 'Exactly balanced';
+    statEl.className = 'metric-status pos';
+  }
+}
+
+function resetAll() {
+  if (!confirm('Reset all amounts to zero?')) return;
+  incItems.forEach((_, i) => { const el = document.getElementById('inc-' + i); el.value = ''; el.classList.remove('has-value'); });
+  expItems.forEach((_, i) => { const el = document.getElementById('exp-' + i); el.value = ''; el.classList.remove('has-value'); });
+  recalc();
+}
+
+const sectionState = { inc: true, exp: true };
+function toggleSection(id) {
+  sectionState[id] = !sectionState[id];
+  const body = document.getElementById(id + '-body');
+  const arrow = document.getElementById(id + '-arrow');
+  body.style.display = sectionState[id] ? '' : 'none';
+  arrow.style.transform = sectionState[id] ? '' : 'rotate(-90deg)';
+}
+
+document.getElementById('live-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+buildTable(incItems, 'inc-tbody', 'inc');
+buildTable(expItems, 'exp-tbody', 'exp');
+recalc();
+</script>
+</body>
+</html>
