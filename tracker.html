@@ -701,12 +701,14 @@ function recalc() {
 }
 
 function resetAll() {
-  if (!confirm('Reset all amounts to zero?')) return;
-  incItems.forEach((_, i) => {
-    ['inc-','m-inc-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value='';el.classList.remove('has-value');} });
+  if (!confirm('Reset all amounts to defaults?')) return;
+  incItems.forEach((item, i) => {
+    const val = item.value > 0 ? item.value : '';
+    ['inc-','m-inc-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value=val; el.classList.toggle('has-value', val !== '');} });
   });
-  expItems.forEach((_, i) => {
-    ['exp-','m-exp-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value='';el.classList.remove('has-value');} });
+  expItems.forEach((item, i) => {
+    const val = item.value > 0 ? item.value : '';
+    ['exp-','m-exp-'].forEach(p => { const el = document.getElementById(p+i); if(el){el.value=val; el.classList.toggle('has-value', val !== '');} });
   });
   recalc();
 }
