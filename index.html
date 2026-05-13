@@ -175,75 +175,9 @@ footer {
 }
 
 /* ── MOBILE STICKY SUMMARY STRIP ── */
-.mobile-strip {
-  display: none;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #d3d1c7;
-  padding: 0;
-  margin: 0 -1rem;
-  width: calc(100% + 2rem);
-}
-.mobile-strip-inner {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  divide-x: 1px solid #d3d1c7;
-}
-.ms-cell {
-  padding: 8px 10px;
-  border-right: 1px solid #e8e6e0;
-  text-align: center;
-}
-.ms-cell:last-child { border-right: none; }
-.ms-label {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: #888780;
-  display: block;
-  margin-bottom: 2px;
-}
-.ms-val {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a18;
-  transition: color .2s;
-}
-.ms-val.pos { color: #1d9e75; }
-.ms-val.neg { color: #d85a30; }
 
-@media (max-width: 760px) {
-  body { padding: .75rem 1rem 2rem; }
-  header { margin-bottom: 0; padding-bottom: .75rem; }
-  header h1 { font-size: 16px; }
-  header p { font-size: 11px; }
-  .reset-btn { font-size: 11px; padding: 5px 10px; }
-  .mobile-strip { display: block; margin-bottom: 1rem; }
-  /* hide the right panel on mobile — strip covers essentials */
-  .right-panel { display: none; }
-  /* tighten left panel */
-  .card { padding: .85rem 1rem; margin-bottom: .75rem; }
-  .sec-label { font-size: 10px; margin-bottom: 8px; }
-  .fr-card { padding: 10px 12px; }
-  .fr-name { font-size: 14px; }
-  .fr-nums { gap: 6px; }
-  .fr-num span { font-size: 12px; }
-  .tog-item { padding: 10px 12px; margin-bottom: 6px; font-size: 14px; }
-  .tog-item .ta { font-size: 13px; }
-  .sl-item { padding: 10px 12px; margin-bottom: 8px; }
-  .sl-name { font-size: 14px; }
-  .sl-cur, .sl-save { font-size: 12px; }
-  input[type=range] { height: 6px; }
-  input[type=range]::-webkit-slider-thumb { width: 24px; height: 24px; }
-  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; }
-  .bonus-card { padding: 10px 12px; }
-  .persona-row { gap: 6px; }
-  .persona-btn { padding: 8px 6px; font-size: 11px; }
-  .toast { font-size: 14px; padding: 10px 18px; max-width: 90vw; white-space: normal; text-align: center; }
-  #mute-btn { bottom: 14px; right: 14px; width: 42px; height: 42px; font-size: 18px; }
-}
+
+
 
 @media print {
   @page { margin: 2cm 2cm 1.5cm; }
@@ -441,78 +375,145 @@ footer {
   align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
+.mobile-strip {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #d3d1c7;
+  margin: 0 -1rem;
+  width: calc(100% + 2rem);
+}
+.mobile-strip-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.ms-cell {
+  padding: 8px 10px;
+  border-right: 1px solid #e8e6e0;
+  text-align: center;
+}
+.ms-cell:last-child { border-right: none; }
+.ms-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #888780;
+  display: block;
+  margin-bottom: 2px;
+}
+.ms-val {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a18;
+  transition: color .2s;
+  display: block;
+}
+.ms-val.pos { color: #1d9e75; }
+.ms-val.neg { color: #d85a30; }
+.fun-panel {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  border-top: 1px solid #d3d1c7;
+  box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
+  padding: 0 1.25rem 2.5rem;
+  z-index: 300;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(105%);
+  transition: transform .32s cubic-bezier(.32,.72,0,1);
+}
+.fun-panel.open { transform: translateY(0); }
+.fun-panel-handle {
+  width: 36px; height: 4px;
+  background: #d3d1c7; border-radius: 2px;
+  margin: 14px auto 18px;
+}
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.drawer-overlay.visible { display: block; }
+.drawer-overlay.open { opacity: 1; }
+
 /* ── MOBILE RESPONSIVE ── */
+.mobile-fun-card { display: none; }
+.drawer-handle { display: none; }
+
 @media (max-width: 760px) {
+  .mobile-strip { display: block; margin-bottom: .5rem; }
   body { padding: .75rem 1rem 2rem; }
-  header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0; padding-bottom: .75rem; }
+  header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 1rem; padding-bottom: .75rem; }
   header h1 { font-size: 16px; }
   header p { font-size: 11px; }
   .reset-btn { font-size: 11px; padding: 5px 10px; }
 
-  .layout { grid-template-columns: 1fr; gap: 0; }
-  /* hide the right panel — mobile strip covers essentials */
-  .right-panel { display: none; }
-
-  /* sticky summary strip */
-  .mobile-strip { display: block; margin-bottom: .75rem; }
+  /* right panel first, numbers promoted to top */
+  .right-panel {
+    position: static !important;
+    order: -1;
+  }
+  /* reorder: numbers → balance → status → progress → scores → chart → rest */
+  .right-panel .metrics-grid       { order: 1; }
+  .right-panel #numbers-label      { order: 1; }
+  .right-panel .reserves-panel     { order: 2; }
+  .right-panel #status-banner      { order: 3; }
+  .right-panel .progress-wrap      { order: 4; }
+  .right-panel .score-grid         { order: 5; }
+  .right-panel #effort-breakdown   { order: 5; }
+  .right-panel canvas              { order: 6; }
+  .right-panel .chart-legend       { order: 6; }
+  .right-panel .divider            { order: 7; }
+  .right-panel .persona-row        { order: 8; }
+  .right-panel .dare-row           { order: 8; }
+  .right-panel .horoscope-box      { order: 8; }
 
   /* left panel cards */
   .card { padding: .85rem 1rem; margin-bottom: .75rem; }
   .sec-label { font-size: 10px; margin-bottom: 8px; }
-
-  /* fundraiser cards */
   .fr-card { padding: 10px 12px; margin-bottom: 6px; }
   .fr-name { font-size: 14px; }
   .fr-num span { font-size: 12px; }
-
-  /* fixed expense toggles */
   .tog-item { padding: 10px 12px; margin-bottom: 6px; }
   .tog-item .tn { font-size: 13px; }
   .tog-item .ta { font-size: 13px; }
-
-  /* sliders */
   .sl-item { padding: 10px 12px; margin-bottom: 10px; }
   .sl-name { font-size: 14px; }
   .sl-cur, .sl-save { font-size: 12px; }
   input[type=range] { height: 6px; }
   input[type=range]::-webkit-slider-thumb { width: 26px; height: 26px; }
   input[type=range]::-moz-range-thumb     { width: 26px; height: 26px; }
-
-  /* one-time investments */
   .bonus-card { padding: 10px 12px; }
-
-  /* accordion sections */
-  .accordion-header {
-    display: flex; align-items: center; justify-content: space-between;
-    cursor: pointer; padding: 12px 0; border-bottom: 0.5px solid #d3d1c7;
-    user-select: none;
-  }
-  .accordion-header .acc-title { font-size: 14px; font-weight: 500; color: #1a1a18; }
-  .accordion-header .acc-arrow { font-size: 12px; color: #888780; transition: transform .2s; }
-  .accordion-header.open .acc-arrow { transform: rotate(180deg); }
-  .accordion-body { display: none; padding-top: 10px; }
-  .accordion-body.open { display: block; }
-
-  /* misc */
+  .persona-btn { padding: 8px 6px; font-size: 11px; }
   #mute-btn { width: 44px; height: 44px; font-size: 20px; bottom: 14px; right: 14px; }
   .toast { font-size: 14px; padding: 10px 18px; max-width: 90vw; white-space: normal; text-align: center; }
 }
 
 @media (max-width: 400px) {
   .fr-nums { grid-template-columns: 1fr 1fr 1fr; }
-  .ms-val { font-size: 13px; }
 }
 </style>
 </head>
 <body>
 
+<!-- Drawer overlay (mobile only) -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer();closeFunPanel()"></div>
+
 <!-- Mobile sticky summary strip (hidden on desktop) -->
-<div class="mobile-strip">
+<div class="mobile-strip" id="mobile-strip">
   <div class="mobile-strip-inner">
     <div class="ms-cell"><span class="ms-label">Revenue</span><span class="ms-val" id="ms-rev">—</span></div>
     <div class="ms-cell"><span class="ms-label">Expenses</span><span class="ms-val" id="ms-exp">—</span></div>
     <div class="ms-cell"><span class="ms-label">Net</span><span class="ms-val" id="ms-net">—</span></div>
-    <div class="ms-cell"><span class="ms-label">Closing Bal.</span><span class="ms-val" id="ms-close">—</span></div>
   </div>
 </div>
 
@@ -536,6 +537,26 @@ footer {
   </div>
 </header>
 
+
+<!-- Fun panel (mobile only) -->
+<div class="fun-panel" id="fun-panel">
+  <div class="fun-panel-handle"></div>
+  <span class="sec-label" style="display:block;margin-bottom:12px;">Start with a scenario</span>
+  <div class="persona-row" style="margin-bottom:14px;">
+    <div class="persona-btn" onclick="loadPersona('claudia');closeFunPanel()"><span class="pb-emoji">🌿</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
+    <div class="persona-btn" onclick="loadPersona('sandra');closeFunPanel()"><span class="pb-emoji">📈</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">stretch goals</span></div>
+    <div class="persona-btn" onclick="loadPersona('gloria');closeFunPanel()"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
+  </div>
+  <div class="dare-row" style="margin-bottom:6px;">
+    <div class="dare-btn" onclick="dareMe();closeFunPanel()">🎲 Dare me</div>
+    <div class="undare-btn" onclick="undare();closeFunPanel()" id="undare-btn-mobile" style="display:none;">Undo dare</div>
+  </div>
+  <div style="font-size:10px;color:#b4b2a9;margin-bottom:16px;text-align:center;">randomly cut something — can you still balance it?</div>
+  <div class="horoscope-box">
+    <div class="horoscope-label">✨ Budget horoscope</div>
+    <div class="horoscope-text" id="horoscope-text-mobile">The stars are calculating your financial destiny...</div>
+  </div>
+</div>
 
 <div class="layout">
 
@@ -585,7 +606,8 @@ footer {
 
   </div>
 
-  <div class="right-panel">
+  <div class="right-panel" id="right-panel">
+    <span class="drawer-handle"></span>
     <div class="status-banner danger" id="status-banner">
       <div class="status-label">Budget status</div>
       <div class="status-amount" id="status-amount">—</div>
@@ -623,7 +645,7 @@ footer {
       </div>
     </div>
 
-    <span class="sec-label" style="margin-top:0;">Numbers</span>
+    <span class="sec-label" id="numbers-label" style="margin-top:0;">Numbers</span>
     <div class="metrics-grid">
       <div class="metric"><label>Revenue</label><div class="val" id="m-rev">—</div></div>
       <div class="metric"><label>Expenses</label><div class="val" id="m-exp">—</div></div>
@@ -709,6 +731,25 @@ footer {
         <p style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#b4b2a9;margin-bottom:6px;">How this works</p>
         <p>Dropping a fundraiser removes its revenue <em>and</em> its cost. All figures are cash basis.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- Mobile-only fun section — hidden on desktop (same content lives in right panel) -->
+  <div class="card mobile-fun-card">
+    <span class="sec-label">Try a scenario</span>
+    <div class="persona-row">
+      <div class="persona-btn" onclick="loadPersona('claudia')"><span class="pb-emoji">🌿</span><span class="pb-name">Cautious Claudia</span><span style="font-size:10px;color:#888780;">play it safe</span></div>
+      <div class="persona-btn" onclick="loadPersona('sandra')"><span class="pb-emoji">📈</span><span class="pb-name">Stretch Sandra</span><span style="font-size:10px;color:#888780;">stretch goals</span></div>
+      <div class="persona-btn" onclick="loadPersona('gloria')"><span class="pb-emoji">🚀</span><span class="pb-name">Go Big Gloria</span><span style="font-size:10px;color:#888780;">max it out</span></div>
+    </div>
+    <div class="dare-row">
+      <div class="dare-btn" onclick="dareMe()">🎲 Dare me</div>
+      <div class="undare-btn" onclick="undare()" id="undare-btn-mob" style="display:none;">Undo dare</div>
+    </div>
+    <div style="font-size:10px;color:#b4b2a9;margin:-6px 0 14px;text-align:center;">randomly cut something — can you still balance it?</div>
+    <div class="horoscope-box">
+      <div class="horoscope-label">✨ Budget horoscope</div>
+      <div class="horoscope-text" id="horoscope-text-mob">The stars are calculating your financial destiny...</div>
     </div>
   </div>
 
@@ -990,6 +1031,55 @@ document.addEventListener('click', e => {
   }
 });
 
+function openFunPanel() {
+  const overlay = document.getElementById('drawer-overlay');
+  const panel = document.getElementById('fun-panel');
+  // sync horoscope text from desktop version
+  const desktopHoro = document.getElementById('horoscope-text');
+  const mobileHoro = document.getElementById('horoscope-text-mobile');
+  if (desktopHoro && mobileHoro) mobileHoro.textContent = desktopHoro.textContent;
+  // sync undare button
+  const desktopUndare = document.getElementById('undare-btn');
+  const mobileUndare = document.getElementById('undare-btn-mobile');
+  if (desktopUndare && mobileUndare) mobileUndare.style.display = desktopUndare.style.display;
+  panel.style.display = 'block';
+  overlay.classList.add('visible');
+  requestAnimationFrame(() => {
+    overlay.classList.add('open');
+    panel.classList.add('open');
+  });
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFunPanel() {
+  const overlay = document.getElementById('drawer-overlay');
+  const panel = document.getElementById('fun-panel');
+  overlay.classList.remove('open');
+  panel.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { overlay.classList.remove('visible'); panel.style.display = 'none'; }, 320);
+}
+
+function openDrawer() {
+  const overlay = document.getElementById('drawer-overlay');
+  const panel = document.getElementById('right-panel');
+  overlay.classList.add('visible');
+  requestAnimationFrame(() => {
+    overlay.classList.add('open');
+    panel.classList.add('drawer-open');
+  });
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  const overlay = document.getElementById('drawer-overlay');
+  const panel = document.getElementById('right-panel');
+  overlay.classList.remove('open');
+  panel.classList.remove('drawer-open');
+  document.body.style.overflow = '';
+  setTimeout(() => overlay.classList.remove('visible'), 300);
+}
+
 function startEditPlanner() {
   document.getElementById('p-opening-display').style.display = 'none';
   const inp = document.getElementById('p-reserves');
@@ -1071,12 +1161,16 @@ function update() {
   nm.className = 'val ' + (net >= 0 ? 'pos' : 'neg');
   document.getElementById('m-count').textContent = active.length + ' of ' + FUNDRAISERS.length;
 
-  // Mobile strip
-  document.getElementById('ms-rev').textContent = fmt(totalRev);
-  document.getElementById('ms-exp').textContent = fmt(totalExp);
-  const msNet = document.getElementById('ms-net');
-  msNet.textContent = (net >= 0 ? '' : '−') + fmt(Math.abs(net));
-  msNet.className = 'ms-val ' + (net >= 0 ? 'pos' : 'neg');
+  // Mobile sticky strip
+  const msRevEl = document.getElementById('ms-rev');
+  const msExpEl = document.getElementById('ms-exp');
+  const msNetEl = document.getElementById('ms-net');
+  if (msRevEl) msRevEl.textContent = fmt(totalRev);
+  if (msExpEl) msExpEl.textContent = fmt(totalExp);
+  if (msNetEl) {
+    msNetEl.textContent = (net >= 0 ? '' : '−') + fmt(Math.abs(net));
+    msNetEl.className = 'ms-val ' + (net >= 0 ? 'pos' : 'neg');
+  }
 
   const pb = document.getElementById('prog-bar');
   pb.style.width = Math.min(100, pct) + '%';
@@ -1088,10 +1182,6 @@ function update() {
 
   const reserves = parseFloat(document.getElementById('p-reserves').value) || 0;
   const projRes = reserves + net;
-  const msClose = document.getElementById('ms-close');
-  msClose.textContent = fmt(projRes);
-  msClose.className = 'ms-val ' + (projRes >= 0 ? 'pos' : 'neg');
-
   const projEl = document.getElementById('p-reserves-projected');
   const noteEl = document.getElementById('p-reserves-note');
   const budgetResultEl = document.getElementById('p-budget-result');
@@ -1648,8 +1738,11 @@ const HOROSCOPES = {
 function updateHoroscope(net) {
   const pool = net < -10000 ? HOROSCOPES.danger : net < 0 ? HOROSCOPES.warning : HOROSCOPES.success;
   const el = document.getElementById('horoscope-text');
+  const elMob = document.getElementById('horoscope-text-mob');
   if (!el._lastNet || Math.abs(el._lastNet - net) > 2000) {
-    el.textContent = pool[Math.floor(Math.random() * pool.length)];
+    const text = pool[Math.floor(Math.random() * pool.length)];
+    el.textContent = text;
+    if (elMob) elMob.textContent = text;
     el._lastNet = net;
   }
 }
