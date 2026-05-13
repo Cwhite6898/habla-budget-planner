@@ -126,6 +126,28 @@ input[type=range]::-moz-range-thumb {
 .metric .val { font-size: 18px; font-weight: 500; color: #1a1a18; }
 
 .progress-wrap { margin-top: 1.1rem; }
+.reserves-panel { background: #f5f4f0; border-radius: 8px; padding: .8rem .9rem; margin-bottom: 1.1rem; }
+.reserves-panel > .rp-title { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #888780; display: block; margin-bottom: 8px; }
+.rp-bridge { display: flex; flex-direction: column; gap: 6px; }
+.rp-row { display: flex; justify-content: space-between; align-items: center; }
+.rp-row-label { font-size: 11px; color: #6b6760; }
+.rp-row-val { font-size: 15px; font-weight: 500; color: #1a1a18; }
+.rp-row-val.pos { color: #1d9e75; }
+.rp-row-val.neg { color: #d85a30; }
+.rp-row-val.muted { color: #888780; }
+.rp-sep { height: 1px; background: #d3d1c7; margin: 2px 0; }
+.rp-result-row { display: flex; justify-content: space-between; align-items: center; padding-top: 2px; }
+.rp-result-label { font-size: 11px; font-weight: 600; color: #1a1a18; }
+.rp-result-val { font-size: 18px; font-weight: 500; color: #1a1a18; transition: color .2s; }
+.rp-result-val.pos { color: #1d9e75; }
+.rp-result-val.neg { color: #d85a30; }
+.rp-direction { font-size: 10px; margin-top: 5px; color: #888780; font-style: italic; }
+/* editable opening balance in planner */
+.rp-opening-val { font-size: 15px; font-weight: 500; color: #1a1a18; cursor: text; display: flex; align-items: center; gap: 4px; }
+.rp-opening-val .rp-edit-hint { font-size: 9px; color: #b4b2a9; opacity: 0; transition: opacity .15s; font-weight: 400; }
+.rp-opening-val:hover .rp-edit-hint { opacity: 1; }
+.rp-opening-input { font-size: 15px; font-weight: 500; color: #1a1a18; background: transparent; border: none; border-bottom: 1.5px solid #185fa5; outline: none; width: 90px; text-align: right; display: none; -moz-appearance: textfield; }
+.rp-opening-input::-webkit-outer-spin-button, .rp-opening-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 .progress-header { display: flex; justify-content: space-between; font-size: 12px; color: #888780; margin-bottom: 4px; }
 .progress-track { height: 9px; border-radius: 5px; background: #f5f4f0; border: 0.5px solid #d3d1c7; overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 5px; transition: width .3s, background .3s; }
@@ -451,7 +473,7 @@ footer {
     <div class="card">
       <span class="sec-label">Fixed expenses — click to cut entirely</span>
       <span class="sub-label">Essential programs</span>
-      <div class="tog-item" data-key="art"     data-amt="10640" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Art program (Grades 6–8)</span><span class="ta">$10,640</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">Grades 6–8 only — HABLA covers half; school funds the other half via Prop 28</div>
+      <div class="tog-item" data-key="art"     data-amt="10640" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Art program (Grades 6–8)</span><span class="ta">$10,640</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">HABLA funds Grades 6–8; school funds K–5</div>
       <div class="tog-item" data-key="recess"  data-amt="13475" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Recess support</span><span class="ta">$13,475</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">Structured recess & lunch supervision (10:30am–2pm) — sportsmanship, teamwork & resilience. School contributes $12,650; HABLA covers $13,475</div>
       <div class="tog-item" data-key="science" data-amt="17600" onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Science workshops</span><span class="ta">$17,600</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">K–8 workshops, excluding 6th grade this year.</div>
       <div class="tog-item" data-key="music"   data-amt="14400"  onclick="toggleCut(this)"><span class="tn"><span class="chk">✓</span>Music program</span><span class="ta">$14,400</span></div><div style="font-size:10px;color:#888780;font-style:italic;margin:-2px 0 6px 22px;">Bilingual music instruction K–2 only.</div>
@@ -531,6 +553,30 @@ footer {
       <div class="metric"><label>Expenses</label><div class="val" id="m-exp">—</div></div>
       <div class="metric"><label>Net</label><div class="val" id="m-net">—</div></div>
       <div class="metric"><label>Fundraisers kept</label><div class="val" id="m-count">—</div></div>
+    </div>
+
+    <div class="reserves-panel">
+      <span class="rp-title">Balance</span>
+      <div class="rp-bridge">
+        <div class="rp-row">
+          <span class="rp-row-label">Opening (July 1)</span>
+          <span class="rp-opening-val" id="p-opening-display" onclick="startEditPlanner()" title="Click to edit">
+            $240,000 <span class="rp-edit-hint">✎</span>
+          </span>
+          <input type="number" id="p-reserves" class="rp-opening-input" value="240000" min="0" step="1000"
+                 oninput="update()" onblur="stopEditPlanner()" onkeydown="if(event.key==='Enter')this.blur()" />
+        </div>
+        <div class="rp-row">
+          <span class="rp-row-label">Budget result</span>
+          <span class="rp-row-val muted" id="p-budget-result">—</span>
+        </div>
+        <div class="rp-sep"></div>
+        <div class="rp-result-row">
+          <span class="rp-result-label">Closing (June 30)</span>
+          <span class="rp-result-val" id="p-reserves-projected">—</span>
+        </div>
+      </div>
+      <div class="rp-direction" id="p-reserves-note">Approximate — confirm in June</div>
     </div>
 
     <div style="position:relative;width:100%;height:210px;">
@@ -867,6 +913,22 @@ document.addEventListener('click', e => {
   }
 });
 
+function startEditPlanner() {
+  document.getElementById('p-opening-display').style.display = 'none';
+  const inp = document.getElementById('p-reserves');
+  inp.style.display = 'inline-block';
+  inp.focus(); inp.select();
+}
+function stopEditPlanner() {
+  const inp = document.getElementById('p-reserves');
+  const val = parseFloat(inp.value) || 0;
+  const disp = document.getElementById('p-opening-display');
+  disp.innerHTML = '$' + val.toLocaleString() + ' <span class="rp-edit-hint">✎</span>';
+  inp.style.display = 'none';
+  disp.style.display = 'flex';
+  update();
+}
+
 function resetAll() {
   dropped.clear();
   for (const k in bonusItems) delete bonusItems[k];
@@ -939,6 +1001,26 @@ function update() {
   document.getElementById('prog-sub').textContent = net >= 0
     ? 'Budget is balanced'
     : fmt(Math.abs(net)) + ' short of break-even';
+
+  const reserves = parseFloat(document.getElementById('p-reserves').value) || 0;
+  const projRes = reserves + net;
+  const projEl = document.getElementById('p-reserves-projected');
+  const noteEl = document.getElementById('p-reserves-note');
+  const budgetResultEl = document.getElementById('p-budget-result');
+  budgetResultEl.textContent = net === 0 ? '$0' : (net > 0 ? '+' : '−') + fmt(Math.abs(net));
+  budgetResultEl.className = 'rp-row-val ' + (net > 0 ? 'pos' : net < 0 ? 'neg' : 'muted');
+  projEl.textContent = fmt(projRes);
+  projEl.className = 'rp-result-val ' + (projRes >= 0 ? 'pos' : 'neg');
+  if (net > 0) {
+    noteEl.textContent = '↑ Adding ' + fmt(net) + ' to closing balance';
+    noteEl.style.color = '#1d9e75';
+  } else if (net < 0) {
+    noteEl.textContent = '↓ Drawing down ' + fmt(Math.abs(net)) + ' from opening balance';
+    noteEl.style.color = projRes < 0 ? '#d85a30' : '#ba7517';
+  } else {
+    noteEl.textContent = 'Budget balanced — closing balance unchanged';
+    noteEl.style.color = '';
+  }
 
   const chartData0 = [BASE_NON_FR_REV, fixedExp + varExp];
   const chartData1 = [frRev, frCost];

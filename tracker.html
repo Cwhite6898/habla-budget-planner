@@ -106,6 +106,132 @@
   .metric-status.pos { color: var(--green); }
   .metric-status.neg { color: var(--red); }
 
+  /* ── BALANCE BRIDGE ── */
+  .balance-bridge {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  /* Desktop: single row of 3 cells */
+  .bb-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .bb-cell {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-right: 1px solid var(--border);
+    justify-content: flex-start;
+  }
+  .bb-cell:last-child { border-right: none; }
+  .bb-cell.middle { background: var(--bg); }
+  .bb-cell.result { background: var(--bg); }
+  .bb-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    min-height: 28px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .bb-value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    transition: color 0.2s;
+  }
+  .bb-value.pos { color: var(--green); }
+  .bb-value.neg { color: var(--red); }
+  .bb-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+    min-height: 14px;
+    transition: color 0.2s;
+  }
+  .bb-sub.pos { color: var(--green); }
+  .bb-sub.neg { color: var(--red); }
+  /* click-to-edit opening balance */
+  .bb-editable { cursor: text; }
+  .bb-display {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .bb-edit-hint {
+    font-size: 10px;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-family: var(--font-body);
+    letter-spacing: 0;
+  }
+  .bb-editable:hover .bb-edit-hint { opacity: 1; }
+  .bb-input {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    outline: none;
+    width: 100%;
+    display: none;
+    -moz-appearance: textfield;
+  }
+  .bb-input::-webkit-outer-spin-button,
+  .bb-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  /* Mobile: compact ledger rows */
+  @media (max-width: 620px) {
+    .bb-row { display: flex; flex-direction: column; }
+    .bb-cell {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-right: none;
+      border-bottom: 1px solid var(--border-light);
+      gap: 8px;
+    }
+    .bb-cell:last-child { border-bottom: none; }
+    .bb-cell.result {
+      border-top: 2px solid var(--border);
+      border-bottom: none;
+    }
+    .bb-label {
+      font-size: 11px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      min-height: unset;       /* override desktop min-height */
+      display: block;
+      align-items: unset;
+      max-width: 55%;
+    }
+    .bb-cell.result .bb-label { font-weight: 600; color: var(--text-primary); }
+    .bb-value { font-size: 18px; text-align: right; }
+    .bb-display { font-size: 18px; }
+    .bb-input { font-size: 18px; width: 120px; text-align: right; }
+    .bb-sub { display: none; }
+    .bb-cell.result .bb-sub { display: block; font-size: 10px; text-align: right; }
+  }
+
   .controls {
     max-width: 900px;
     margin: 0 auto 1.25rem;
@@ -401,16 +527,28 @@
   .amt-block input.has-value { background: var(--surface); font-weight: 500; }
 
   @media (max-width: 620px) {
-    body { padding: 1rem; }
+    body { padding: 0.75rem; }
+    header { margin-bottom: 1rem; }
     header h1 { font-size: 17px; }
-    .summary-bar { grid-template-columns: 1fr 1fr; }
+    /* Summary: 2-up with balance spanning full width */
+    .summary-bar { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
     .summary-bar .metric:last-child { grid-column: 1 / -1; }
+    .metric { padding: 0.9rem 1rem; }
     .metric-value { font-size: 22px; }
+    /* Event net cards: single column */
+    .net-events { margin-bottom: 1rem; }
     .net-cards { grid-template-columns: 1fr; gap: 6px; }
-    .net-card { flex-wrap: wrap; }
+    .net-card { flex-wrap: wrap; padding: 10px 12px; }
+    /* Bigger touch targets on section toggles */
+    .section-toggle { padding: 14px; font-size: 14px; }
     /* hide table, show cards */
     .table-wrap { display: none; }
     .card-list { display: flex; }
+    /* Larger inputs for fat fingers */
+    .amt-block input { font-size: 16px; padding: 8px 8px; min-height: 40px; }
+    /* Controls row */
+    .controls { justify-content: flex-start; }
+    button.reset { padding: 10px 16px; font-size: 13px; }
   }
 </style>
 </head>
@@ -434,6 +572,31 @@
     <div class="metric-label">Balance</div>
     <div class="metric-value" id="balance">$0</div>
     <div class="metric-status" id="bal-status">Enter amounts to begin</div>
+  </div>
+</div>
+
+<div class="balance-bridge">
+  <div class="bb-row">
+    <!-- Opening Balance -->
+    <div class="bb-cell bb-editable" onclick="startEditBalance()" title="Click to edit">
+      <div class="bb-label">Opening Balance (July 1, 2026)</div>
+      <div class="bb-display" id="bb-display">$240,000 <span class="bb-edit-hint">✎ edit</span></div>
+      <input type="number" id="reserves-input" class="bb-input" value="240000" min="0" step="1000"
+             oninput="recalc()" onblur="stopEditBalance()" onkeydown="if(event.key==='Enter')this.blur()" />
+      <div class="bb-sub">~Approximate — confirm in June</div>
+    </div>
+    <!-- Budget Result -->
+    <div class="bb-cell middle">
+      <div class="bb-label">Budget Result</div>
+      <div class="bb-value" id="bb-result">—</div>
+      <div class="bb-sub" id="bb-result-sub">Enter amounts to calculate</div>
+    </div>
+    <!-- Projected Closing -->
+    <div class="bb-cell result">
+      <div class="bb-label">Projected Closing Balance (June 30, 2027)</div>
+      <div class="bb-value" id="reserves-projected">$240,000</div>
+      <div class="bb-sub" id="reserves-note"></div>
+    </div>
   </div>
 </div>
 
@@ -559,7 +722,7 @@ const expItems = [
   { code:"6310", name:"School Improvement",                presenter:"Kitty",   value:375,   actual:null   },
   { code:"6055", name:"Science",                           presenter:"Kitty",   value:17600, actual:21000  },
   { code:"6050", name:"Music",                             presenter:"Lizzie",  value:14400, actual:1800   },
-  { code:"6010", name:"Art (Grades 6–8)",                   presenter:"Lizzie",  value:10640, actual:15900  },
+  { code:"6010", name:"Art (Grades 6–8)",                   presenter:"Lizzie",  value:10640, actual:15900, note:"HABLA funds Grades 6–8; school funds K–5"  },
   { code:"6025", name:"Art Show",                          presenter:"Lizzie",  value:500,   actual:null   },
   { code:"6660", name:"Yearbook",                          presenter:"Hillary", value:7001,  actual:7198   },
 ];
@@ -586,7 +749,7 @@ function buildTable(items, tbodyId, cardsId, prefix) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="code">${item.code}</td>
-      <td class="name">${item.name}</td>
+      <td class="name">${item.name}${item.note ? `<div style="font-size:10px;color:#888780;font-style:italic;font-weight:400;">${item.note}</div>` : ''}</td>
       <td class="presenter">${presenterBadge(item.presenter)}</td>
       <td class="actual-cell">${fmtActual(item.actual)}</td>
       <td class="amt-cell"><input type="number" id="${prefix}-${i}" min="0" step="100" placeholder="0" value="${val > 0 ? val : ''}" class="${val > 0 ? 'has-value' : ''}" oninput="onInput(this)" /></td>
@@ -605,6 +768,7 @@ function buildTable(items, tbodyId, cardsId, prefix) {
       <div class="line-card-top">
         <div>
           <div class="line-card-name">${item.name}</div>
+          ${item.note ? `<div style="font-size:10px;color:#888780;font-style:italic;margin-bottom:2px;">${item.note}</div>` : ''}
           <div class="line-card-meta">${item.code} &middot; <span class="presenter-badge" style="background:var(--p${ci});color:var(--p${ci}t);font-size:10px;padding:1px 6px">${item.presenter}</span></div>
         </div>
       </div>
@@ -680,6 +844,45 @@ function recalc() {
   updateNetCard('gala',     getValByCode(incItems, 'inc', '4620'), getValByCode(expItems, 'exp', '6120'));
   updateNetCard('caminata', getValByCode(incItems, 'inc', '4615'), getValByCode(expItems, 'exp', '6110'));
 
+  const reserves = parseFloat(document.getElementById('reserves-input').value) || 0;
+  const projected = reserves + bal;
+  const projEl = document.getElementById('reserves-projected');
+  const noteEl = document.getElementById('reserves-note');
+  const resultEl = document.getElementById('bb-result');
+  const resultSubEl = document.getElementById('bb-result-sub');
+
+  projEl.textContent = fmt(projected);
+  projEl.className = 'bb-value ' + (projected >= 0 ? 'pos' : 'neg');
+
+  if (inc === 0 && exp === 0) {
+    resultEl.textContent = '—';
+    resultEl.className = 'bb-value';
+    resultSubEl.textContent = 'Enter amounts to calculate';
+    resultSubEl.className = 'bb-sub';
+    noteEl.textContent = '';
+  } else if (bal > 0) {
+    resultEl.textContent = '+' + fmt(bal);
+    resultEl.className = 'bb-value pos';
+    resultSubEl.textContent = 'Surplus';
+    resultSubEl.className = 'bb-sub pos';
+    noteEl.textContent = '↑ Adding ' + fmt(bal) + ' to closing balance';
+    noteEl.className = 'bb-sub pos';
+  } else if (bal < 0) {
+    resultEl.textContent = '−' + fmt(Math.abs(bal));
+    resultEl.className = 'bb-value neg';
+    resultSubEl.textContent = 'Deficit';
+    resultSubEl.className = 'bb-sub neg';
+    noteEl.textContent = '↓ Drawing down ' + fmt(Math.abs(bal)) + ' from opening balance';
+    noteEl.className = 'bb-sub ' + (projected < 0 ? 'neg' : '');
+  } else {
+    resultEl.textContent = '$0';
+    resultEl.className = 'bb-value pos';
+    resultSubEl.textContent = 'Exactly balanced';
+    resultSubEl.className = 'bb-sub pos';
+    noteEl.textContent = 'Closing balance unchanged';
+    noteEl.className = 'bb-sub';
+  }
+
   if (inc === 0 && exp === 0) {
     balEl.className = 'metric-value';
     statEl.textContent = 'Enter amounts to begin';
@@ -719,6 +922,25 @@ function toggleSection(id) {
   const arrow = document.getElementById(id + '-arrow');
   body.style.display = sectionState[id] ? '' : 'none';
   arrow.style.transform = sectionState[id] ? '' : 'rotate(-90deg)';
+}
+
+function startEditBalance() {
+  const display = document.getElementById('bb-display');
+  const input = document.getElementById('reserves-input');
+  display.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  input.select();
+}
+
+function stopEditBalance() {
+  const display = document.getElementById('bb-display');
+  const input = document.getElementById('reserves-input');
+  const val = parseFloat(input.value) || 0;
+  display.innerHTML = '$' + val.toLocaleString() + ' <span class="bb-edit-hint">✎ edit</span>';
+  input.style.display = 'none';
+  display.style.display = 'flex';
+  recalc();
 }
 
 document.getElementById('live-date').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
